@@ -1,0 +1,24 @@
+[project]
+name = "hac-dcg-local"
+version = "0.4.0"
+description = "Local stack for the HAC diabetes care-gaps FHIR analytics PoC (Medplum + SQL-on-FHIR + dbt + MetricFlow + Streamlit + MCP)"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "requests>=2.31",
+    "pyyaml>=6",
+    "pandas>=2.2",
+    "pyarrow>=15",
+    "duckdb>=1.1",
+    "dbt-duckdb>=1.9",
+    "dbt-metricflow>=0.8",
+    "pathling==10.0.0",          # SQL-on-FHIR engine (Spark 4; needs Java 17+)
+    "fhirpathpy>=2.0",           # fallback view engine (no Java)
+    "rdflib>=7",
+    "pyshacl>=0.26",
+    "streamlit>=1.40",
+    "altair>=5",
+    "mcp>=2.3,<3",               # MCP Python SDK 2.x (MCPServer)
+]
+
+[tool.uv]
+package = false

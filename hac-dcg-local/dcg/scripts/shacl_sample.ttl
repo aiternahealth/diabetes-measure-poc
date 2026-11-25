@@ -1,0 +1,11 @@
+@prefix dcg: <https://ontology.hac-poc.example/dcg#> .
+@prefix ex:  <https://example.org/data/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sct: <http://snomed.info/id/> .
+ex:P1 a dcg:Person ; dcg:birthDate "1966-05-01"^^xsd:date ; dcg:administrativeGender "female" .
+ex:P2 a dcg:Person ; dcg:administrativeGender "F" .                                    # missing birthDate, bad gender
+ex:C1 a dcg:Type2DiabetesMellitus ; dcg:subject ex:P1 ; dcg:onsetDateTime "2015-01-01T00:00:00"^^xsd:dateTime ; dcg:hasCode sct:44054006 .
+ex:C2 a dcg:Type2DiabetesMellitus ; dcg:subject ex:P2 ; dcg:hasCode sct:15777000 .     # prediabetes code on a T2 record, no onset
+ex:A1 a dcg:HbA1cResult ; dcg:subject ex:P1 ; dcg:effectiveDateTime "2026-07-01T00:00:00"^^xsd:dateTime ; dcg:valueNumeric 6.8 ; dcg:ucumUnit "%" .
+ex:A2 a dcg:HbA1cResult ; dcg:subject ex:P2 ; dcg:effectiveDateTime "2099-01-01T00:00:00"^^xsd:dateTime ; dcg:valueNumeric 53 ; dcg:ucumUnit "mmol/mol" .
+ex:B1 a dcg:BloodPressureReading ; dcg:subject ex:P1 ; dcg:systolic 120 ; dcg:diastolic 130 .

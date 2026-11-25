@@ -1,0 +1,49 @@
+# ╭─────────────────────────────────────────────────────────────────────────────╮
+# │ HAC Diabetes Care Gaps — Data Input IG (DRAFT)                              │
+# │ Defines what a data provider must send (FHIR Bulk Data $export) so the      │
+# │ PoC pipeline (SQL-on-FHIR views → marts → semantic model) can compute       │
+# │ diabetes care-gap indicators. Canonical and packageId are PLACEHOLDERS.     │
+# ╰─────────────────────────────────────────────────────────────────────────────╯
+id: hac.dcg.datainput
+canonical: http://fhir.hac-poc.example/dcg
+name: HACDiabetesCareGapsDataInput
+title: "HAC Diabetes Care Gaps — Data Input Implementation Guide"
+description: >-
+  Profiles, terminology and a Bulk Data export contract that let a Canadian data
+  provider (or a Synthea synthetic cohort) supply the FHIR R4 data needed to compute
+  diabetes care-gap indicators for the Health Analytics Community FHIR Analytics PoC.
+  Builds on CA Core+.
+status: draft
+version: 0.3.0
+fhirVersion: 4.0.1
+copyrightYear: 2026+
+releaseLabel: ci-build
+license: CC-BY-4.0
+jurisdiction: urn:iso:std:iso:3166#CA "Canada"
+publisher:
+  name: Health Analytics Community (HAC) FHIR Analytics PoC
+  url: http://fhir.hac-poc.example
+  # Editor: Iryna Roy (Aiterna Health) — add contact email/url when governance is set
+
+dependencies:
+  ca.infoway.io.core: 1.2.1-dft          # CA Core+ (latest DFT, 2026-08-31)
+
+parameters:
+  show-inherited-invariants: false
+  usage-stats-opt-out: true
+
+pages:
+  index.md:
+    title: Home
+  data-provider-guide.md:
+    title: Data Provider Guide
+  semantic-alignment.md:
+    title: Alignment with the Semantic Model
+  artifacts.html:
+    title: Artifacts Summary
+
+menu:
+  Home: index.html
+  Data Provider Guide: data-provider-guide.html
+  Semantic Alignment: semantic-alignment.html
+  Artifacts: artifacts.html

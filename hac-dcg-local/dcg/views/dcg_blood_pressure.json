@@ -1,0 +1,47 @@
+{
+  "resourceType": "ViewDefinition",
+  "url": "https://ontology.hac-poc.example/views/dcg_blood_pressure",
+  "name": "dcg_blood_pressure",
+  "title": "Blood pressure readings (systolic/diastolic components)",
+  "status": "draft",
+  "resource": "Observation",
+  "select": [
+    {
+      "column": [
+        {
+          "path": "getResourceKey()",
+          "name": "observation_id",
+          "type": "string"
+        },
+        {
+          "path": "subject.getReferenceKey(Patient)",
+          "name": "patient_id",
+          "type": "string"
+        },
+        {
+          "path": "effective.ofType(dateTime)",
+          "name": "effective_datetime",
+          "type": "dateTime"
+        },
+        {
+          "path": "component.where(code.coding.exists(system='http://loinc.org' and code='8480-6')).value.ofType(Quantity).value.first()",
+          "name": "systolic",
+          "type": "decimal"
+        },
+        {
+          "path": "component.where(code.coding.exists(system='http://loinc.org' and code='8462-4')).value.ofType(Quantity).value.first()",
+          "name": "diastolic",
+          "type": "decimal"
+        }
+      ]
+    }
+  ],
+  "where": [
+    {
+      "path": "code.coding.exists(system='http://loinc.org' and code='85354-9')"
+    },
+    {
+      "path": "status in ('final' | 'amended' | 'corrected')"
+    }
+  ]
+}

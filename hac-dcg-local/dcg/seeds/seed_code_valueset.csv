@@ -1,0 +1,96 @@
+code_system,code,value_set,display,match_type,map_relation,map_confidence,map_status,map_version
+http://loinc.org,13457-7,vs_LDL,LDL Cholesterol (calculated),exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,14749-6,vs_Glucose,Glucose [Moles/volume] in Serum or Plasma,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,14771-0,vs_Glucose,Fasting glucose [Moles/volume] in Serum or Plasma,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,14959-1,vs_UACR,Microalbumin/Creatinine [Mass Ratio] in Urine,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,15074-8,vs_Glucose,Glucose [Moles/volume] in Blood,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,1558-6,vs_Glucose,Fasting glucose [Mass/volume] in Serum or Plasma,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,17856-6,vs_HbA1c,Hemoglobin A1c/Hemoglobin.total in Blood by HPLC,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,18262-6,vs_LDL,LDL Cholesterol (direct),exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,2089-1,vs_LDL,LDL Cholesterol [Mass/volume] in Serum or Plasma,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,22748-8,vs_LDL,LDL Cholesterol [Moles/volume] in Serum or Plasma,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,2339-0,vs_Glucose,Glucose [Mass/volume] in Blood,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,2345-7,vs_Glucose,Glucose [Mass/volume] in Serum or Plasma,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,32294-1,vs_UACR,Albumin/Creatinine [Ratio] in Urine,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,33914-3,vs_eGFR,eGFR (MDRD),exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,39156-5,vs_BMI,Body mass index,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,41995-2,vs_HbA1c,Hemoglobin A1c [Mass/volume] in Blood,exact,exactMatch,medium,candidate,0.4.0-draft
+http://loinc.org,4548-4,vs_HbA1c,Hemoglobin A1c/Hemoglobin.total in Blood,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,59261-8,vs_HbA1c,Hemoglobin A1c/Hemoglobin.total in Blood by IFCC protocol (mmol/mol),exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,62238-1,vs_eGFR,eGFR (CKD-EPI),exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,8462-4,vs_BloodPressure,Diastolic blood pressure,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,8480-6,vs_BloodPressure,Systolic blood pressure,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,85354-9,vs_BloodPressure,Blood pressure panel,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,9318-7,vs_UACR,Albumin/Creatinine [Mass Ratio] in Urine,exact,exactMatch,high,candidate,0.4.0-draft
+http://loinc.org,98979-8,vs_eGFR,eGFR (CKD-EPI 2021),exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,11687002,vs_GDM,Gestational diabetes mellitus,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,127013003,vs_KidneyDisease,Disorder of kidney due to diabetes mellitus,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,15777000,vs_Prediabetes,Prediabetes,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,22298006,vs_ASCVD,Myocardial infarction,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,230572002,vs_Neuropathy,Diabetic neuropathy,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,230690007,vs_ASCVD,Cerebrovascular accident,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,302866003,vs_Hypoglycemia,Hypoglycemia,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,314971001,vs_EyeExam,Camera fundoscopy,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,36228007,vs_EyeExam,Ophthalmic examination and evaluation,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,368581000119106,vs_Neuropathy,Neuropathy due to type 2 diabetes mellitus,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,371087003,vs_FootUlcer,Ulcer of foot due to diabetes mellitus,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,399211009,vs_ASCVD,History of myocardial infarction,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,400047006,vs_ASCVD,Peripheral vascular disease,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,401191002,vs_FootExam,Diabetic foot examination,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,414545008,vs_ASCVD,Ischemic heart disease,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,420422005,vs_DKA,Ketoacidosis due to diabetes mellitus,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,422034002,vs_Retinopathy,Retinopathy due to type 2 diabetes mellitus,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,44054006,vs_DiabetesMellitus,Diabetes mellitus type 2,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,44054006,vs_T2DM,Diabetes mellitus type 2,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,46177005,vs_CKD,End-stage renal disease,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,46635009,vs_DiabetesMellitus,Diabetes mellitus type 1,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,46635009,vs_T1DM,Diabetes mellitus type 1,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,4855003,vs_Retinopathy,Retinopathy due to diabetes mellitus,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,53741008,vs_ASCVD,Coronary arteriosclerosis,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,59621000,vs_Hypertension,Essential hypertension,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,709044004,vs_CKD,Chronic kidney disease,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,714628002,vs_Prediabetes,Prediabetes,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,722161008,vs_EyeExam,Diabetic retinal eye exam,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,73211009,vs_DiabetesMellitus,Diabetes mellitus (disorder),exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,735985000,vs_DSMPlan,Diabetes self management plan,exact,exactMatch,high,candidate,0.4.0-draft
+http://snomed.info/sct,8801005,vs_DiabetesMellitus,Secondary diabetes mellitus,exact,exactMatch,medium,candidate,0.4.0-draft
+http://snomed.info/sct,8801005,vs_OtherSpecifiedDM,Secondary diabetes mellitus,exact,exactMatch,medium,candidate,0.4.0-draft
+http://snomed.info/sct,90781000119102,vs_KidneyDisease,Microalbuminuria due to type 2 diabetes mellitus,exact,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10A,vs_ATC_A10,Insulins and analogues,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BA02,vs_ATC_A10,Metformin,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BB,vs_ATC_A10,Sulfonylureas,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BD,vs_ATC_A10,Combinations of oral blood glucose lowering drugs,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BF,vs_ATC_A10,Alpha glucosidase inhibitors,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BG,vs_ATC_A10,Thiazolidinediones,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BH,vs_ATC_A10,DPP-4 inhibitors,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BJ,vs_ATC_A10,GLP-1 analogues,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BK,vs_ATC_A10,SGLT2 inhibitors,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,A10BX,vs_ATC_A10,Other blood glucose lowering drugs,prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,C09A,vs_ATC_C09,"ACE inhibitors, plain",prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,C09C,vs_ATC_C09,"Angiotensin II receptor blockers, plain",prefix,exactMatch,high,candidate,0.4.0-draft
+http://www.whocc.no/atc,C10AA,vs_ATC_C10AA,HMG CoA reductase inhibitors (statins),prefix,exactMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E10,vs_DiabetesMellitus,Type 1 diabetes mellitus,prefix,exactMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E10,vs_T1DM,Type 1 diabetes mellitus,prefix,exactMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E10.1,vs_DKA,Type 1 diabetes with ketoacidosis,prefix,narrowMatch,low,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E10.2,vs_KidneyDisease,Type 1 diabetes with kidney complications,prefix,closeMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E10.3,vs_Retinopathy,Type 1 diabetes with ophthalmic complications,prefix,broadMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E10.4,vs_Neuropathy,Type 1 diabetes with neurological complications,prefix,closeMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E11,vs_DiabetesMellitus,Type 2 diabetes mellitus,prefix,exactMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E11,vs_T2DM,Type 2 diabetes mellitus,prefix,exactMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E11.1,vs_DKA,Type 2 diabetes with ketoacidosis,prefix,narrowMatch,low,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E11.2,vs_KidneyDisease,Type 2 diabetes with kidney complications,prefix,closeMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E11.3,vs_Retinopathy,Type 2 diabetes with ophthalmic complications,prefix,broadMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E11.4,vs_Neuropathy,Type 2 diabetes with neurological complications,prefix,closeMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E13,vs_DiabetesMellitus,Other specified diabetes mellitus,prefix,closeMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E13,vs_OtherSpecifiedDM,Other specified diabetes mellitus,prefix,closeMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E14,vs_DiabetesMellitus,Unspecified diabetes mellitus,prefix,exactMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E16.0,vs_Hypoglycemia,Drug-induced hypoglycemia without coma,prefix,narrowMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E16.1,vs_Hypoglycemia,Other hypoglycemia,prefix,narrowMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,E16.2,vs_Hypoglycemia,"Hypoglycemia, unspecified",prefix,exactMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,I20,vs_ASCVD,Angina pectoris,prefix,narrowMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,I21,vs_ASCVD,Acute myocardial infarction,prefix,narrowMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,I25,vs_ASCVD,Chronic ischemic heart disease,prefix,narrowMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,I63,vs_ASCVD,Cerebral infarction,prefix,narrowMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,I70,vs_ASCVD,Atherosclerosis,prefix,narrowMatch,medium,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,N18,vs_CKD,Chronic kidney disease,prefix,exactMatch,high,candidate,0.4.0-draft
+https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca,O24.4,vs_GDM,Diabetes mellitus arising in pregnancy,prefix,exactMatch,high,candidate,0.4.0-draft

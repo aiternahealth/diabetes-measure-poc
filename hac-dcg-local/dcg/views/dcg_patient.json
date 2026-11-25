@@ -1,0 +1,74 @@
+{
+  "resourceType": "ViewDefinition",
+  "url": "https://ontology.hac-poc.example/views/dcg_patient",
+  "name": "dcg_patient",
+  "title": "Patient demographics (CA Core+ Patient)",
+  "status": "draft",
+  "resource": "Patient",
+  "select": [
+    {
+      "column": [
+        {
+          "path": "getResourceKey()",
+          "name": "patient_id",
+          "type": "string"
+        },
+        {
+          "path": "birthDate",
+          "name": "birth_date",
+          "type": "date"
+        },
+        {
+          "path": "gender",
+          "name": "administrative_gender",
+          "type": "code"
+        },
+        {
+          "path": "deceased.ofType(dateTime)",
+          "name": "deceased_datetime",
+          "type": "dateTime"
+        },
+        {
+          "path": "deceased.ofType(boolean)",
+          "name": "deceased_flag",
+          "type": "boolean"
+        },
+        {
+          "path": "communication.where(preferred=true).language.coding.code.first()",
+          "name": "service_language",
+          "type": "code",
+          "description": "Preferred service language (PCHDCF Service Language). Equity stratifier, restricted."
+        },
+        {
+          "path": "extension('http://fhir.hac-poc.example/dcg/StructureDefinition/dcg-indigenous-identity').value.ofType(CodeableConcept).coding.code.first()",
+          "name": "indigenous_identity",
+          "type": "code",
+          "description": "PCHDCF Indigenous Identity. Restricted; OCAP applies."
+        },
+        {
+          "path": "extension('http://fhir.hac-poc.example/dcg/StructureDefinition/dcg-racialized-group').value.ofType(CodeableConcept).coding.code.first()",
+          "name": "racialized_group",
+          "type": "code",
+          "description": "PCHDCF Racialized Group. Restricted."
+        }
+      ]
+    },
+    {
+      "column": [
+        {
+          "path": "state",
+          "name": "province",
+          "type": "string",
+          "description": "Province/territory (ISO 3166-2:CA subdivision code expected, e.g. ON)"
+        },
+        {
+          "path": "postalCode.substring(0,3)",
+          "name": "fsa",
+          "type": "string",
+          "description": "Forward sortation area \u2014 restricted dimension"
+        }
+      ],
+      "forEachOrNull": "address.where(use='home').first()"
+    }
+  ]
+}

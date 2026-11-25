@@ -1,0 +1,823 @@
+@prefix dcg:   <https://ontology.hac-poc.example/dcg#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos:  <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix fhir:  <http://hl7.org/fhir/> .
+@prefix sct:   <http://snomed.info/id/> .
+@prefix loinc: <http://loinc.org/rdf/> .
+@prefix atc:   <http://www.whocc.no/atc/> .
+@prefix icd10ca: <https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca/> .
+
+#################################################################
+#  Diabetes Care Gaps (DCG) Ontology — HAC FHIR Analytics PoC
+#  Namespace is a PLACEHOLDER: replace https://ontology.hac-poc.example/
+#  with the governed namespace before publishing.
+#
+#  Modules
+#   M1  Clinical domain      (what is recorded about a person)
+#   M2  Care quality         (what should happen; gaps; indicators)
+#   M3  Analytics context    (dimensions, periods, benchmarks, sources)
+#   M4  Data quality         (issues the pipeline detects)
+#   M5  Terminology          (SKOS value sets: SNOMED CT, LOINC, ATC)
+#  Annotations bind every class to FHIR / CA Core+ / CACDI and to the
+#  semantic model (metric + dimension names) so analytics tools and
+#  AI agents resolve terms to the same definitions.
+#################################################################
+
+<https://ontology.hac-poc.example/dcg>
+    a owl:Ontology ;
+    dct:title "Diabetes Care Gaps Ontology"@en ;
+    dct:description "Domain ontology for the Health Analytics Community FHIR analytics PoC: diabetes care-gap analytics over FHIR Bulk Data (CA Core+), used by the semantic layer and by AI agents to resolve natural-language requests to governed metrics."@en ;
+    owl:versionInfo "0.4.0-draft" ;
+    dct:created "2026-11-19"^^xsd:date ;
+    dct:creator "Iryna Roy (Aiterna Health) with Claude" ;
+    dct:source <https://www.diabetes.ca/health-care-providers/clinical-practice-guidelines> ;
+    rdfs:comment "Guideline thresholds are modelled as parameters (dcg:Parameter), never hard-coded in class definitions, so clinical reviewers can change them without changing the ontology."@en .
+
+#################################################################
+#  Annotation properties (bindings)
+#################################################################
+
+dcg:fhirResourceType   a owl:AnnotationProperty ; rdfs:label "FHIR resource type" ; rdfs:comment "FHIR R4 resource that carries instances of this class." .
+dcg:fhirPath           a owl:AnnotationProperty ; rdfs:label "FHIRPath" ; rdfs:comment "FHIRPath expression (relative to the resource) that yields the value." .
+dcg:caCorePlusProfile  a owl:AnnotationProperty ; rdfs:label "CA Core+ profile" .
+dcg:profileMaturity    a owl:AnnotationProperty ; rdfs:label "profile maturity" ; rdfs:comment "'CA Core+ v1.2 profiled', 'CA Core+ 1.2.1-dft profiled' or 'Base R4 (CA Core+ roadmap)'. As of CA Core+ 1.2.1-dft (2026-08-31) MedicationRequest, MedicationStatement and Procedure are profiled; CarePlan and vital signs are not." .
+dcg:cacdiDataClass     a owl:AnnotationProperty ; rdfs:label "CACDI data class" ; rdfs:comment "CIHI CACDI v1 data class (verify element-level mapping against CACDI v1 before publishing)." .
+dcg:viewDefinition     a owl:AnnotationProperty ; rdfs:label "SQL-on-FHIR view" ; rdfs:comment "Name of the ViewDefinition that flattens this class." .
+dcg:semanticModelRef   a owl:AnnotationProperty ; rdfs:label "semantic model reference" ; rdfs:comment "Name of the metric, measure or dimension in models/semantic/dcg_semantic_model.yml." .
+dcg:hasValueSet        a owl:AnnotationProperty ; rdfs:label "has value set" .
+dcg:sourceGuideline    a owl:AnnotationProperty ; rdfs:label "source guideline" .
+dcg:agentHint          a owl:AnnotationProperty ; rdfs:label "agent hint" ; rdfs:comment "Instruction to an AI agent about how to interpret or caveat this term." .
+dcg:sensitivity        a owl:AnnotationProperty ; rdfs:label "sensitivity" ; rdfs:comment "aggregate-only | restricted | public" .
+
+#################################################################
+#  M1 — Clinical domain
+#################################################################
+
+dcg:Person a owl:Class ;
+    rdfs:label "Person"@en ;
+    skos:altLabel "patient"@en, "individual"@en, "client"@en ;
+    skos:definition "An individual whose health data is in scope."@en ;
+    dcg:fhirResourceType "Patient" ;
+    dcg:caCorePlusProfile "CA Core+ Patient" ;
+    dcg:profileMaturity "CA Core+ v1.2 profiled" ;
+    dcg:cacdiDataClass "Patient / Demographics" ;
+    dcg:viewDefinition "dcg_patient" ;
+    dcg:sensitivity "aggregate-only" ;
+    dcg:agentHint "Never return person-level rows; answer with aggregates only."@en .
+
+dcg:ClinicalRecord a owl:Class ;
+    rdfs:label "Clinical record"@en ;
+    skos:definition "Any recorded clinical fact about a Person (abstract)."@en ;
+    rdfs:subClassOf prov:Entity .
+
+dcg:Encounter a owl:Class ;
+    rdfs:subClassOf dcg:ClinicalRecord ;
+    rdfs:label "Encounter"@en ;
+    skos:altLabel "visit"@en, "appointment"@en ;
+    dcg:fhirResourceType "Encounter" ;
+    dcg:caCorePlusProfile "CA Core+ Encounter" ;
+    dcg:profileMaturity "CA Core+ v1.2 profiled" ;
+    dcg:cacdiDataClass "Encounters" ;
+    dcg:viewDefinition "dcg_encounter" .
+
+## Conditions -------------------------------------------------
+
+dcg:ConditionRecord a owl:Class ;
+    rdfs:subClassOf dcg:ClinicalRecord ;
+    rdfs:label "Condition record"@en ;
+    skos:altLabel "diagnosis"@en, "problem"@en ;
+    dcg:fhirResourceType "Condition" ;
+    dcg:caCorePlusProfile "CA Core+ Condition" ;
+    dcg:profileMaturity "CA Core+ v1.2 profiled" ;
+    dcg:cacdiDataClass "Problems / Conditions" ;
+    dcg:viewDefinition "dcg_condition" .
+
+dcg:Dysglycemia a owl:Class ;
+    rdfs:subClassOf dcg:ConditionRecord ;
+    rdfs:label "Dysglycemia"@en ;
+    skos:definition "Umbrella for diabetes and prediabetes states."@en .
+
+dcg:DiabetesMellitus a owl:Class ;
+    rdfs:subClassOf dcg:Dysglycemia ;
+    rdfs:label "Diabetes mellitus"@en ;
+    skos:altLabel "diabetes"@en, "DM"@en, "diabetic"@en ;
+    dcg:hasValueSet dcg:vs_DiabetesMellitus ;
+    dcg:semanticModelRef "dim:diabetes_type" .
+
+dcg:Type1DiabetesMellitus a owl:Class ;
+    rdfs:subClassOf dcg:DiabetesMellitus ;
+    rdfs:label "Type 1 diabetes mellitus"@en ;
+    skos:altLabel "T1D"@en, "T1DM"@en, "type 1"@en ;
+    dcg:hasValueSet dcg:vs_T1DM .
+
+dcg:Type2DiabetesMellitus a owl:Class ;
+    rdfs:subClassOf dcg:DiabetesMellitus ;
+    rdfs:label "Type 2 diabetes mellitus"@en ;
+    skos:altLabel "T2D"@en, "T2DM"@en, "type 2"@en, "adult-onset diabetes"@en ;
+    dcg:hasValueSet dcg:vs_T2DM .
+
+dcg:Type1DiabetesMellitus owl:disjointWith dcg:Type2DiabetesMellitus .
+
+dcg:GestationalDiabetes a owl:Class ;
+    rdfs:subClassOf dcg:Dysglycemia ;
+    rdfs:label "Gestational diabetes"@en ;
+    skos:altLabel "GDM"@en ;
+    dcg:hasValueSet dcg:vs_GDM ;
+    dcg:agentHint "Excluded from the care-gap cohort by default; mention exclusion if asked about 'all diabetes'."@en .
+
+dcg:Prediabetes a owl:Class ;
+    rdfs:subClassOf dcg:Dysglycemia ;
+    rdfs:label "Prediabetes"@en ;
+    skos:altLabel "impaired fasting glucose"@en, "IFG"@en, "IGT"@en, "borderline diabetes"@en ;
+    dcg:hasValueSet dcg:vs_Prediabetes ;
+    dcg:agentHint "Not in the diabetes cohort. Prediabetes metrics are reported separately."@en .
+
+dcg:DiabetesComplication a owl:Class ;
+    rdfs:subClassOf dcg:ConditionRecord ;
+    rdfs:label "Diabetes complication"@en ;
+    skos:altLabel "diabetic complication"@en, "end-organ damage"@en ;
+    dcg:semanticModelRef "dim:has_any_complication, metric:complication_rate" .
+
+dcg:DiabeticRetinopathy a owl:Class ;
+    rdfs:subClassOf dcg:DiabetesComplication ;
+    rdfs:label "Diabetic retinopathy"@en ;
+    skos:altLabel "eye disease"@en, "retinopathy"@en ;
+    dcg:hasValueSet dcg:vs_Retinopathy .
+
+dcg:DiabeticKidneyDisease a owl:Class ;
+    rdfs:subClassOf dcg:DiabetesComplication ;
+    rdfs:label "Diabetic kidney disease"@en ;
+    skos:altLabel "DKD"@en, "diabetic nephropathy"@en ;
+    dcg:hasValueSet dcg:vs_KidneyDisease .
+
+dcg:DiabeticNeuropathy a owl:Class ;
+    rdfs:subClassOf dcg:DiabetesComplication ;
+    rdfs:label "Diabetic neuropathy"@en ;
+    skos:altLabel "nerve damage"@en, "peripheral neuropathy"@en ;
+    dcg:hasValueSet dcg:vs_Neuropathy .
+
+dcg:DiabeticFootUlcer a owl:Class ;
+    rdfs:subClassOf dcg:DiabetesComplication ;
+    rdfs:label "Diabetic foot ulcer"@en ;
+    skos:altLabel "foot ulcer"@en, "DFU"@en ;
+    dcg:hasValueSet dcg:vs_FootUlcer .
+
+dcg:Comorbidity a owl:Class ;
+    rdfs:subClassOf dcg:ConditionRecord ;
+    rdfs:label "Comorbidity"@en .
+
+dcg:Hypertension a owl:Class ;
+    rdfs:subClassOf dcg:Comorbidity ;
+    rdfs:label "Hypertension"@en ;
+    skos:altLabel "high blood pressure"@en, "HTN"@en ;
+    dcg:hasValueSet dcg:vs_Hypertension .
+
+## Observations -----------------------------------------------
+
+dcg:ObservationResult a owl:Class ;
+    rdfs:subClassOf dcg:ClinicalRecord ;
+    rdfs:label "Observation result"@en ;
+    skos:altLabel "result"@en, "measurement"@en ;
+    dcg:fhirResourceType "Observation" ;
+    dcg:caCorePlusProfile "CA Core+ Observation" ;
+    dcg:profileMaturity "CA Core+ v1.2 profiled" ;
+    dcg:viewDefinition "dcg_observation" .
+
+dcg:LabResult a owl:Class ;
+    rdfs:subClassOf dcg:ObservationResult ;
+    rdfs:label "Laboratory result"@en ;
+    skos:altLabel "lab"@en, "lab test"@en, "bloodwork"@en ;
+    dcg:cacdiDataClass "Laboratory" ;
+    dcg:fhirPath "category.coding.where(code='laboratory')" .
+
+dcg:HbA1cResult a owl:Class ;
+    rdfs:subClassOf dcg:LabResult ;
+    rdfs:label "HbA1c result"@en ;
+    skos:altLabel "A1C"@en, "A1c"@en, "hemoglobin A1c"@en, "glycated hemoglobin"@en, "glycosylated haemoglobin"@en, "HbA1c test"@en ;
+    skos:definition "Glycated haemoglobin, % of total haemoglobin; reflects mean glycaemia over ~2–3 months."@en ;
+    dcg:hasValueSet dcg:vs_HbA1c ;
+    dcg:sourceGuideline "Diabetes Canada CPG Ch.9 (2018; 2021 update): measure at least every 3 months when not at target / therapy changing." ;
+    dcg:semanticModelRef "metric:a1c_tested_12m_rate, metric:a1c_tested_recent_rate, metric:a1c_at_target_rate" ;
+    dcg:agentHint "Units must be % (UCUM '%'). IFCC mmol/mol values must be converted: % = mmol/mol × 0.09148 + 2.152."@en .
+
+dcg:GlucoseResult a owl:Class ;
+    rdfs:subClassOf dcg:LabResult ;
+    rdfs:label "Plasma glucose result"@en ;
+    skos:altLabel "blood sugar"@en, "glucose"@en, "FPG"@en ;
+    dcg:hasValueSet dcg:vs_Glucose .
+
+dcg:EGFRResult a owl:Class ;
+    rdfs:subClassOf dcg:LabResult ;
+    rdfs:label "eGFR result"@en ;
+    skos:altLabel "eGFR"@en, "kidney function"@en, "estimated GFR"@en ;
+    dcg:hasValueSet dcg:vs_eGFR .
+
+dcg:UACRResult a owl:Class ;
+    rdfs:subClassOf dcg:LabResult ;
+    rdfs:label "Urine albumin-to-creatinine ratio result"@en ;
+    skos:altLabel "ACR"@en, "UACR"@en, "urine protein test"@en, "microalbumin"@en ;
+    dcg:hasValueSet dcg:vs_UACR .
+
+dcg:LDLResult a owl:Class ;
+    rdfs:subClassOf dcg:LabResult ;
+    rdfs:label "LDL cholesterol result"@en ;
+    skos:altLabel "LDL"@en, "LDL-C"@en, "bad cholesterol"@en, "lipids"@en ;
+    dcg:hasValueSet dcg:vs_LDL .
+
+dcg:VitalSign a owl:Class ;
+    rdfs:subClassOf dcg:ObservationResult ;
+    rdfs:label "Vital sign"@en ;
+    dcg:cacdiDataClass "Vital Signs" ;
+    dcg:fhirPath "category.coding.where(code='vital-signs')" .
+
+dcg:BloodPressureReading a owl:Class ;
+    rdfs:subClassOf dcg:VitalSign ;
+    rdfs:label "Blood pressure reading"@en ;
+    skos:altLabel "BP"@en, "blood pressure"@en ;
+    dcg:hasValueSet dcg:vs_BloodPressure ;
+    dcg:viewDefinition "dcg_blood_pressure" ;
+    dcg:semanticModelRef "metric:bp_at_target_rate, metric:bp_systolic_median_mmhg, metric:bp_diastolic_median_mmhg" ;
+    dcg:agentHint "Average or median BP never shows control. Lead with bp_at_target_rate; give levels only as context."@en .
+
+dcg:BMIResult a owl:Class ;
+    rdfs:subClassOf dcg:VitalSign ;
+    rdfs:label "Body mass index"@en ;
+    skos:altLabel "BMI"@en, "body mass index"@en, "weight category"@en ;
+    dcg:hasValueSet dcg:vs_BMI ;
+    dcg:viewDefinition "dcg_observation" ;
+    dcg:semanticModelRef "metric:bmi_recorded_rate, metric:bmi_latest_median_kg_m2, dim:bmi_category" ;
+    dcg:agentHint "BMI is a context measure, not a care-gap target. Report a median with bmi_recorded_rate; use bmi_category for distributions."@en .
+
+## Medications ------------------------------------------------
+
+dcg:MedicationExposure a owl:Class ;
+    rdfs:subClassOf dcg:ClinicalRecord ;
+    rdfs:label "Medication exposure"@en ;
+    skos:altLabel "prescription"@en, "medication"@en, "drug"@en, "Rx"@en ;
+    skos:definition "An order or statement indicating a person was prescribed or is taking a medication."@en ;
+    dcg:fhirResourceType "MedicationRequest | MedicationDispense | MedicationStatement" ;
+    dcg:caCorePlusProfile "CA Core+ MedicationRequest / MedicationStatement" ;
+    dcg:profileMaturity "CA Core+ 1.2.1-dft profiled" ;
+    dcg:cacdiDataClass "Medications" ;
+    dcg:viewDefinition "dcg_medication_request, dcg_medication_dispense" ;
+    dcg:agentHint "Synthea emits RxNorm; Canadian sources emit DIN / CCDD. Always analyse at drug-class (ATC) level via seeds/medication_class_map.csv."@en .
+
+dcg:AntihyperglycemicTherapy a owl:Class ; rdfs:subClassOf dcg:MedicationExposure ;
+    rdfs:label "Antihyperglycemic therapy"@en ; skos:altLabel "diabetes medication"@en, "glucose-lowering drug"@en ;
+    dcg:semanticModelRef "metric:antihyperglycemic_rate, dim:therapy_profile" ;
+    dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:Metformin a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; dcg:semanticModelRef "metric:metformin_rate" ; rdfs:label "Metformin"@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:Insulin a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; dcg:semanticModelRef "metric:insulin_rate" ; rdfs:label "Insulin"@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:SGLT2Inhibitor a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; dcg:semanticModelRef "metric:sglt2i_rate" ; rdfs:label "SGLT2 inhibitor"@en ; skos:altLabel "gliflozin"@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:GLP1ReceptorAgonist a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; dcg:semanticModelRef "metric:glp1ra_rate" ; rdfs:label "GLP-1 receptor agonist"@en ; skos:altLabel "GLP-1 RA"@en, "semaglutide-class"@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:DPP4Inhibitor a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; dcg:semanticModelRef "metric:dpp4i_rate" ; rdfs:label "DPP-4 inhibitor"@en ; skos:altLabel "gliptin"@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:Sulfonylurea a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; dcg:semanticModelRef "metric:sulfonylurea_rate" ; rdfs:label "Sulfonylurea"@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+
+dcg:VascularProtectionTherapy a owl:Class ; rdfs:subClassOf dcg:MedicationExposure ;
+    rdfs:label "Vascular protection therapy"@en ;
+    dcg:sourceGuideline "Diabetes Canada CPG vascular protection: statin for most people with diabetes aged ≥40; ACEi/ARB where indicated." .
+dcg:Statin a owl:Class ; rdfs:subClassOf dcg:VascularProtectionTherapy ; rdfs:label "Statin"@en ; skos:altLabel "cholesterol medication"@en ; dcg:hasValueSet dcg:vs_ATC_C10AA ;
+    dcg:semanticModelRef "metric:statin_rate_40plus" .
+dcg:ACEInhibitorOrARB a owl:Class ; rdfs:subClassOf dcg:VascularProtectionTherapy ; dcg:semanticModelRef "metric:acei_arb_rate" ; rdfs:label "ACE inhibitor or ARB"@en ; skos:altLabel "ACEi"@en, "ARB"@en, "RAAS blocker"@en ; dcg:hasValueSet dcg:vs_ATC_C09 .
+
+## Procedures & care plans ------------------------------------
+
+dcg:ProcedureRecord a owl:Class ;
+    rdfs:subClassOf dcg:ClinicalRecord ;
+    rdfs:label "Procedure record"@en ;
+    dcg:fhirResourceType "Procedure" ;
+    dcg:caCorePlusProfile "CA Core+ Procedure" ;
+    dcg:profileMaturity "CA Core+ 1.2.1-dft profiled" ;
+    dcg:cacdiDataClass "Procedures" ;
+    dcg:viewDefinition "dcg_procedure" .
+
+dcg:RetinopathyScreening a owl:Class ; rdfs:subClassOf dcg:ProcedureRecord ;
+    rdfs:label "Retinopathy screening"@en ; skos:altLabel "eye exam"@en, "dilated eye exam"@en, "retinal screening"@en ;
+    dcg:hasValueSet dcg:vs_EyeExam ;
+    dcg:agentHint "Eye exams are often done by community optometrists and are under-captured in EMR/FHIR feeds; flag low rates as possibly a data-capture gap."@en .
+
+dcg:DiabeticFootExam a owl:Class ; rdfs:subClassOf dcg:ProcedureRecord ;
+    rdfs:label "Diabetic foot examination"@en ; skos:altLabel "foot exam"@en, "foot check"@en, "monofilament test"@en ;
+    dcg:hasValueSet dcg:vs_FootExam ;
+    dcg:agentHint "Synthea does not generate diabetic foot exams, so on synthetic data the foot-exam gap is 100% by construction; say so when reporting it."@en .
+
+dcg:CarePlanRecord a owl:Class ;
+    rdfs:subClassOf dcg:ClinicalRecord ;
+    rdfs:label "Care plan"@en ;
+    dcg:fhirResourceType "CarePlan" ;
+    dcg:profileMaturity "Base R4 (CA Core+ roadmap)" .
+
+dcg:DiabetesSelfManagementPlan a owl:Class ; rdfs:subClassOf dcg:CarePlanRecord ;
+    rdfs:label "Diabetes self-management plan"@en ; skos:altLabel "DSME"@en, "self-management education"@en ;
+    dcg:hasValueSet dcg:vs_DSMPlan .
+
+#################################################################
+#  M2 — Care quality: processes, outcomes, gaps, indicators
+#################################################################
+
+dcg:CareProcess a owl:Class ;
+    rdfs:label "Recommended care process"@en ;
+    skos:definition "A guideline-recommended action expected for people in the cohort within a lookback window (e.g., A1C test in last 6 months)."@en .
+
+dcg:CareOutcome a owl:Class ;
+    rdfs:label "Intermediate clinical outcome"@en ;
+    skos:definition "A target state of a measurement (e.g., latest A1C ≤ target)."@en .
+
+dcg:CareGap a owl:Class ;
+    rdfs:label "Care gap"@en ;
+    skos:altLabel "gap in care"@en, "missed care"@en, "overdue"@en, "not at target"@en ;
+    skos:definition "For a cohort member and measurement period, the absence of a recommended CareProcess, or failure to meet a CareOutcome target."@en ;
+    dcg:semanticModelRef "measure:gap_count_total, metric:any_gap_rate, metric:gaps_per_member" .
+
+dcg:ProcessGap a owl:Class ; rdfs:subClassOf dcg:CareGap ; rdfs:label "Process gap"@en ; skos:altLabel "testing gap"@en, "screening gap"@en .
+dcg:OutcomeGap a owl:Class ; rdfs:subClassOf dcg:CareGap ; rdfs:label "Outcome gap"@en ; skos:altLabel "control gap"@en .
+dcg:TherapyGap a owl:Class ; rdfs:subClassOf dcg:CareGap ; rdfs:label "Therapy gap"@en ; skos:altLabel "treatment gap"@en .
+dcg:ProcessGap owl:disjointWith dcg:OutcomeGap .
+
+dcg:Indicator a owl:Class ;
+    rdfs:label "Indicator"@en ;
+    skos:altLabel "metric"@en, "measure"@en, "KPI"@en, "rate"@en ;
+    skos:definition "A governed ratio or count over a defined population and period, implemented as a metric in the semantic model."@en .
+
+dcg:PopulationCriteria a owl:Class ;
+    rdfs:label "Population criteria"@en ;
+    skos:definition "Logical definition of a denominator, numerator or exclusion population."@en .
+
+dcg:Parameter a owl:Class ;
+    rdfs:label "Parameter"@en ;
+    skos:definition "A configurable clinical threshold or lookback, owned by clinical reviewers."@en .
+
+dcg:DiabetesCohort a owl:Class ;
+    rdfs:subClassOf dcg:PopulationCriteria ;
+    rdfs:label "Diabetes care-gap cohort"@en ;
+    skos:altLabel "people with diabetes"@en, "diabetic population"@en, "denominator"@en ;
+    skos:definition "Persons aged ≥ 18 and alive at period end who meet case phenotype DM-ADULT-CASE (see dcg:pheno_DM_ADULT_CASE): a declared diabetes condition, a hospital diabetes diagnosis, 2 ambulatory diabetes diagnoses within the claims window, or 2 HbA1c ≥ threshold on separate days; medication is supporting evidence only. Gestational diabetes and prediabetes excluded."@en ;
+    dcg:semanticModelRef "measure:cohort_members" ;
+    dcg:agentHint "Every rate in this model uses this cohort as the denominator unless the metric states a narrower one (e.g., statin metric is age ≥ 40)."@en .
+
+#################################################################
+#  M3 — Analytics context
+#################################################################
+
+dcg:AnalyticDimension a owl:Class ; rdfs:label "Analytic dimension"@en .
+
+dcg:AgeBand a owl:Class ; rdfs:subClassOf dcg:AnalyticDimension ; rdfs:label "Age band"@en ;
+    skos:altLabel "age group"@en ; dcg:semanticModelRef "dim:age_band" .
+dcg:Sex a owl:Class ; rdfs:subClassOf dcg:AnalyticDimension ; rdfs:label "Administrative sex"@en ;
+    skos:altLabel "gender"@en ; dcg:fhirPath "Patient.gender" ; dcg:semanticModelRef "dim:sex" ;
+    dcg:agentHint "FHIR Patient.gender is administrative gender; say 'sex/gender (administrative)' in answers."@en .
+dcg:Geography a owl:Class ; rdfs:subClassOf dcg:AnalyticDimension ; rdfs:label "Geography"@en .
+dcg:Province a owl:Class ; rdfs:subClassOf dcg:Geography ; rdfs:label "Province or territory"@en ;
+    skos:altLabel "PT"@en, "jurisdiction"@en, "region"@en ; dcg:fhirPath "Patient.address.where(use='home').state" ; dcg:semanticModelRef "dim:province" .
+dcg:ForwardSortationArea a owl:Class ; rdfs:subClassOf dcg:Geography ; rdfs:label "Forward sortation area"@en ;
+    skos:altLabel "FSA"@en, "postal prefix"@en ; dcg:fhirPath "Patient.address.where(use='home').postalCode.substring(0,3)" ;
+    dcg:semanticModelRef "dim:fsa" ; dcg:sensitivity "restricted" ;
+    dcg:agentHint "FSA breakdowns raise re-identification risk; only allowed with small-cell suppression and never crossed with age band AND sex together."@en .
+dcg:MeasurementPeriod a owl:Class ; rdfs:subClassOf dcg:AnalyticDimension ; rdfs:label "Measurement period"@en ;
+    skos:altLabel "reporting period"@en, "as of"@en ; dcg:semanticModelRef "dim:period_end" .
+dcg:TherapyClass a owl:Class ; rdfs:subClassOf dcg:AnalyticDimension ; rdfs:label "Therapy class"@en ; dcg:semanticModelRef "dim:therapy_profile" .
+
+dcg:DataSource a owl:Class ; rdfs:subClassOf prov:Entity ; rdfs:label "Data source"@en .
+dcg:SyntheticCohort a owl:Class ; rdfs:subClassOf dcg:DataSource ; rdfs:label "Synthetic cohort"@en ;
+    skos:altLabel "Synthea data"@en ;
+    dcg:agentHint "Results from synthetic data must be labelled 'synthetic — not real-world prevalence or performance'."@en .
+dcg:RealWorldSource a owl:Class ; rdfs:subClassOf dcg:DataSource ; rdfs:label "Real-world source"@en .
+dcg:SyntheticCohort owl:disjointWith dcg:RealWorldSource .
+
+dcg:Benchmark a owl:Class ;
+    rdfs:label "Published benchmark"@en ;
+    skos:altLabel "reference value"@en, "published indicator"@en ;
+    skos:definition "An externally published value used to calibrate or compare PoC output (not ingested as patient data)."@en ;
+    dcg:agentHint "When comparing to a benchmark, state method differences (survey vs. clinical record, age standardisation, period)."@en .
+
+#################################################################
+#  M4 — Data quality
+#################################################################
+
+dcg:DataQualityIssue a owl:Class ; rdfs:label "Data quality issue"@en ;
+    skos:definition "A detected defect in source data that can bias a metric."@en ;
+    dcg:semanticModelRef "metric:dq_*" .
+dcg:MissingValue a owl:Class ; rdfs:subClassOf dcg:DataQualityIssue ; rdfs:label "Missing value"@en .
+dcg:UnitNonConformance a owl:Class ; rdfs:subClassOf dcg:DataQualityIssue ; rdfs:label "Unit non-conformance"@en .
+dcg:ImplausibleValue a owl:Class ; rdfs:subClassOf dcg:DataQualityIssue ; rdfs:label "Implausible value"@en .
+dcg:UnmappedCode a owl:Class ; rdfs:subClassOf dcg:DataQualityIssue ; rdfs:label "Unmapped code"@en ; skos:altLabel "coding drift"@en .
+dcg:DuplicateRecord a owl:Class ; rdfs:subClassOf dcg:DataQualityIssue ; rdfs:label "Duplicate record"@en ; skos:altLabel "duplicate diagnosis"@en ;
+    skos:definition "The same qualifying code recorded on more than one record for a person (e.g. two Type 2 diabetes Conditions)."@en ;
+    dcg:semanticModelRef "metric:dq_dm_duplicate_rate" .
+dcg:TemporalInconsistency a owl:Class ; rdfs:subClassOf dcg:DataQualityIssue ; rdfs:label "Temporal inconsistency"@en ; skos:altLabel "future date"@en .
+
+#################################################################
+#  Object properties
+#################################################################
+
+dcg:subject a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:label "subject"@en ; rdfs:domain dcg:ClinicalRecord ; rdfs:range dcg:Person ;
+    dcg:fhirPath "subject.getReferenceKey(Patient)" .
+dcg:hasRecord a owl:ObjectProperty ; owl:inverseOf dcg:subject ; rdfs:label "has record"@en .
+dcg:hasCondition a owl:ObjectProperty ; rdfs:subPropertyOf dcg:hasRecord ; rdfs:domain dcg:Person ; rdfs:range dcg:ConditionRecord .
+dcg:hasObservation a owl:ObjectProperty ; rdfs:subPropertyOf dcg:hasRecord ; rdfs:domain dcg:Person ; rdfs:range dcg:ObservationResult .
+dcg:hasMedicationExposure a owl:ObjectProperty ; rdfs:subPropertyOf dcg:hasRecord ; rdfs:domain dcg:Person ; rdfs:range dcg:MedicationExposure .
+dcg:hasProcedure a owl:ObjectProperty ; rdfs:subPropertyOf dcg:hasRecord ; rdfs:domain dcg:Person ; rdfs:range dcg:ProcedureRecord .
+dcg:duringEncounter a owl:ObjectProperty ; rdfs:domain dcg:ClinicalRecord ; rdfs:range dcg:Encounter ; dcg:fhirPath "encounter.getReferenceKey(Encounter)" .
+dcg:complicationOf a owl:ObjectProperty ; rdfs:domain dcg:DiabetesComplication ; rdfs:range dcg:DiabetesMellitus .
+dcg:residesIn a owl:ObjectProperty ; rdfs:domain dcg:Person ; rdfs:range dcg:Geography .
+dcg:hasCode a owl:ObjectProperty ; rdfs:label "has code"@en ; rdfs:domain dcg:ClinicalRecord ; rdfs:range skos:Concept .
+dcg:hasCareGap a owl:ObjectProperty ; rdfs:domain dcg:Person ; rdfs:range dcg:CareGap .
+dcg:closedBy a owl:ObjectProperty ; rdfs:label "closed by"@en ; rdfs:domain dcg:CareGap ; rdfs:range dcg:ClinicalRecord ;
+    skos:definition "The record that would close (or did close) the gap, e.g., an HbA1cResult."@en .
+dcg:addresses a owl:ObjectProperty ; rdfs:domain dcg:CareGap ; rdfs:range dcg:CareProcess .
+dcg:evidencedBy a owl:ObjectProperty ; rdfs:label "evidenced by"@en ; rdfs:domain dcg:CareProcess ; rdfs:range owl:Class ;
+    skos:definition "The clinical record class whose presence in the lookback window satisfies the process."@en .
+dcg:hasDenominator a owl:ObjectProperty ; rdfs:domain dcg:Indicator ; rdfs:range dcg:PopulationCriteria .
+dcg:hasNumerator a owl:ObjectProperty ; rdfs:domain dcg:Indicator ; rdfs:range dcg:PopulationCriteria .
+dcg:usesParameter a owl:ObjectProperty ; rdfs:range dcg:Parameter .
+dcg:measuresGap a owl:ObjectProperty ; rdfs:domain dcg:Indicator ; rdfs:range dcg:CareGap .
+dcg:benchmarkedAgainst a owl:ObjectProperty ; rdfs:domain dcg:Indicator ; rdfs:range dcg:Benchmark .
+dcg:fromSource a owl:ObjectProperty ; rdfs:subPropertyOf prov:wasDerivedFrom ; rdfs:range dcg:DataSource .
+dcg:affectsIndicator a owl:ObjectProperty ; rdfs:domain dcg:DataQualityIssue ; rdfs:range dcg:Indicator .
+
+#################################################################
+#  Datatype properties
+#################################################################
+
+dcg:birthDate a owl:DatatypeProperty, owl:FunctionalProperty ; rdfs:domain dcg:Person ; rdfs:range xsd:date ; dcg:fhirPath "Patient.birthDate" .
+dcg:deceasedDate a owl:DatatypeProperty ; rdfs:domain dcg:Person ; rdfs:range xsd:dateTime ; dcg:fhirPath "Patient.deceased.ofType(dateTime)" .
+dcg:administrativeGender a owl:DatatypeProperty ; rdfs:domain dcg:Person ; rdfs:range xsd:string ; dcg:fhirPath "Patient.gender" .
+dcg:onsetDateTime a owl:DatatypeProperty ; rdfs:domain dcg:ConditionRecord ; rdfs:range xsd:dateTime ; dcg:fhirPath "Condition.onset.ofType(dateTime)" .
+dcg:abatementDateTime a owl:DatatypeProperty ; rdfs:domain dcg:ConditionRecord ; rdfs:range xsd:dateTime ; dcg:fhirPath "Condition.abatement.ofType(dateTime)" .
+dcg:clinicalStatus a owl:DatatypeProperty ; rdfs:domain dcg:ConditionRecord ; rdfs:range xsd:string ; dcg:fhirPath "Condition.clinicalStatus.coding.code.first()" .
+dcg:effectiveDateTime a owl:DatatypeProperty ; rdfs:domain dcg:ObservationResult ; rdfs:range xsd:dateTime ; dcg:fhirPath "Observation.effective.ofType(dateTime)" .
+dcg:valueNumeric a owl:DatatypeProperty ; rdfs:domain dcg:ObservationResult ; rdfs:range xsd:decimal ; dcg:fhirPath "Observation.value.ofType(Quantity).value" .
+dcg:ucumUnit a owl:DatatypeProperty ; rdfs:domain dcg:ObservationResult ; rdfs:range xsd:string ; dcg:fhirPath "Observation.value.ofType(Quantity).code" .
+dcg:systolic a owl:DatatypeProperty ; rdfs:domain dcg:BloodPressureReading ; rdfs:range xsd:decimal ; dcg:fhirPath "Observation.component.where(code.coding.code='8480-6').value.ofType(Quantity).value" .
+dcg:diastolic a owl:DatatypeProperty ; rdfs:domain dcg:BloodPressureReading ; rdfs:range xsd:decimal ; dcg:fhirPath "Observation.component.where(code.coding.code='8462-4').value.ofType(Quantity).value" .
+dcg:authoredOn a owl:DatatypeProperty ; rdfs:domain dcg:MedicationExposure ; rdfs:range xsd:dateTime ; dcg:fhirPath "MedicationRequest.authoredOn" .
+dcg:performedDateTime a owl:DatatypeProperty ; rdfs:domain dcg:ProcedureRecord ; rdfs:range xsd:dateTime ; dcg:fhirPath "Procedure.performed.ofType(dateTime) | Procedure.performed.ofType(Period).start" .
+dcg:thresholdValue a owl:DatatypeProperty ; rdfs:domain dcg:Parameter ; rdfs:range xsd:decimal .
+dcg:thresholdUnit a owl:DatatypeProperty ; rdfs:domain dcg:Parameter ; rdfs:range xsd:string .
+dcg:comparator a owl:DatatypeProperty ; rdfs:domain dcg:Parameter ; rdfs:range xsd:string .
+dcg:lookbackMonths a owl:DatatypeProperty ; rdfs:range xsd:integer .
+dcg:minimumAge a owl:DatatypeProperty ; rdfs:range xsd:integer .
+dcg:metricName a owl:DatatypeProperty ; rdfs:domain dcg:Indicator ; rdfs:range xsd:string ; rdfs:comment "Exact metric name in the semantic model." .
+dcg:benchmarkValue a owl:DatatypeProperty ; rdfs:domain dcg:Benchmark ; rdfs:range xsd:decimal .
+dcg:benchmarkYear a owl:DatatypeProperty ; rdfs:domain dcg:Benchmark ; rdfs:range xsd:gYear .
+
+#################################################################
+#  Parameters (defaults — owned by clinical reviewers)
+#################################################################
+
+dcg:param_A1cTarget a dcg:Parameter ; rdfs:label "A1C target"@en ;
+    dcg:comparator "<=" ; dcg:thresholdValue 7.0 ; dcg:thresholdUnit "%" ;
+    dcg:sourceGuideline "Diabetes Canada CPG: A1C ≤ 7.0% for most people with diabetes; individualise." .
+dcg:param_A1cPoorControl a dcg:Parameter ; rdfs:label "A1C poor-control threshold"@en ;
+    dcg:comparator ">" ; dcg:thresholdValue 9.0 ; dcg:thresholdUnit "%" ;
+    rdfs:comment "Analytic convention for a 'poor control' outcome gap; not a CPG target." .
+dcg:param_A1cTestRecent a dcg:Parameter ; rdfs:label "A1C recency window (gap)"@en ; dcg:lookbackMonths 6 ;
+    dcg:sourceGuideline "CPG Ch.9: every 3 months when not at target; BC guideline allows 6 months when stable. 6-month window = gap definition." .
+dcg:param_A1cTest12m a dcg:Parameter ; rdfs:label "A1C annual window (benchmark-comparable)"@en ; dcg:lookbackMonths 12 ;
+    rdfs:comment "Matches survey-based 'A1C test in past 12 months' indicators used in published Canadian reports." .
+dcg:param_BPTarget a dcg:Parameter ; rdfs:label "Blood pressure target"@en ;
+    dcg:comparator "<" ; rdfs:comment "Systolic < 130 AND diastolic < 80 mmHg." ;
+    dcg:thresholdUnit "mm[Hg]" ; dcg:sourceGuideline "Diabetes Canada CPG: BP < 130/80 mmHg." .
+dcg:param_KidneyScreen a dcg:Parameter ; rdfs:label "Kidney screening window"@en ; dcg:lookbackMonths 12 ;
+    dcg:sourceGuideline "Diabetes Canada CPG: eGFR and urine ACR annually." .
+dcg:param_LipidTest a dcg:Parameter ; rdfs:label "Lipid testing window"@en ; dcg:lookbackMonths 36 ;
+    dcg:sourceGuideline "Diabetes Canada patient targets sheet: LDL-C every 1–3 years." .
+dcg:param_EyeExam a dcg:Parameter ; rdfs:label "Retinopathy screening window"@en ; dcg:lookbackMonths 24 ;
+    dcg:sourceGuideline "Diabetes Canada CPG retinopathy: T2D screening interval 1–2 years if no retinopathy." .
+dcg:param_FootExam a dcg:Parameter ; rdfs:label "Foot exam window"@en ; dcg:lookbackMonths 12 ;
+    dcg:sourceGuideline "Diabetes Canada CPG foot care: at least annually." .
+dcg:param_StatinAge a dcg:Parameter ; rdfs:label "Statin eligibility age"@en ; dcg:minimumAge 40 ;
+    dcg:sourceGuideline "Diabetes Canada CPG lipids: statin for people with diabetes aged ≥ 40." .
+dcg:param_MinCell a dcg:Parameter ; rdfs:label "Minimum reportable cell size"@en ; dcg:comparator ">=" ; dcg:thresholdValue 5 ;
+    rdfs:comment "Counts and rates with denominator or numerator < 5 are suppressed (CIHI-style small-cell rule)." .
+
+#################################################################
+#  Care processes, outcomes, gaps
+#################################################################
+
+dcg:cp_A1cTesting a dcg:CareProcess ; rdfs:label "A1C testing"@en ; dcg:evidencedBy dcg:HbA1cResult ; dcg:usesParameter dcg:param_A1cTestRecent .
+dcg:cp_BPMeasurement a dcg:CareProcess ; rdfs:label "Blood pressure measurement"@en ; dcg:evidencedBy dcg:BloodPressureReading .
+dcg:cp_KidneyScreening a dcg:CareProcess ; rdfs:label "Kidney screening (eGFR + ACR)"@en ; dcg:evidencedBy dcg:EGFRResult, dcg:UACRResult ; dcg:usesParameter dcg:param_KidneyScreen .
+dcg:cp_LipidTesting a dcg:CareProcess ; rdfs:label "LDL-C testing"@en ; dcg:evidencedBy dcg:LDLResult ; dcg:usesParameter dcg:param_LipidTest .
+dcg:cp_EyeExam a dcg:CareProcess ; rdfs:label "Retinopathy screening"@en ; dcg:evidencedBy dcg:RetinopathyScreening ; dcg:usesParameter dcg:param_EyeExam .
+dcg:cp_FootExam a dcg:CareProcess ; rdfs:label "Foot examination"@en ; dcg:evidencedBy dcg:DiabeticFootExam ; dcg:usesParameter dcg:param_FootExam .
+dcg:cp_StatinTherapy a dcg:CareProcess ; rdfs:label "Statin therapy (age ≥ 40)"@en ; dcg:evidencedBy dcg:Statin ; dcg:usesParameter dcg:param_StatinAge .
+
+dcg:co_A1cAtTarget a dcg:CareOutcome ; rdfs:label "Latest A1C at target"@en ; dcg:usesParameter dcg:param_A1cTarget .
+dcg:co_BPAtTarget a dcg:CareOutcome ; rdfs:label "Latest BP at target"@en ; dcg:usesParameter dcg:param_BPTarget .
+
+#  Gap types as a SKOS scheme (used as dim:gap_type values)
+dcg:GapTypeScheme a skos:ConceptScheme ; skos:prefLabel "Care gap types"@en .
+dcg:gap_a1c_test     a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "a1c_test" ;     skos:prefLabel "No A1C test in recency window"@en ; skos:broader dcg:gt_process .
+dcg:gap_a1c_control  a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "a1c_control" ;  skos:prefLabel "Latest A1C above target"@en ; skos:broader dcg:gt_outcome .
+dcg:gap_bp_control   a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "bp_control" ;   skos:prefLabel "Latest BP above target or not measured"@en ; skos:broader dcg:gt_outcome .
+dcg:gap_kidney       a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "kidney_screen" ; skos:prefLabel "eGFR and/or ACR missing in 12 months"@en ; skos:broader dcg:gt_process .
+dcg:gap_lipid        a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "lipid_test" ;   skos:prefLabel "No LDL-C in lipid window"@en ; skos:broader dcg:gt_process .
+dcg:gap_eye          a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "eye_exam" ;     skos:prefLabel "No retinopathy screening in window"@en ; skos:broader dcg:gt_process .
+dcg:gap_foot         a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "foot_exam" ;    skos:prefLabel "No foot exam in 12 months"@en ; skos:broader dcg:gt_process .
+dcg:gap_statin       a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "statin" ;       skos:prefLabel "Age ≥ 40 without statin"@en ; skos:broader dcg:gt_therapy .
+dcg:gt_process a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:prefLabel "Process gap"@en ; skos:topConceptOf dcg:GapTypeScheme .
+dcg:gt_outcome a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:prefLabel "Outcome gap"@en ; skos:topConceptOf dcg:GapTypeScheme .
+dcg:gt_therapy a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:prefLabel "Therapy gap"@en ; skos:topConceptOf dcg:GapTypeScheme .
+
+#################################################################
+#  Indicators (each = one metric in the semantic model)
+#################################################################
+
+dcg:ind_a1c_tested_12m a dcg:Indicator ; rdfs:label "A1C tested in past 12 months"@en ;
+    dcg:metricName "a1c_tested_12m_rate" ; dcg:hasDenominator dcg:DiabetesCohort ; dcg:usesParameter dcg:param_A1cTest12m ;
+    dcg:benchmarkedAgainst dcg:bm_cihi_2009_a1c12m .
+dcg:ind_a1c_tested_recent a dcg:Indicator ; rdfs:label "A1C tested in recency window (6 months)"@en ;
+    dcg:metricName "a1c_tested_recent_rate" ; dcg:hasDenominator dcg:DiabetesCohort ; dcg:measuresGap dcg:gap_a1c_test ; dcg:usesParameter dcg:param_A1cTestRecent .
+dcg:ind_a1c_at_target a dcg:Indicator ; rdfs:label "Latest A1C at target (among tested)"@en ;
+    dcg:metricName "a1c_at_target_rate" ; dcg:measuresGap dcg:gap_a1c_control ; dcg:usesParameter dcg:param_A1cTarget ;
+    dcg:agentHint "Denominator is cohort members with ≥1 A1C in 12 months, not the full cohort."@en .
+dcg:ind_a1c_poor a dcg:Indicator ; rdfs:label "Latest A1C > 9% or untested"@en ; dcg:metricName "a1c_poor_control_rate" ; dcg:usesParameter dcg:param_A1cPoorControl .
+dcg:ind_bp_target a dcg:Indicator ; rdfs:label "Latest BP < 130/80"@en ; dcg:metricName "bp_at_target_rate" ; dcg:measuresGap dcg:gap_bp_control ; dcg:usesParameter dcg:param_BPTarget .
+dcg:ind_kidney a dcg:Indicator ; rdfs:label "eGFR and ACR in 12 months"@en ; dcg:metricName "kidney_screened_rate" ; dcg:measuresGap dcg:gap_kidney .
+dcg:ind_lipid a dcg:Indicator ; rdfs:label "LDL-C tested in window"@en ; dcg:metricName "lipid_tested_rate" ; dcg:measuresGap dcg:gap_lipid .
+dcg:ind_eye a dcg:Indicator ; rdfs:label "Retinopathy screening in window"@en ; dcg:metricName "eye_exam_rate" ; dcg:measuresGap dcg:gap_eye .
+dcg:ind_foot a dcg:Indicator ; rdfs:label "Foot exam in 12 months"@en ; dcg:metricName "foot_exam_rate" ; dcg:measuresGap dcg:gap_foot .
+dcg:ind_statin a dcg:Indicator ; rdfs:label "Statin among age ≥ 40"@en ; dcg:metricName "statin_rate_40plus" ; dcg:measuresGap dcg:gap_statin .
+dcg:ind_all4 a dcg:Indicator ; rdfs:label "All four annual tests (A1C, BP, LDL-C, kidney)"@en ; dcg:metricName "all_four_tests_rate" ;
+    rdfs:comment "Mirrors Diabetes Canada's 'four screening tests at least once a year' framing; LDL-C uses a 12-month window here." .
+dcg:ind_any_gap a dcg:Indicator ; rdfs:label "Any open care gap"@en ; dcg:metricName "any_gap_rate" .
+dcg:ind_bmi_recorded a dcg:Indicator ; rdfs:label "BMI recorded in 12 months"@en ; dcg:metricName "bmi_recorded_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_med_metformin a dcg:Indicator ; rdfs:label "Metformin use"@en ; dcg:metricName "metformin_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_med_insulin a dcg:Indicator ; rdfs:label "Insulin use"@en ; dcg:metricName "insulin_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_med_sglt2i a dcg:Indicator ; rdfs:label "SGLT2 inhibitor use"@en ; dcg:metricName "sglt2i_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_med_glp1ra a dcg:Indicator ; rdfs:label "GLP-1 receptor agonist use"@en ; dcg:metricName "glp1ra_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_med_dpp4i a dcg:Indicator ; rdfs:label "DPP-4 inhibitor use"@en ; dcg:metricName "dpp4i_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_med_sulfonylurea a dcg:Indicator ; rdfs:label "Sulfonylurea use"@en ; dcg:metricName "sulfonylurea_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_med_acei_arb a dcg:Indicator ; rdfs:label "ACE inhibitor or ARB use"@en ; dcg:metricName "acei_arb_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_med_antihyperglycemic a dcg:Indicator ; rdfs:label "Any antihyperglycemic use"@en ; dcg:metricName "antihyperglycemic_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_prevalence a dcg:Indicator ; rdfs:label "Diabetes prevalence (crude)"@en ; dcg:metricName "diabetes_prevalence_crude" ;
+    dcg:agentHint "Crude, not age-standardised; on synthetic data it reflects generator settings, not Canada."@en ;
+    dcg:benchmarkedAgainst dcg:bm_phac_ccdss .
+
+#################################################################
+#  Benchmarks (values intentionally left for the data steward to
+#  fill from the current published release)
+#################################################################
+
+dcg:bm_phac_ccdss a dcg:Benchmark ; rdfs:label "PHAC Canadian Chronic Disease Surveillance System — diagnosed diabetes"@en ;
+    dct:source <https://health-infobase.canada.ca/> ;
+    rdfs:comment "Administrative-data case definition (hospitalisation/physician claims). Not directly comparable to a FHIR Condition-based cohort." .
+dcg:bm_cihi_2009_a1c12m a dcg:Benchmark ; rdfs:label "CIHI 2009 — Diabetes Care Gaps and Disparities: ≥1 A1C test in last 12 months (self-report)"@en ;
+    dcg:benchmarkValue 81 ; dcg:benchmarkYear "2007"^^xsd:gYear ;
+    dct:source <https://publications.gc.ca/collections/collection_2012/icis-cihi/H117-5-7-2009-eng.pdf> ;
+    rdfs:comment "Age-standardised survey estimate (CCHS 2007). Historic; replace with a current CIHI Indicator Library value when selected." .
+dcg:bm_dc_snapshot a dcg:Benchmark ; rdfs:label "Diabetes Canada — Snapshot of Diabetes Management in Canada (Ontario EMR study)"@en ;
+    dct:source <https://www.diabetes.ca/about-diabetes/stories/a-snapshot-of-diabetes-management-in-canada> .
+
+#################################################################
+#  M5 — Terminology value sets (starter content; verify against
+#  Canadian Terminology Server / SNOMED CT CA edition / pCLOCD)
+#################################################################
+
+dcg:vs_DiabetesMellitus a skos:ConceptScheme ; skos:prefLabel "Diabetes mellitus (cohort-qualifying)"@en .
+dcg:vs_T1DM a skos:ConceptScheme ; skos:prefLabel "Type 1 diabetes"@en .
+dcg:vs_T2DM a skos:ConceptScheme ; skos:prefLabel "Type 2 diabetes"@en .
+dcg:vs_GDM a skos:ConceptScheme ; skos:prefLabel "Gestational diabetes"@en .
+dcg:vs_Prediabetes a skos:ConceptScheme ; skos:prefLabel "Prediabetes"@en .
+dcg:vs_Retinopathy a skos:ConceptScheme ; skos:prefLabel "Diabetic retinopathy"@en .
+dcg:vs_KidneyDisease a skos:ConceptScheme ; skos:prefLabel "Diabetic kidney disease"@en .
+dcg:vs_Neuropathy a skos:ConceptScheme ; skos:prefLabel "Diabetic neuropathy"@en .
+dcg:vs_FootUlcer a skos:ConceptScheme ; skos:prefLabel "Diabetic foot ulcer"@en .
+dcg:vs_Hypertension a skos:ConceptScheme ; skos:prefLabel "Hypertension"@en .
+dcg:vs_HbA1c a skos:ConceptScheme ; skos:prefLabel "HbA1c (LOINC)"@en .
+dcg:vs_Glucose a skos:ConceptScheme ; skos:prefLabel "Plasma glucose (LOINC)"@en .
+dcg:vs_eGFR a skos:ConceptScheme ; skos:prefLabel "eGFR (LOINC)"@en .
+dcg:vs_UACR a skos:ConceptScheme ; skos:prefLabel "Urine albumin/creatinine ratio (LOINC)"@en .
+dcg:vs_LDL a skos:ConceptScheme ; skos:prefLabel "LDL cholesterol (LOINC)"@en .
+dcg:vs_BloodPressure a skos:ConceptScheme ; skos:prefLabel "Blood pressure (LOINC)"@en .
+dcg:vs_BMI a skos:ConceptScheme ; skos:prefLabel "BMI (LOINC)"@en .
+dcg:vs_EyeExam a skos:ConceptScheme ; skos:prefLabel "Retinopathy screening procedures"@en .
+dcg:vs_FootExam a skos:ConceptScheme ; skos:prefLabel "Diabetic foot exam procedures"@en .
+dcg:vs_DSMPlan a skos:ConceptScheme ; skos:prefLabel "Diabetes self-management care plan"@en .
+dcg:vs_ATC_A10 a skos:ConceptScheme ; skos:prefLabel "ATC A10 — drugs used in diabetes"@en .
+dcg:vs_ATC_C10AA a skos:ConceptScheme ; skos:prefLabel "ATC C10AA — statins"@en .
+dcg:vs_ATC_C09 a skos:ConceptScheme ; skos:prefLabel "ATC C09A/C09C — ACE inhibitors, ARBs"@en .
+
+# SNOMED CT
+sct:44054006  a skos:Concept ; skos:notation "44054006" ;  skos:prefLabel "Diabetes mellitus type 2"@en ; skos:inScheme dcg:vs_T2DM, dcg:vs_DiabetesMellitus .
+sct:46635009  a skos:Concept ; skos:notation "46635009" ;  skos:prefLabel "Diabetes mellitus type 1"@en ; skos:inScheme dcg:vs_T1DM, dcg:vs_DiabetesMellitus .
+sct:73211009  a skos:Concept ; skos:notation "73211009" ;  skos:prefLabel "Diabetes mellitus (disorder)"@en ; skos:inScheme dcg:vs_DiabetesMellitus ; skos:note "Type unspecified" .
+sct:11687002  a skos:Concept ; skos:notation "11687002" ;  skos:prefLabel "Gestational diabetes mellitus"@en ; skos:inScheme dcg:vs_GDM .
+sct:15777000  a skos:Concept ; skos:notation "15777000" ;  skos:prefLabel "Prediabetes"@en ; skos:inScheme dcg:vs_Prediabetes ; skos:note "Code emitted by Synthea" .
+sct:714628002 a skos:Concept ; skos:notation "714628002" ; skos:prefLabel "Prediabetes"@en ; skos:inScheme dcg:vs_Prediabetes .
+sct:4855003   a skos:Concept ; skos:notation "4855003" ;   skos:prefLabel "Retinopathy due to diabetes mellitus"@en ; skos:inScheme dcg:vs_Retinopathy .
+sct:422034002 a skos:Concept ; skos:notation "422034002" ; skos:prefLabel "Retinopathy due to type 2 diabetes mellitus"@en ; skos:inScheme dcg:vs_Retinopathy ; skos:note "Code emitted by Synthea" .
+sct:127013003 a skos:Concept ; skos:notation "127013003" ; skos:prefLabel "Disorder of kidney due to diabetes mellitus"@en ; skos:inScheme dcg:vs_KidneyDisease ; skos:note "Code emitted by Synthea" .
+sct:90781000119102 a skos:Concept ; skos:notation "90781000119102" ; skos:prefLabel "Microalbuminuria due to type 2 diabetes mellitus"@en ; skos:inScheme dcg:vs_KidneyDisease ; skos:note "Code emitted by Synthea" .
+sct:368581000119106 a skos:Concept ; skos:notation "368581000119106" ; skos:prefLabel "Neuropathy due to type 2 diabetes mellitus"@en ; skos:inScheme dcg:vs_Neuropathy ; skos:note "Code emitted by Synthea" .
+sct:371087003 a skos:Concept ; skos:notation "371087003" ; skos:prefLabel "Ulcer of foot due to diabetes mellitus"@en ; skos:inScheme dcg:vs_FootUlcer ; skos:note "Verify code" .
+sct:59621000  a skos:Concept ; skos:notation "59621000" ;  skos:prefLabel "Essential hypertension"@en ; skos:inScheme dcg:vs_Hypertension .
+sct:36228007  a skos:Concept ; skos:notation "36228007" ;  skos:prefLabel "Ophthalmic examination and evaluation"@en ; skos:inScheme dcg:vs_EyeExam ; skos:note "Not emitted by Synthea; kept for real-world sources" .
+sct:722161008 a skos:Concept ; skos:notation "722161008" ; skos:prefLabel "Diabetic retinal eye exam"@en ; skos:inScheme dcg:vs_EyeExam ; skos:note "Code emitted by Synthea (verified against Synthea sample data 2026-11-19)" .
+sct:314971001 a skos:Concept ; skos:notation "314971001" ; skos:prefLabel "Camera fundoscopy"@en ; skos:inScheme dcg:vs_EyeExam ; skos:note "Retinal photography; emitted by Synthea" .
+sct:401191002 a skos:Concept ; skos:notation "401191002" ; skos:prefLabel "Diabetic foot examination"@en ; skos:inScheme dcg:vs_FootExam .
+sct:735985000 a skos:Concept ; skos:notation "735985000" ; skos:prefLabel "Diabetes self management plan"@en ; skos:inScheme dcg:vs_DSMPlan .
+
+# LOINC
+loinc:4548-4   a skos:Concept ; skos:notation "4548-4" ;  skos:prefLabel "Hemoglobin A1c/Hemoglobin.total in Blood"@en ; skos:inScheme dcg:vs_HbA1c .
+loinc:17856-6  a skos:Concept ; skos:notation "17856-6" ; skos:prefLabel "Hemoglobin A1c/Hemoglobin.total in Blood by HPLC"@en ; skos:inScheme dcg:vs_HbA1c .
+loinc:2339-0   a skos:Concept ; skos:notation "2339-0" ;  skos:prefLabel "Glucose [Mass/volume] in Blood"@en ; skos:inScheme dcg:vs_Glucose .
+loinc:1558-6   a skos:Concept ; skos:notation "1558-6" ;  skos:prefLabel "Fasting glucose [Mass/volume] in Serum or Plasma"@en ; skos:inScheme dcg:vs_Glucose .
+loinc:33914-3  a skos:Concept ; skos:notation "33914-3" ; skos:prefLabel "eGFR (MDRD)"@en ; skos:inScheme dcg:vs_eGFR ; skos:note "Emitted by Synthea" .
+loinc:62238-1  a skos:Concept ; skos:notation "62238-1" ; skos:prefLabel "eGFR (CKD-EPI)"@en ; skos:inScheme dcg:vs_eGFR .
+loinc:98979-8  a skos:Concept ; skos:notation "98979-8" ; skos:prefLabel "eGFR (CKD-EPI 2021)"@en ; skos:inScheme dcg:vs_eGFR .
+loinc:9318-7   a skos:Concept ; skos:notation "9318-7" ;  skos:prefLabel "Albumin/Creatinine [Mass Ratio] in Urine"@en ; skos:inScheme dcg:vs_UACR .
+loinc:14959-1  a skos:Concept ; skos:notation "14959-1" ; skos:prefLabel "Microalbumin/Creatinine [Mass Ratio] in Urine"@en ; skos:inScheme dcg:vs_UACR ; skos:note "Emitted by Synthea" .
+loinc:18262-6  a skos:Concept ; skos:notation "18262-6" ; skos:prefLabel "LDL Cholesterol (direct)"@en ; skos:inScheme dcg:vs_LDL .
+loinc:13457-7  a skos:Concept ; skos:notation "13457-7" ; skos:prefLabel "LDL Cholesterol (calculated)"@en ; skos:inScheme dcg:vs_LDL .
+loinc:85354-9  a skos:Concept ; skos:notation "85354-9" ; skos:prefLabel "Blood pressure panel"@en ; skos:inScheme dcg:vs_BloodPressure .
+loinc:8480-6   a skos:Concept ; skos:notation "8480-6" ;  skos:prefLabel "Systolic blood pressure"@en ; skos:inScheme dcg:vs_BloodPressure .
+loinc:8462-4   a skos:Concept ; skos:notation "8462-4" ;  skos:prefLabel "Diastolic blood pressure"@en ; skos:inScheme dcg:vs_BloodPressure .
+loinc:39156-5  a skos:Concept ; skos:notation "39156-5" ; skos:prefLabel "Body mass index"@en ; skos:inScheme dcg:vs_BMI .
+
+# ATC (WHO) — drug-class level
+atc:A10A    a skos:Concept ; skos:notation "A10A" ;    skos:prefLabel "Insulins and analogues"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:Insulin .
+atc:A10BA02 a skos:Concept ; skos:notation "A10BA02" ; skos:prefLabel "Metformin"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:Metformin .
+atc:A10BB   a skos:Concept ; skos:notation "A10BB" ;   skos:prefLabel "Sulfonylureas"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:Sulfonylurea .
+atc:A10BH   a skos:Concept ; skos:notation "A10BH" ;   skos:prefLabel "DPP-4 inhibitors"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:DPP4Inhibitor .
+atc:A10BJ   a skos:Concept ; skos:notation "A10BJ" ;   skos:prefLabel "GLP-1 analogues"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:GLP1ReceptorAgonist .
+atc:A10BK   a skos:Concept ; skos:notation "A10BK" ;   skos:prefLabel "SGLT2 inhibitors"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:SGLT2Inhibitor .
+atc:C10AA   a skos:Concept ; skos:notation "C10AA" ;   skos:prefLabel "HMG CoA reductase inhibitors (statins)"@en ; skos:inScheme dcg:vs_ATC_C10AA ; skos:related dcg:Statin .
+atc:C09A    a skos:Concept ; skos:notation "C09A" ;    skos:prefLabel "ACE inhibitors, plain"@en ; skos:inScheme dcg:vs_ATC_C09 ; skos:related dcg:ACEInhibitorOrARB .
+atc:C09C    a skos:Concept ; skos:notation "C09C" ;    skos:prefLabel "Angiotensin II receptor blockers, plain"@en ; skos:inScheme dcg:vs_ATC_C09 ; skos:related dcg:ACEInhibitorOrARB .
+
+
+#################################################################
+#  v0.4 — alignment with the Diabetes Care Intelligence (DCI) canonical
+#  layer: case phenotype, ICD-10-CA, unit standardisation, cardio-renal
+#  and acute-event measures, equity dimensions, mapping governance
+#################################################################
+
+dcg:pchdcfConcept  a owl:AnnotationProperty ; rdfs:label "PCHDCF concept" ; rdfs:comment "CIHI Pan-Canadian Health Data Content Framework concept this class aligns to (verify against the V3 Logical Data Model)." .
+dcg:mapRelation    a owl:AnnotationProperty ; rdfs:label "map relation" ; rdfs:comment "SKOS mapping relation of a source code to its value set: exactMatch | closeMatch | broadMatch | narrowMatch | relatedMatch." .
+dcg:mapConfidence  a owl:AnnotationProperty ; rdfs:label "map confidence" ; rdfs:comment "high | medium | low" .
+dcg:mapStatus      a owl:AnnotationProperty ; rdfs:label "map status" ; rdfs:comment "candidate | verified | pending | retired. Codes are 'candidate' until checked on the Canadian Terminology Server." .
+dcg:matchType      a owl:AnnotationProperty ; rdfs:label "match type" ; rdfs:comment "exact | prefix (ICD-10-CA rows match a code and all its children)." .
+dcg:evidenceRoute  a owl:AnnotationProperty ; rdfs:label "evidence route" .
+
+dcg:Person dcg:pchdcfConcept "Person Information; Person Identifier" .
+dcg:ConditionRecord dcg:pchdcfConcept "Patient Health Concern" .
+dcg:ObservationResult dcg:pchdcfConcept "Observation" .
+dcg:MedicationExposure dcg:pchdcfConcept "Medication" .
+dcg:ProcedureRecord dcg:pchdcfConcept "Health Care Service Event (procedure)" .
+dcg:Encounter dcg:pchdcfConcept "Health Care Service Event" .
+
+## Cohort phenotype ---------------------------------------------
+
+dcg:CasePhenotype a owl:Class ; rdfs:subClassOf dcg:PopulationCriteria ; rdfs:label "Case phenotype"@en ;
+    skos:altLabel "case definition"@en, "phenotype"@en ;
+    skos:definition "A versioned rule that decides who has a condition from several kinds of evidence. Every cohort row and measure result carries its id and version."@en .
+dcg:CohortMembership a owl:Class ; rdfs:label "Cohort membership"@en ;
+    skos:definition "One person's membership of the diabetes cohort for a period, with index date, qualifying evidence route, phenotype version and diabetes-type heuristic."@en ;
+    dcg:semanticModelRef "dim:case_basis, measure:cohort_members" ;
+    dcg:agentHint "To answer 'why is this person in the cohort', give the evidence route counts (cohort_evidence_summary); person-level evidence is not exposed in the PoC."@en .
+dcg:pheno_DM_ADULT_CASE a dcg:CasePhenotype ; rdfs:label "DM-ADULT-CASE v0.1"@en ; owl:versionInfo "0.1" ;
+    skos:definition "Qualifies if any of: declared diabetes Condition (EMR or FHIR source); ≥1 hospital (inpatient) diabetes diagnosis; ≥2 ambulatory diabetes diagnoses on different days within 730 days; ≥2 HbA1c ≥ 6.5% on separate days outside a gestational-diabetes window. Antihyperglycemic medication is supporting evidence only. Excludes gestational diabetes and age < 18. Index date = earliest qualifying evidence."@en ;
+    dcg:sourceGuideline "CCDSS-style administrative definition (1 hospitalisation or 2 physician claims in 2 years) extended with laboratory evidence, per the DCI canonical-layer design v0.1." ;
+    dcg:agentHint "Diabetes type is a heuristic (type 1 if only type 1 evidence, type 2 if only type 2, other_specified for secondary diabetes, else unclassified). Say so when reporting by type."@en .
+dcg:EvidenceRouteScheme a skos:ConceptScheme ; skos:prefLabel "Diabetes case evidence routes"@en .
+dcg:route_hospital a skos:Concept ; skos:inScheme dcg:EvidenceRouteScheme ; skos:notation "hospital_dx" ; skos:prefLabel "Hospital diagnosis"@en .
+dcg:route_ambulatory a skos:Concept ; skos:inScheme dcg:EvidenceRouteScheme ; skos:notation "ambulatory_2x" ; skos:prefLabel "Two ambulatory diagnoses within 730 days"@en .
+dcg:route_declared a skos:Concept ; skos:inScheme dcg:EvidenceRouteScheme ; skos:notation "declared_condition" ; skos:prefLabel "Declared condition (problem list or FHIR Condition)"@en .
+dcg:route_lab a skos:Concept ; skos:inScheme dcg:EvidenceRouteScheme ; skos:notation "lab_a1c_2x" ; skos:prefLabel "Two HbA1c results at or above threshold"@en .
+dcg:route_medication a skos:Concept ; skos:inScheme dcg:EvidenceRouteScheme ; skos:notation "medication_only" ; skos:prefLabel "Antihyperglycemic medication only (supporting, does not qualify)"@en .
+
+dcg:param_PhenoClaimsWindow a dcg:Parameter ; rdfs:label "Ambulatory-diagnosis window"@en ; dcg:comparator "<=" ; dcg:thresholdValue 730 ; dcg:thresholdUnit "d" .
+dcg:param_PhenoA1cThreshold a dcg:Parameter ; rdfs:label "HbA1c case threshold"@en ; dcg:comparator ">=" ; dcg:thresholdValue 6.5 ; dcg:thresholdUnit "%" .
+dcg:param_PhenoA1cMinResults a dcg:Parameter ; rdfs:label "HbA1c results needed for a lab case"@en ; dcg:comparator ">=" ; dcg:thresholdValue 2 .
+
+## Conditions ----------------------------------------------------
+
+dcg:OtherSpecifiedDiabetes a owl:Class ; rdfs:subClassOf dcg:DiabetesMellitus ; rdfs:label "Other specified (secondary) diabetes"@en ;
+    skos:altLabel "secondary diabetes"@en, "other diabetes"@en ; dcg:hasValueSet dcg:vs_OtherSpecifiedDM .
+dcg:AcuteDiabetesEvent a owl:Class ; rdfs:subClassOf dcg:ConditionRecord ; rdfs:label "Acute diabetes event"@en ;
+    skos:altLabel "acute complication"@en, "diabetic emergency"@en ;
+    dcg:semanticModelRef "metric:acute_dm_admissions_per_1000" .
+dcg:DiabeticKetoacidosis a owl:Class ; rdfs:subClassOf dcg:AcuteDiabetesEvent ; rdfs:label "Diabetic ketoacidosis"@en ; skos:altLabel "DKA"@en ; dcg:hasValueSet dcg:vs_DKA .
+dcg:HypoglycemiaEvent a owl:Class ; rdfs:subClassOf dcg:AcuteDiabetesEvent ; rdfs:label "Hypoglycemia"@en ; skos:altLabel "low blood sugar"@en, "hypo"@en ; dcg:hasValueSet dcg:vs_Hypoglycemia ;
+    dcg:agentHint "Hypoglycemia is not diabetes-specific; it counts only for people already in the cohort."@en .
+dcg:ChronicKidneyDisease a owl:Class ; rdfs:subClassOf dcg:Comorbidity ; rdfs:label "Chronic kidney disease"@en ; skos:altLabel "CKD"@en, "kidney disease"@en ;
+    dcg:hasValueSet dcg:vs_CKD ;
+    skos:definition "Coded CKD or diabetic kidney disease, or laboratory CKD: 2 eGFR < 60 or 2 urine ACR ≥ 3 mg/mmol at least 90 days apart within 24 months."@en ;
+    dcg:semanticModelRef "dim:has_ckd_or_ascvd" .
+dcg:AtheroscleroticCVD a owl:Class ; rdfs:subClassOf dcg:Comorbidity ; rdfs:label "Atherosclerotic cardiovascular disease"@en ;
+    skos:altLabel "ASCVD"@en, "cardiovascular disease"@en, "heart disease"@en, "CVD"@en ; dcg:hasValueSet dcg:vs_ASCVD ;
+    dcg:semanticModelRef "dim:has_ckd_or_ascvd" .
+
+## Medications ---------------------------------------------------
+
+dcg:Thiazolidinedione a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; dcg:semanticModelRef "metric:tzd_rate" ; rdfs:label "Thiazolidinedione"@en ; skos:altLabel "TZD"@en, "glitazone"@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:AlphaGlucosidaseInhibitor a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; rdfs:label "Alpha-glucosidase inhibitor"@en ; skos:altLabel "acarbose"@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:CombinationAntihyperglycemic a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; rdfs:label "Combination antihyperglycemic"@en ;
+    dcg:agentHint "Combination products (ATC A10BD) count toward each ingredient's class."@en ; dcg:hasValueSet dcg:vs_ATC_A10 .
+dcg:OtherAntihyperglycemic a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; rdfs:label "Other antihyperglycemic"@en ; dcg:hasValueSet dcg:vs_ATC_A10 ;
+    dcg:agentHint "Includes the dual GIP/GLP-1 agonist tirzepatide (A10BX16), which counts with GLP-1 receptor agonists by default (parameter tirzepatide_as_glp1ra)."@en .
+dcg:CardiorenalAgent a owl:Class ; rdfs:subClassOf dcg:AntihyperglycemicTherapy ; rdfs:label "Cardio-renal protective agent"@en ;
+    skos:definition "An SGLT2 inhibitor or GLP-1 receptor agonist, recommended for people with diabetes and CKD or ASCVD."@en ;
+    dcg:semanticModelRef "metric:cardiorenal_agent_rate" .
+
+## Outcomes, indicators, gaps -----------------------------------
+
+dcg:cp_CardiorenalAgent a dcg:CareProcess ; rdfs:label "SGLT2i or GLP-1 RA with CKD or ASCVD"@en ; dcg:evidencedBy dcg:CardiorenalAgent .
+dcg:gap_cardiorenal a skos:Concept ; skos:inScheme dcg:GapTypeScheme ; skos:notation "cardiorenal" ; skos:prefLabel "CKD or ASCVD without SGLT2i or GLP-1 RA"@en ; skos:broader dcg:gt_therapy .
+dcg:ind_cardiorenal a dcg:Indicator ; rdfs:label "Cardio-renal agent among people with CKD or ASCVD"@en ; dcg:metricName "cardiorenal_agent_rate" ; dcg:measuresGap dcg:gap_cardiorenal .
+dcg:ind_med_tzd a dcg:Indicator ; rdfs:label "Thiazolidinedione use"@en ; dcg:metricName "tzd_rate" ; dcg:hasDenominator dcg:DiabetesCohort .
+dcg:ind_acute_dm_hosp a dcg:Indicator ; rdfs:label "Diabetes-related acute hospitalisation (DKA or hypoglycemia) per 1,000"@en ; dcg:metricName "acute_dm_admissions_per_1000" ;
+    dcg:agentHint "Inpatient or emergency encounters with a DKA or hypoglycemia diagnosis in 12 months, per 1,000 cohort members (approximates person-years for an annual period)."@en .
+dcg:ind_a1c_poor_tested a dcg:Indicator ; rdfs:label "Latest A1C > 9% (among tested)"@en ; dcg:metricName "a1c_poor_control_tested_rate" ; dcg:usesParameter dcg:param_A1cPoorControl ;
+    dcg:agentHint "DCI measure M4 definition: denominator is people with an A1C. a1c_poor_control_rate keeps the stricter 'poor or untested' form."@en .
+dcg:ind_bp_target_measured a dcg:Indicator ; rdfs:label "Latest BP < 130/80 (among measured)"@en ; dcg:metricName "bp_at_target_measured_rate" ; dcg:usesParameter dcg:param_BPTarget ;
+    dcg:agentHint "DCI measure M6 definition: denominator is people with a BP reading. bp_at_target_rate counts unmeasured people as not at target."@en .
+
+## Equity dimensions (restricted) ----------------------------------
+
+dcg:EquityStratifier a owl:Class ; rdfs:subClassOf dcg:AnalyticDimension ; rdfs:label "Equity stratifier"@en ; dcg:sensitivity "restricted" ;
+    dcg:agentHint "Use only to find and close gaps, never to profile individuals. Restricted: requires the equity role; one stratifier at a time; small-cell suppression applies."@en .
+dcg:ServiceLanguage a owl:Class ; rdfs:subClassOf dcg:EquityStratifier ; rdfs:label "Service language"@en ; skos:altLabel "preferred language"@en, "language"@en ;
+    dcg:fhirPath "Patient.communication.where(preferred=true).language.coding.code.first()" ; dcg:semanticModelRef "dim:service_language" ; dcg:pchdcfConcept "Service Language" .
+dcg:IndigenousIdentity a owl:Class ; rdfs:subClassOf dcg:EquityStratifier ; rdfs:label "Indigenous identity"@en ;
+    dcg:fhirPath "Patient.extension('http://fhir.hac-poc.example/dcg/StructureDefinition/dcg-indigenous-identity').value" ; dcg:semanticModelRef "dim:indigenous_identity" ; dcg:pchdcfConcept "Indigenous Identity" ;
+    dcg:agentHint "First Nations, Inuit and Métis data follow community data governance (e.g., OCAP). Report only with Indigenous partners' agreement."@en .
+dcg:RacializedGroup a owl:Class ; rdfs:subClassOf dcg:EquityStratifier ; rdfs:label "Racialized group"@en ;
+    dcg:fhirPath "Patient.extension('http://fhir.hac-poc.example/dcg/StructureDefinition/dcg-racialized-group').value" ; dcg:semanticModelRef "dim:racialized_group" ; dcg:pchdcfConcept "Racialized Group" .
+
+## Data quality and lineage -----------------------------------------
+
+dcg:UnitConversion a owl:Class ; rdfs:label "Unit conversion"@en ;
+    skos:definition "Lab values are standardised to one UCUM unit (HbA1c %, glucose mmol/L, ACR mg/mmol, LDL mmol/L); original value and unit are kept."@en .
+dcg:StewardshipQueue a owl:Class ; rdfs:label "Terminology stewardship queue"@en ;
+    skos:definition "Codes seen in source data that do not map to a standard system or governed value set. Kept with the original code, never dropped or force-mapped."@en .
+
+## Value sets (v0.4) -------------------------------------------------
+
+dcg:vs_OtherSpecifiedDM a skos:ConceptScheme ; skos:prefLabel "Other specified (secondary) diabetes"@en .
+dcg:vs_DKA a skos:ConceptScheme ; skos:prefLabel "Diabetic ketoacidosis"@en .
+dcg:vs_Hypoglycemia a skos:ConceptScheme ; skos:prefLabel "Hypoglycemia"@en .
+dcg:vs_CKD a skos:ConceptScheme ; skos:prefLabel "Chronic kidney disease"@en .
+dcg:vs_ASCVD a skos:ConceptScheme ; skos:prefLabel "Atherosclerotic cardiovascular disease"@en .
+
+sct:8801005   a skos:Concept ; skos:notation "8801005" ;   skos:prefLabel "Secondary diabetes mellitus"@en ; skos:inScheme dcg:vs_OtherSpecifiedDM, dcg:vs_DiabetesMellitus ; dcg:mapConfidence "medium" .
+sct:420422005 a skos:Concept ; skos:notation "420422005" ; skos:prefLabel "Ketoacidosis due to diabetes mellitus"@en ; skos:inScheme dcg:vs_DKA .
+sct:302866003 a skos:Concept ; skos:notation "302866003" ; skos:prefLabel "Hypoglycemia"@en ; skos:inScheme dcg:vs_Hypoglycemia .
+sct:230572002 a skos:Concept ; skos:notation "230572002" ; skos:prefLabel "Diabetic neuropathy"@en ; skos:inScheme dcg:vs_Neuropathy .
+sct:709044004 a skos:Concept ; skos:notation "709044004" ; skos:prefLabel "Chronic kidney disease"@en ; skos:inScheme dcg:vs_CKD .
+sct:46177005  a skos:Concept ; skos:notation "46177005" ;  skos:prefLabel "End-stage renal disease"@en ; skos:inScheme dcg:vs_CKD .
+sct:53741008  a skos:Concept ; skos:notation "53741008" ;  skos:prefLabel "Coronary arteriosclerosis"@en ; skos:inScheme dcg:vs_ASCVD ; skos:note "Emitted by Synthea" .
+sct:22298006  a skos:Concept ; skos:notation "22298006" ;  skos:prefLabel "Myocardial infarction"@en ; skos:inScheme dcg:vs_ASCVD ; skos:note "Emitted by Synthea" .
+sct:399211009 a skos:Concept ; skos:notation "399211009" ; skos:prefLabel "History of myocardial infarction"@en ; skos:inScheme dcg:vs_ASCVD ; skos:note "Emitted by Synthea" .
+sct:230690007 a skos:Concept ; skos:notation "230690007" ; skos:prefLabel "Cerebrovascular accident"@en ; skos:inScheme dcg:vs_ASCVD ; skos:note "Emitted by Synthea" .
+sct:414545008 a skos:Concept ; skos:notation "414545008" ; skos:prefLabel "Ischemic heart disease"@en ; skos:inScheme dcg:vs_ASCVD .
+sct:400047006 a skos:Concept ; skos:notation "400047006" ; skos:prefLabel "Peripheral vascular disease"@en ; skos:inScheme dcg:vs_ASCVD .
+
+# ICD-10-CA (prefix rows match the code and all its children; system URI to verify with Infoway)
+icd10ca:E10 a skos:Concept ; skos:notation "E10" ; skos:prefLabel "Type 1 diabetes mellitus"@en ; skos:inScheme dcg:vs_T1DM, dcg:vs_DiabetesMellitus ; dcg:matchType "prefix" ; dcg:mapRelation "exactMatch" ; dcg:mapConfidence "high" .
+icd10ca:E11 a skos:Concept ; skos:notation "E11" ; skos:prefLabel "Type 2 diabetes mellitus"@en ; skos:inScheme dcg:vs_T2DM, dcg:vs_DiabetesMellitus ; dcg:matchType "prefix" ; dcg:mapRelation "exactMatch" ; dcg:mapConfidence "high" .
+icd10ca:E13 a skos:Concept ; skos:notation "E13" ; skos:prefLabel "Other specified diabetes mellitus"@en ; skos:inScheme dcg:vs_OtherSpecifiedDM, dcg:vs_DiabetesMellitus ; dcg:matchType "prefix" ; dcg:mapRelation "closeMatch" ; dcg:mapConfidence "medium" .
+icd10ca:E14 a skos:Concept ; skos:notation "E14" ; skos:prefLabel "Unspecified diabetes mellitus"@en ; skos:inScheme dcg:vs_DiabetesMellitus ; dcg:matchType "prefix" ; dcg:mapRelation "exactMatch" ; dcg:mapConfidence "high" .
+icd10ca:O24.4 a skos:Concept ; skos:notation "O24.4" ; skos:prefLabel "Diabetes mellitus arising in pregnancy"@en ; skos:inScheme dcg:vs_GDM ; dcg:matchType "prefix" ; dcg:mapRelation "exactMatch" ; dcg:mapConfidence "high" .
+icd10ca:E10.1 a skos:Concept ; skos:notation "E10.1" ; skos:prefLabel "Type 1 diabetes with ketoacidosis"@en ; skos:inScheme dcg:vs_DKA ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "low" .
+icd10ca:E11.1 a skos:Concept ; skos:notation "E11.1" ; skos:prefLabel "Type 2 diabetes with ketoacidosis"@en ; skos:inScheme dcg:vs_DKA ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "low" .
+icd10ca:E10.2 a skos:Concept ; skos:notation "E10.2" ; skos:prefLabel "Type 1 diabetes with kidney complications"@en ; skos:inScheme dcg:vs_KidneyDisease ; dcg:matchType "prefix" ; dcg:mapRelation "closeMatch" ; dcg:mapConfidence "medium" .
+icd10ca:E11.2 a skos:Concept ; skos:notation "E11.2" ; skos:prefLabel "Type 2 diabetes with kidney complications"@en ; skos:inScheme dcg:vs_KidneyDisease ; dcg:matchType "prefix" ; dcg:mapRelation "closeMatch" ; dcg:mapConfidence "medium" .
+icd10ca:E10.3 a skos:Concept ; skos:notation "E10.3" ; skos:prefLabel "Type 1 diabetes with ophthalmic complications"@en ; skos:inScheme dcg:vs_Retinopathy ; dcg:matchType "prefix" ; dcg:mapRelation "broadMatch" ; dcg:mapConfidence "high" .
+icd10ca:E11.3 a skos:Concept ; skos:notation "E11.3" ; skos:prefLabel "Type 2 diabetes with ophthalmic complications"@en ; skos:inScheme dcg:vs_Retinopathy ; dcg:matchType "prefix" ; dcg:mapRelation "broadMatch" ; dcg:mapConfidence "high" .
+icd10ca:E10.4 a skos:Concept ; skos:notation "E10.4" ; skos:prefLabel "Type 1 diabetes with neurological complications"@en ; skos:inScheme dcg:vs_Neuropathy ; dcg:matchType "prefix" ; dcg:mapRelation "closeMatch" ; dcg:mapConfidence "medium" .
+icd10ca:E11.4 a skos:Concept ; skos:notation "E11.4" ; skos:prefLabel "Type 2 diabetes with neurological complications"@en ; skos:inScheme dcg:vs_Neuropathy ; dcg:matchType "prefix" ; dcg:mapRelation "closeMatch" ; dcg:mapConfidence "medium" .
+icd10ca:E16.0 a skos:Concept ; skos:notation "E16.0" ; skos:prefLabel "Drug-induced hypoglycemia without coma"@en ; skos:inScheme dcg:vs_Hypoglycemia ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "medium" .
+icd10ca:E16.1 a skos:Concept ; skos:notation "E16.1" ; skos:prefLabel "Other hypoglycemia"@en ; skos:inScheme dcg:vs_Hypoglycemia ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "medium" .
+icd10ca:E16.2 a skos:Concept ; skos:notation "E16.2" ; skos:prefLabel "Hypoglycemia, unspecified"@en ; skos:inScheme dcg:vs_Hypoglycemia ; dcg:matchType "prefix" ; dcg:mapRelation "exactMatch" ; dcg:mapConfidence "medium" .
+icd10ca:N18 a skos:Concept ; skos:notation "N18" ; skos:prefLabel "Chronic kidney disease"@en ; skos:inScheme dcg:vs_CKD ; dcg:matchType "prefix" ; dcg:mapRelation "exactMatch" ; dcg:mapConfidence "high" .
+icd10ca:I20 a skos:Concept ; skos:notation "I20" ; skos:prefLabel "Angina pectoris"@en ; skos:inScheme dcg:vs_ASCVD ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "medium" .
+icd10ca:I21 a skos:Concept ; skos:notation "I21" ; skos:prefLabel "Acute myocardial infarction"@en ; skos:inScheme dcg:vs_ASCVD ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "high" .
+icd10ca:I25 a skos:Concept ; skos:notation "I25" ; skos:prefLabel "Chronic ischemic heart disease"@en ; skos:inScheme dcg:vs_ASCVD ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "high" .
+icd10ca:I63 a skos:Concept ; skos:notation "I63" ; skos:prefLabel "Cerebral infarction"@en ; skos:inScheme dcg:vs_ASCVD ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "high" .
+icd10ca:I70 a skos:Concept ; skos:notation "I70" ; skos:prefLabel "Atherosclerosis"@en ; skos:inScheme dcg:vs_ASCVD ; dcg:matchType "prefix" ; dcg:mapRelation "narrowMatch" ; dcg:mapConfidence "medium" .
+
+# LOINC additions (DCI 4.3) — units standardised in int_observation_std
+loinc:41995-2 a skos:Concept ; skos:notation "41995-2" ; skos:prefLabel "Hemoglobin A1c [Mass/volume] in Blood"@en ; skos:inScheme dcg:vs_HbA1c ; dcg:mapConfidence "medium" .
+loinc:59261-8 a skos:Concept ; skos:notation "59261-8" ; skos:prefLabel "Hemoglobin A1c/Hemoglobin.total in Blood by IFCC protocol (mmol/mol)"@en ; skos:inScheme dcg:vs_HbA1c ; skos:note "Converted to %: value / 10.929 + 2.15" .
+loinc:14771-0 a skos:Concept ; skos:notation "14771-0" ; skos:prefLabel "Fasting glucose [Moles/volume] in Serum or Plasma"@en ; skos:inScheme dcg:vs_Glucose .
+loinc:14749-6 a skos:Concept ; skos:notation "14749-6" ; skos:prefLabel "Glucose [Moles/volume] in Serum or Plasma"@en ; skos:inScheme dcg:vs_Glucose .
+loinc:15074-8 a skos:Concept ; skos:notation "15074-8" ; skos:prefLabel "Glucose [Moles/volume] in Blood"@en ; skos:inScheme dcg:vs_Glucose .
+loinc:2345-7  a skos:Concept ; skos:notation "2345-7" ;  skos:prefLabel "Glucose [Mass/volume] in Serum or Plasma"@en ; skos:inScheme dcg:vs_Glucose ; skos:note "Converted to mmol/L: mg/dL / 18.016" .
+loinc:32294-1 a skos:Concept ; skos:notation "32294-1" ; skos:prefLabel "Albumin/Creatinine [Ratio] in Urine"@en ; skos:inScheme dcg:vs_UACR .
+loinc:22748-8 a skos:Concept ; skos:notation "22748-8" ; skos:prefLabel "LDL Cholesterol [Moles/volume] in Serum or Plasma"@en ; skos:inScheme dcg:vs_LDL .
+loinc:2089-1  a skos:Concept ; skos:notation "2089-1" ;  skos:prefLabel "LDL Cholesterol [Mass/volume] in Serum or Plasma"@en ; skos:inScheme dcg:vs_LDL ; skos:note "Converted to mmol/L: mg/dL × 0.02586" .
+
+# ATC additions (DCI 4.4)
+atc:A10BD a skos:Concept ; skos:notation "A10BD" ; skos:prefLabel "Combinations of oral blood glucose lowering drugs"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:CombinationAntihyperglycemic .
+atc:A10BF a skos:Concept ; skos:notation "A10BF" ; skos:prefLabel "Alpha glucosidase inhibitors"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:AlphaGlucosidaseInhibitor .
+atc:A10BG a skos:Concept ; skos:notation "A10BG" ; skos:prefLabel "Thiazolidinediones"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:Thiazolidinedione .
+atc:A10BX a skos:Concept ; skos:notation "A10BX" ; skos:prefLabel "Other blood glucose lowering drugs"@en ; skos:inScheme dcg:vs_ATC_A10 ; skos:related dcg:OtherAntihyperglycemic .

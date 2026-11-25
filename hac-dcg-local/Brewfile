@@ -1,0 +1,6 @@
+# brew bundle   — installs the command-line prerequisites (Apple Silicon or Intel)
+brew "uv"            # Python 3.12 + all Python packages, isolated in .venv
+brew "openjdk@21"    # Java for Pathling (Spark 4), Synthea and the HL7 IG Publisher
+brew "node"          # SUSHI (FHIR Shorthand compiler); skip if you already use nvm
+brew "jq"
+# Docker: install Docker Desktop (https://www.docker.com/products/docker-desktop/) or OrbStack (brew install --cask orbstack)

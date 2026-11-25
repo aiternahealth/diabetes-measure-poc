@@ -1,0 +1,77 @@
+{
+  "resourceType": "ViewDefinition",
+  "url": "https://ontology.hac-poc.example/views/dcg_medication_request",
+  "name": "dcg_medication_request",
+  "title": "Medication orders (base R4; CA Core+ profile on roadmap)",
+  "status": "draft",
+  "resource": "MedicationRequest",
+  "select": [
+    {
+      "column": [
+        {
+          "path": "getResourceKey()",
+          "name": "medication_request_id",
+          "type": "string"
+        },
+        {
+          "path": "subject.getReferenceKey(Patient)",
+          "name": "patient_id",
+          "type": "string"
+        },
+        {
+          "path": "status",
+          "name": "status",
+          "type": "code"
+        },
+        {
+          "path": "intent",
+          "name": "intent",
+          "type": "code"
+        },
+        {
+          "path": "authoredOn",
+          "name": "authored_on",
+          "type": "dateTime"
+        },
+        {
+          "path": "medication.ofType(CodeableConcept).text",
+          "name": "med_text",
+          "type": "string",
+          "description": "Free-text drug name \u2014 ingredient keyword match (IG rule: name the ingredient)"
+        },
+        {
+          "path": "medication.ofType(CodeableConcept).coding.where(system='http://www.whocc.no/atc').code.first()",
+          "name": "atc_code",
+          "type": "code",
+          "description": "ATC code when supplied \u2014 class match"
+        }
+      ]
+    },
+    {
+      "column": [
+        {
+          "path": "system",
+          "name": "med_code_system",
+          "type": "uri",
+          "description": "RxNorm (Synthea) or DIN/CCDD (Canadian sources)"
+        },
+        {
+          "path": "code",
+          "name": "med_code",
+          "type": "code"
+        },
+        {
+          "path": "display",
+          "name": "med_display",
+          "type": "string"
+        }
+      ],
+      "forEachOrNull": "medication.ofType(CodeableConcept).coding.first()"
+    }
+  ],
+  "where": [
+    {
+      "path": "intent = 'order'"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "resourceType": "ViewDefinition",
+  "url": "https://ontology.hac-poc.example/views/dcg_condition",
+  "name": "dcg_condition",
+  "title": "Conditions (CA Core+ Condition)",
+  "status": "draft",
+  "resource": "Condition",
+  "select": [
+    {
+      "column": [
+        {
+          "path": "getResourceKey()",
+          "name": "condition_id",
+          "type": "string"
+        },
+        {
+          "path": "subject.getReferenceKey(Patient)",
+          "name": "patient_id",
+          "type": "string"
+        },
+        {
+          "path": "encounter.getReferenceKey(Encounter)",
+          "name": "encounter_id",
+          "type": "string"
+        },
+        {
+          "path": "clinicalStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-clinical').code.first()",
+          "name": "clinical_status",
+          "type": "code"
+        },
+        {
+          "path": "verificationStatus.coding.code.first()",
+          "name": "verification_status",
+          "type": "code"
+        },
+        {
+          "path": "category.coding.code.first()",
+          "name": "condition_category",
+          "type": "code",
+          "description": "problem-list-item | encounter-diagnosis"
+        },
+        {
+          "path": "onset.ofType(dateTime)",
+          "name": "onset_datetime",
+          "type": "dateTime"
+        },
+        {
+          "path": "abatement.ofType(dateTime)",
+          "name": "abatement_datetime",
+          "type": "dateTime"
+        },
+        {
+          "path": "recordedDate",
+          "name": "recorded_date",
+          "type": "dateTime"
+        }
+      ]
+    },
+    {
+      "column": [
+        {
+          "path": "code",
+          "name": "snomed_code",
+          "type": "code"
+        },
+        {
+          "path": "display",
+          "name": "code_display",
+          "type": "string"
+        }
+      ],
+      "forEachOrNull": "code.coding.where(system='http://snomed.info/sct').first()"
+    },
+    {
+      "forEachOrNull": "code.coding.where(system='https://fhir.infoway-inforoute.ca/CodeSystem/icd10ca').first()",
+      "column": [
+        {
+          "path": "code",
+          "name": "icd10ca_code",
+          "type": "code",
+          "description": "ICD-10-CA code when supplied (hospital and claims sources); prefix-matched to value sets"
+        }
+      ]
+    }
+  ],
+  "where": [
+    {
+      "path": "verificationStatus.empty() or verificationStatus.coding.code.first() != 'entered-in-error'"
+    }
+  ]
+}

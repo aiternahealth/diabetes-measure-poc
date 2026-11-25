@@ -1,0 +1,54 @@
+{
+  "resourceType": "ViewDefinition",
+  "url": "https://ontology.hac-poc.example/views/dcg_procedure",
+  "name": "dcg_procedure",
+  "title": "Procedures — eye and foot exams (base R4; CA Core+ profile on roadmap)",
+  "status": "draft",
+  "resource": "Procedure",
+  "select": [
+    {
+      "column": [
+        {
+          "path": "getResourceKey()",
+          "name": "procedure_id",
+          "type": "string"
+        },
+        {
+          "path": "subject.getReferenceKey(Patient)",
+          "name": "patient_id",
+          "type": "string"
+        },
+        {
+          "path": "status",
+          "name": "status",
+          "type": "code"
+        },
+        {
+          "path": "performed.ofType(dateTime) | performed.ofType(Period).start",
+          "name": "performed_datetime",
+          "type": "dateTime"
+        }
+      ]
+    },
+    {
+      "forEach": "code.coding.where(system='http://snomed.info/sct').first()",
+      "column": [
+        {
+          "path": "code",
+          "name": "snomed_code",
+          "type": "code"
+        },
+        {
+          "path": "display",
+          "name": "code_display",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "where": [
+    {
+      "path": "status = 'completed'"
+    }
+  ]
+}

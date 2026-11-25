@@ -1,0 +1,15 @@
+version: 2
+sources:
+  - name: fhir_views
+    description: >
+      Tables materialised by a SQL-on-FHIR v2 runner (e.g. Pathling, Aidbox, sof-js, DuckDB FHIR)
+      from FHIR Bulk Data $export NDJSON, one table per ViewDefinition in views/.
+    tables:
+      - {name: dcg_patient,            meta: {view_definition: views/dcg_patient.json,            ontology_class: "dcg:Person"}}
+      - {name: dcg_condition,          meta: {view_definition: views/dcg_condition.json,          ontology_class: "dcg:ConditionRecord"}}
+      - {name: dcg_observation,        meta: {view_definition: views/dcg_observation.json,        ontology_class: "dcg:ObservationResult"}}
+      - {name: dcg_blood_pressure,     meta: {view_definition: views/dcg_blood_pressure.json,     ontology_class: "dcg:BloodPressureReading"}}
+      - {name: dcg_medication_request, meta: {view_definition: views/dcg_medication_request.json, ontology_class: "dcg:MedicationExposure"}}
+      - {name: dcg_procedure,          meta: {view_definition: views/dcg_procedure.json,          ontology_class: "dcg:ProcedureRecord"}}
+      - {name: dcg_medication_dispense, meta: {view_definition: views/dcg_medication_dispense.json, ontology_class: "dcg:MedicationExposure"}}
+      - {name: dcg_encounter,          meta: {view_definition: views/dcg_encounter.json,          ontology_class: "dcg:Encounter"}}

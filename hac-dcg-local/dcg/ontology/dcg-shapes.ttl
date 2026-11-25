@@ -1,0 +1,88 @@
+@prefix dcg:  <https://ontology.hac-poc.example/dcg#> .
+@prefix dcgsh: <https://ontology.hac-poc.example/dcg/shapes#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+#################################################################
+#  SHACL data-quality shapes for the Diabetes Care Gaps ontology.
+#  Each violation maps to a dcg:DataQualityIssue subclass (in
+#  sh:message) and feeds the dq_* metrics in the semantic model.
+#  Severity: Violation = record excluded from metric;
+#            Warning   = record kept, issue counted.
+#################################################################
+
+dcgsh:PersonShape a sh:NodeShape ;
+    sh:targetClass dcg:Person ;
+    sh:property [
+        sh:path dcg:birthDate ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+        sh:severity sh:Violation ;
+        sh:message "MissingValue: Patient.birthDate required to compute age and cohort eligibility." ] ;
+    sh:property [
+        sh:path dcg:administrativeGender ; sh:maxCount 1 ;
+        sh:in ( "male" "female" "other" "unknown" ) ;
+        sh:severity sh:Warning ;
+        sh:message "UnmappedCode: Patient.gender outside FHIR AdministrativeGender." ] .
+
+dcgsh:DiabetesConditionShape a sh:NodeShape ;
+    sh:targetClass dcg:DiabetesMellitus, dcg:Type1DiabetesMellitus, dcg:Type2DiabetesMellitus ;
+    sh:property [
+        sh:path dcg:subject ; sh:minCount 1 ; sh:class dcg:Person ;
+        sh:severity sh:Violation ; sh:message "MissingValue: Condition.subject required." ] ;
+    sh:property [
+        sh:path dcg:onsetDateTime ; sh:minCount 1 ; sh:datatype xsd:dateTime ;
+        sh:severity sh:Warning ;
+        sh:message "MissingValue: Condition.onset missing — cohort entry falls back to recordedDate." ] ;
+    sh:property [
+        sh:path dcg:hasCode ; sh:minCount 1 ;
+        sh:node dcgsh:InDiabetesValueSet ;
+        sh:severity sh:Violation ;
+        sh:message "UnmappedCode: diabetes Condition code not in dcg:vs_DiabetesMellitus." ] .
+
+dcgsh:InDiabetesValueSet a sh:NodeShape ;
+    sh:property [ sh:path skos:inScheme ; sh:hasValue dcg:vs_DiabetesMellitus ] .
+
+dcgsh:HbA1cShape a sh:NodeShape ;
+    sh:targetClass dcg:HbA1cResult ;
+    sh:property [
+        sh:path dcg:effectiveDateTime ; sh:minCount 1 ; sh:datatype xsd:dateTime ;
+        sh:severity sh:Violation ; sh:message "MissingValue: HbA1c without effective date cannot be placed in a lookback window." ] ;
+    sh:property [
+        sh:path dcg:valueNumeric ; sh:minCount 1 ;
+        sh:severity sh:Warning ; sh:message "MissingValue: HbA1c test present but no numeric result (counts for testing, not for control)." ] ;
+    sh:or (
+        [ sh:property [ sh:path dcg:ucumUnit ; sh:hasValue "%" ] ; sh:property [ sh:path dcg:valueNumeric ; sh:minInclusive 3.0 ; sh:maxInclusive 20.0 ] ]
+        [ sh:property [ sh:path dcg:ucumUnit ; sh:hasValue "mmol/mol" ] ; sh:property [ sh:path dcg:valueNumeric ; sh:minInclusive 9 ; sh:maxInclusive 195 ] ] ) ;
+    sh:severity sh:Violation ; sh:message "ImplausibleValue or UnitNonConformance: HbA1c must be 3–20 % or 9–195 mmol/mol (IFCC; converted to % by int_observation_std)." .
+
+dcgsh:BloodPressureShape a sh:NodeShape ;
+    sh:targetClass dcg:BloodPressureReading ;
+    sh:property [ sh:path dcg:systolic ; sh:minCount 1 ; sh:minInclusive 50 ; sh:maxInclusive 300 ;
+        sh:severity sh:Violation ; sh:message "ImplausibleValue/MissingValue: systolic BP." ] ;
+    sh:property [ sh:path dcg:diastolic ; sh:minCount 1 ; sh:minInclusive 20 ; sh:maxInclusive 200 ;
+        sh:lessThan dcg:systolic ;
+        sh:severity sh:Violation ; sh:message "ImplausibleValue: diastolic BP missing, out of range, or ≥ systolic." ] .
+
+dcgsh:LabDateShape a sh:NodeShape ;
+    sh:targetClass dcg:LabResult ;
+    sh:sparql [
+        sh:severity sh:Violation ;
+        sh:message "TemporalInconsistency: result dated in the future." ;
+        sh:prefixes dcgsh:prefixes ;
+        sh:select """
+            SELECT $this ?value WHERE {
+              $this dcg:effectiveDateTime ?value .
+              FILTER (SUBSTR(STR(?value), 1, 10) > SUBSTR(STR(NOW()), 1, 10))
+            }""" ] .
+
+dcgsh:MedicationShape a sh:NodeShape ;
+    sh:targetClass dcg:MedicationExposure ;
+    sh:property [ sh:path dcg:authoredOn ; sh:minCount 1 ;
+        sh:severity sh:Violation ; sh:message "MissingValue: MedicationRequest.authoredOn required for therapy windows." ] ;
+    sh:property [ sh:path dcg:hasCode ; sh:minCount 1 ;
+        sh:severity sh:Warning ; sh:message "UnmappedCode: medication not mapped to an ATC class." ] .
+
+dcgsh:prefixes a owl:Ontology ;
+    sh:declare [ sh:prefix "dcg" ; sh:namespace "https://ontology.hac-poc.example/dcg#"^^xsd:anyURI ] .
+

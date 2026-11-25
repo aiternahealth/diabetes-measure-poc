@@ -1,0 +1,49 @@
+# Competency questions from the Diabetes Care Intelligence (DCI) use case (section 1.3), used as the
+# agent's test set. scripts/run_pipeline.py runs every 'supported' and 'partial' query on the fixtures.
+# status: supported | partial (aggregate answer only) | out_of_scope (needs a later phase)
+questions:
+  - id: CQ1
+    ask: "How many adults have diabetes in a region, by type, age band and year?"
+    status: supported
+    queries:
+      - {metrics: [diabetes_prevalence_crude, adults_with_diabetes], group_by: [province, age_band]}
+      - {metrics: [cohort_size], group_by: [province, diabetes_type]}
+    note: Year = period_end; run once per period. Type is a heuristic (type_1 | type_2 | other_specified | unclassified).
+  - id: CQ2
+    ask: "What share had an A1C test in the last 12 months, and what share has a latest value at or below 7.0%, or above 9.0%?"
+    status: supported
+    queries:
+      - {metrics: [a1c_tested_12m_rate, a1c_at_target_rate, a1c_poor_control_tested_rate]}
+  - id: CQ3
+    ask: "Who has no kidney screening (ACR and eGFR) in the last 12 months?"
+    status: partial
+    queries:
+      - {metrics: [gap_kidney_screen_rate], group_by: [age_band]}
+    note: Aggregate only. Person-level lists need the provider-scoped tool (circle of care, audit) — phase 2.
+  - id: CQ4
+    ask: "Who has diabetes plus CKD or cardiovascular disease and is not on an SGLT2 inhibitor or GLP-1 RA?"
+    status: partial
+    queries:
+      - {metrics: [cardiorenal_agent_rate, gap_cardiorenal_rate, ckd_or_ascvd_rate]}
+    note: Aggregate only; same phase-2 dependency as CQ3 for named people.
+  - id: CQ5
+    ask: "Which patients on a provider's panel have open care gaps, in priority order?"
+    status: out_of_scope
+    note: Needs provider attribution, circle-of-care access control, audit logging and a gap priority rule.
+  - id: CQ6
+    ask: "As a patient: what is my latest A1C, what am I taking, and what is due?"
+    status: out_of_scope
+    note: Needs a patient-facing view with verified identity (e.g. SMART on FHIR patient launch).
+  - id: CQ7
+    ask: "What is the rate of diabetes-related acute hospitalization by region and equity stratifier?"
+    status: supported
+    queries:
+      - {metrics: [acute_dm_admissions_per_1000], group_by: [province]}
+      - {metrics: [acute_dm_admissions_per_1000], group_by: [service_language], role: equity}
+  - id: CQ8
+    ask: "Why is this person in the cohort, and which source records support this measure result?"
+    status: partial
+    queries:
+      - {metrics: [cohort_size], group_by: [case_basis]}
+    tools: [cohort_evidence_summary, explain_measure]
+    note: Definition-level evidence trail (routes, value sets, map and phenotype versions). Person-level evidence needs phase 2 access control.

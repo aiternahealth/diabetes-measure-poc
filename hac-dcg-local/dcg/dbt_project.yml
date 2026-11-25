@@ -1,0 +1,36 @@
+name: dcg_diabetes_care_gaps
+version: "0.1.0"
+config-version: 2
+profile: dcg            # define in ~/.dbt/profiles.yml (DuckDB, Postgres, Databricks, Snowflake ...)
+model-paths: ["models"]
+seed-paths: ["seeds"]
+
+# Clinical parameters (ontology dcg:Parameter individuals). Owned by clinical reviewers.
+# Override per run:  dbt build --vars '{period_end: "2026-12-31", a1c_target_pct: 7.0}'
+vars:
+  period_end: "2026-09-30"     # dcg:MeasurementPeriod end (inclusive)
+  data_source: "synthetic"     # synthetic | real_world  -> dim data_source
+  a1c_recent_months: 6         # dcg:param_A1cTestRecent
+  a1c_target_pct: 7.0          # dcg:param_A1cTarget   (<=)
+  a1c_poor_pct: 9.0            # dcg:param_A1cPoorControl (>)
+  bp_sys_target: 130           # dcg:param_BPTarget    (<)
+  bp_dia_target: 80            # dcg:param_BPTarget    (<)
+  lipid_months: 36             # dcg:param_LipidTest
+  eye_exam_months: 24          # dcg:param_EyeExam
+  statin_min_age: 40           # dcg:param_StatinAge
+  min_cell_size: 5             # dcg:param_MinCell (enforced by the query/agent layer)
+  # Case phenotype DM-ADULT-CASE (dcg:pheno_DM_ADULT_CASE) — v0.4, aligned with the DCI canonical-layer design
+  phenotype_id: "DM-ADULT-CASE"
+  phenotype_version: "0.1"
+  pheno_accept_declared_condition: true   # a declared diabetes Condition qualifies on its own (EMR / FHIR sources); false = claims-only CCDSS style
+  pheno_claims_window_days: 730           # dcg:param_PhenoClaimsWindow — 2 ambulatory diagnoses within this many days
+  pheno_a1c_threshold: 6.5                # dcg:param_PhenoA1cThreshold (%)
+  pheno_a1c_min_results: 2                # dcg:param_PhenoA1cMinResults — on separate days
+  pheno_med_qualifies: false              # medication is supporting evidence only (DCI 1.5); true = insulin/SGLT2i/DPP-4i/SU alone qualify
+  tirzepatide_as_glp1ra: true             # dual GIP/GLP-1 agonist counts toward GLP-1 RA and the cardio-renal measure
+
+models:
+  dcg_diabetes_care_gaps:
+    staging: {+materialized: view}
+    intermediate: {+materialized: table}
+    marts:   {+materialized: table}

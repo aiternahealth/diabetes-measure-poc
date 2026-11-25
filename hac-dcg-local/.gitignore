@@ -1,0 +1,15 @@
+.venv/
+.env
+data/
+tools/
+medplum/docker-compose.yml
+dcg/target/
+dcg/logs/
+dcg/dbt_packages/
+dcg/ig/fsh-generated/
+dcg/ig/input-cache/
+dcg/ig/output/
+dcg/ig/temp/
+dcg/ig/template/
+__pycache__/
+*.pyc

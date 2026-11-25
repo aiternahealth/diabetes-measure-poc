@@ -1,0 +1,3579 @@
+{
+ "a1c": [
+  {
+   "kind": "class",
+   "iri": "dcg:HbA1cResult",
+   "semantic_model_ref": "metric:a1c_tested_12m_rate, metric:a1c_tested_recent_rate, metric:a1c_at_target_rate"
+  }
+ ],
+ "a1c > 9% or untested": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_rate",
+   "label": "A1C > 9% or untested"
+  }
+ ],
+ "a1c above target": [
+  {
+   "kind": "metric",
+   "name": "gap_a1c_control_rate",
+   "label": "Gap: A1C above target"
+  }
+ ],
+ "a1c at target rate": [
+  {
+   "kind": "metric",
+   "name": "a1c_at_target_rate",
+   "label": "Latest A1C at target (among tested)"
+  }
+ ],
+ "a1c control": [
+  {
+   "kind": "metric",
+   "name": "a1c_at_target_rate",
+   "label": "Latest A1C at target (among tested)"
+  }
+ ],
+ "a1c latest mean pct": [
+  {
+   "kind": "metric",
+   "name": "a1c_latest_mean_pct",
+   "label": "Mean latest A1C (%)"
+  }
+ ],
+ "a1c latest median pct": [
+  {
+   "kind": "metric",
+   "name": "a1c_latest_median_pct",
+   "label": "Median latest A1C (%)"
+  }
+ ],
+ "a1c over 9": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_rate",
+   "label": "A1C > 9% or untested"
+  }
+ ],
+ "a1c over 9 among tested": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_tested_rate",
+   "label": "Latest A1C > 9% (among tested)"
+  }
+ ],
+ "a1c poor control rate": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_rate",
+   "label": "A1C > 9% or untested"
+  }
+ ],
+ "a1c poor control tested rate": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_tested_rate",
+   "label": "Latest A1C > 9% (among tested)"
+  }
+ ],
+ "a1c tested 12m rate": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_12m_rate",
+   "label": "A1C tested in past 12 months"
+  }
+ ],
+ "a1c tested in past 12 months": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_12m_rate",
+   "label": "A1C tested in past 12 months"
+  }
+ ],
+ "a1c tested in recency window": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_recent_rate",
+   "label": "A1C tested in recency window"
+  }
+ ],
+ "a1c tested recent rate": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_recent_rate",
+   "label": "A1C tested in recency window"
+  }
+ ],
+ "a1c testing gap": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_recent_rate",
+   "label": "A1C tested in recency window"
+  }
+ ],
+ "a1c testing rate": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_12m_rate",
+   "label": "A1C tested in past 12 months"
+  }
+ ],
+ "a1c tests without value": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_no_value_rate",
+   "label": "DQ: A1C tests without value"
+  }
+ ],
+ "a1c under 7": [
+  {
+   "kind": "metric",
+   "name": "a1c_at_target_rate",
+   "label": "Latest A1C at target (among tested)"
+  }
+ ],
+ "a1c unit non-conformance": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_unit_rate",
+   "label": "DQ: A1C unit non-conformance"
+  }
+ ],
+ "a1c up to date": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_recent_rate",
+   "label": "A1C tested in recency window"
+  }
+ ],
+ "acarbose": [
+  {
+   "kind": "class",
+   "iri": "dcg:AlphaGlucosidaseInhibitor",
+   "semantic_model_ref": null
+  }
+ ],
+ "ace inhibitor or arb": [
+  {
+   "kind": "class",
+   "iri": "dcg:ACEInhibitorOrARB",
+   "semantic_model_ref": "metric:acei_arb_rate"
+  }
+ ],
+ "ace inhibitor or arb use": [
+  {
+   "kind": "metric",
+   "name": "acei_arb_rate",
+   "label": "ACE inhibitor or ARB use"
+  }
+ ],
+ "acei": [
+  {
+   "kind": "class",
+   "iri": "dcg:ACEInhibitorOrARB",
+   "semantic_model_ref": "metric:acei_arb_rate"
+  }
+ ],
+ "acei arb rate": [
+  {
+   "kind": "metric",
+   "name": "acei_arb_rate",
+   "label": "ACE inhibitor or ARB use"
+  }
+ ],
+ "acr": [
+  {
+   "kind": "class",
+   "iri": "dcg:UACRResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "acr and egfr": [
+  {
+   "kind": "metric",
+   "name": "kidney_screened_rate",
+   "label": "Kidney screening (eGFR + ACR) in 12 months"
+  }
+ ],
+ "acute complication": [
+  {
+   "kind": "class",
+   "iri": "dcg:AcuteDiabetesEvent",
+   "semantic_model_ref": "metric:acute_dm_admissions_per_1000"
+  }
+ ],
+ "acute diabetes event": [
+  {
+   "kind": "class",
+   "iri": "dcg:AcuteDiabetesEvent",
+   "semantic_model_ref": "metric:acute_dm_admissions_per_1000"
+  }
+ ],
+ "acute dm admissions per 1000": [
+  {
+   "kind": "metric",
+   "name": "acute_dm_admissions_per_1000",
+   "label": "DKA or hypoglycemia admissions per 1,000"
+  }
+ ],
+ "acute hospitalization": [
+  {
+   "kind": "metric",
+   "name": "acute_dm_admissions_per_1000",
+   "label": "DKA or hypoglycemia admissions per 1,000"
+  }
+ ],
+ "administrative sex": [
+  {
+   "kind": "class",
+   "iri": "dcg:Sex",
+   "semantic_model_ref": "dim:sex"
+  }
+ ],
+ "adult-onset diabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type2DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "age": [
+  {
+   "kind": "dimension",
+   "name": "population_member__age_band"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__age_band"
+  }
+ ],
+ "age 40+ without statin": [
+  {
+   "kind": "metric",
+   "name": "gap_statin_rate",
+   "label": "Gap: Age 40+ without statin"
+  }
+ ],
+ "age band": [
+  {
+   "kind": "class",
+   "iri": "dcg:AgeBand",
+   "semantic_model_ref": "dim:age_band"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__age_band"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__age_band"
+  }
+ ],
+ "age band phac": [
+  {
+   "kind": "dimension",
+   "name": "population_member__age_band_phac"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__age_band_phac"
+  }
+ ],
+ "age group": [
+  {
+   "kind": "class",
+   "iri": "dcg:AgeBand",
+   "semantic_model_ref": "dim:age_band"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__age_band"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__age_band"
+  }
+ ],
+ "all four annual tests": [
+  {
+   "kind": "metric",
+   "name": "all_four_tests_rate",
+   "label": "All four annual tests"
+  }
+ ],
+ "all four tests rate": [
+  {
+   "kind": "metric",
+   "name": "all_four_tests_rate",
+   "label": "All four annual tests"
+  }
+ ],
+ "all recommended tests": [
+  {
+   "kind": "metric",
+   "name": "all_four_tests_rate",
+   "label": "All four annual tests"
+  }
+ ],
+ "alpha-glucosidase inhibitor": [
+  {
+   "kind": "class",
+   "iri": "dcg:AlphaGlucosidaseInhibitor",
+   "semantic_model_ref": null
+  }
+ ],
+ "analytic dimension": [
+  {
+   "kind": "class",
+   "iri": "dcg:AnalyticDimension",
+   "semantic_model_ref": null
+  }
+ ],
+ "annual a1c": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_12m_rate",
+   "label": "A1C tested in past 12 months"
+  }
+ ],
+ "antihyperglycemic rate": [
+  {
+   "kind": "metric",
+   "name": "antihyperglycemic_rate",
+   "label": "Any antihyperglycemic use"
+  }
+ ],
+ "antihyperglycemic therapy": [
+  {
+   "kind": "class",
+   "iri": "dcg:AntihyperglycemicTherapy",
+   "semantic_model_ref": "metric:antihyperglycemic_rate, dim:therapy_profile"
+  }
+ ],
+ "any antihyperglycemic use": [
+  {
+   "kind": "metric",
+   "name": "antihyperglycemic_rate",
+   "label": "Any antihyperglycemic use"
+  }
+ ],
+ "any diabetes complication": [
+  {
+   "kind": "metric",
+   "name": "complication_rate",
+   "label": "Any diabetes complication"
+  }
+ ],
+ "any gap rate": [
+  {
+   "kind": "metric",
+   "name": "any_gap_rate",
+   "label": "Any open care gap"
+  }
+ ],
+ "any open care gap": [
+  {
+   "kind": "metric",
+   "name": "any_gap_rate",
+   "label": "Any open care gap"
+  }
+ ],
+ "appointment": [
+  {
+   "kind": "class",
+   "iri": "dcg:Encounter",
+   "semantic_model_ref": null
+  }
+ ],
+ "arb": [
+  {
+   "kind": "class",
+   "iri": "dcg:ACEInhibitorOrARB",
+   "semantic_model_ref": "metric:acei_arb_rate"
+  }
+ ],
+ "as of": [
+  {
+   "kind": "class",
+   "iri": "dcg:MeasurementPeriod",
+   "semantic_model_ref": "dim:period_end"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__period_end"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__period_end"
+  }
+ ],
+ "ascvd": [
+  {
+   "kind": "class",
+   "iri": "dcg:AtheroscleroticCVD",
+   "semantic_model_ref": "dim:has_ckd_or_ascvd"
+  },
+  {
+   "kind": "metric",
+   "name": "ckd_or_ascvd_rate",
+   "label": "CKD or ASCVD"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__has_ckd_or_ascvd"
+  }
+ ],
+ "at target": [
+  {
+   "kind": "metric",
+   "name": "a1c_at_target_rate",
+   "label": "Latest A1C at target (among tested)"
+  }
+ ],
+ "atherosclerotic cardiovascular disease": [
+  {
+   "kind": "class",
+   "iri": "dcg:AtheroscleroticCVD",
+   "semantic_model_ref": "dim:has_ckd_or_ascvd"
+  }
+ ],
+ "average a1c": [
+  {
+   "kind": "metric",
+   "name": "a1c_latest_mean_pct",
+   "label": "Mean latest A1C (%)"
+  }
+ ],
+ "average blood pressure": [
+  {
+   "kind": "metric",
+   "name": "bp_systolic_mean_mmhg",
+   "label": "Mean latest systolic BP (mmHg)"
+  }
+ ],
+ "average bmi": [
+  {
+   "kind": "metric",
+   "name": "bmi_latest_mean_kg_m2",
+   "label": "Mean latest BMI (kg/m2)"
+  }
+ ],
+ "average gaps": [
+  {
+   "kind": "metric",
+   "name": "gaps_per_member",
+   "label": "Open gaps per member"
+  }
+ ],
+ "bad cholesterol": [
+  {
+   "kind": "class",
+   "iri": "dcg:LDLResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "blood pressure": [
+  {
+   "kind": "class",
+   "iri": "dcg:BloodPressureReading",
+   "semantic_model_ref": "metric:bp_at_target_rate, metric:bp_systolic_median_mmhg, metric:bp_diastolic_median_mmhg"
+  }
+ ],
+ "blood pressure at target among measured": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_measured_rate",
+   "label": "Latest BP < 130/80 (among measured)"
+  }
+ ],
+ "blood pressure control": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_rate",
+   "label": "Latest BP < 130/80"
+  }
+ ],
+ "blood pressure reading": [
+  {
+   "kind": "class",
+   "iri": "dcg:BloodPressureReading",
+   "semantic_model_ref": "metric:bp_at_target_rate, metric:bp_systolic_median_mmhg, metric:bp_diastolic_median_mmhg"
+  }
+ ],
+ "blood sugar": [
+  {
+   "kind": "class",
+   "iri": "dcg:GlucoseResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "bloodwork": [
+  {
+   "kind": "class",
+   "iri": "dcg:LabResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "bmi": [
+  {
+   "kind": "class",
+   "iri": "dcg:BMIResult",
+   "semantic_model_ref": "metric:bmi_recorded_rate, metric:bmi_latest_median_kg_m2, dim:bmi_category"
+  }
+ ],
+ "bmi category": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__bmi_category"
+  }
+ ],
+ "bmi class": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__bmi_category"
+  }
+ ],
+ "bmi latest mean kg m2": [
+  {
+   "kind": "metric",
+   "name": "bmi_latest_mean_kg_m2",
+   "label": "Mean latest BMI (kg/m2)"
+  }
+ ],
+ "bmi latest median kg m2": [
+  {
+   "kind": "metric",
+   "name": "bmi_latest_median_kg_m2",
+   "label": "Median latest BMI (kg/m2)"
+  }
+ ],
+ "bmi recorded": [
+  {
+   "kind": "metric",
+   "name": "bmi_recorded_rate",
+   "label": "BMI recorded in 12 months"
+  }
+ ],
+ "bmi recorded in 12 months": [
+  {
+   "kind": "metric",
+   "name": "bmi_recorded_rate",
+   "label": "BMI recorded in 12 months"
+  }
+ ],
+ "bmi recorded rate": [
+  {
+   "kind": "metric",
+   "name": "bmi_recorded_rate",
+   "label": "BMI recorded in 12 months"
+  }
+ ],
+ "body mass index": [
+  {
+   "kind": "class",
+   "iri": "dcg:BMIResult",
+   "semantic_model_ref": "metric:bmi_recorded_rate, metric:bmi_latest_median_kg_m2, dim:bmi_category"
+  }
+ ],
+ "borderline diabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:Prediabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "bp": [
+  {
+   "kind": "class",
+   "iri": "dcg:BloodPressureReading",
+   "semantic_model_ref": "metric:bp_at_target_rate, metric:bp_systolic_median_mmhg, metric:bp_diastolic_median_mmhg"
+  }
+ ],
+ "bp at target": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_rate",
+   "label": "Latest BP < 130/80"
+  }
+ ],
+ "bp at target measured rate": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_measured_rate",
+   "label": "Latest BP < 130/80 (among measured)"
+  }
+ ],
+ "bp at target rate": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_rate",
+   "label": "Latest BP < 130/80"
+  }
+ ],
+ "bp control among measured": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_measured_rate",
+   "label": "Latest BP < 130/80 (among measured)"
+  }
+ ],
+ "bp diastolic mean mmhg": [
+  {
+   "kind": "metric",
+   "name": "bp_diastolic_mean_mmhg",
+   "label": "Mean latest diastolic BP (mmHg)"
+  }
+ ],
+ "bp diastolic median mmhg": [
+  {
+   "kind": "metric",
+   "name": "bp_diastolic_median_mmhg",
+   "label": "Median latest diastolic BP (mmHg)"
+  }
+ ],
+ "bp not at target": [
+  {
+   "kind": "metric",
+   "name": "gap_bp_control_rate",
+   "label": "Gap: BP not at target"
+  }
+ ],
+ "bp systolic mean mmhg": [
+  {
+   "kind": "metric",
+   "name": "bp_systolic_mean_mmhg",
+   "label": "Mean latest systolic BP (mmHg)"
+  }
+ ],
+ "bp systolic median mmhg": [
+  {
+   "kind": "metric",
+   "name": "bp_systolic_median_mmhg",
+   "label": "Median latest systolic BP (mmHg)"
+  }
+ ],
+ "cardio-renal": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__has_ckd_or_ascvd"
+  }
+ ],
+ "cardio-renal protection": [
+  {
+   "kind": "metric",
+   "name": "cardiorenal_agent_rate",
+   "label": "SGLT2i or GLP-1 RA with CKD or ASCVD"
+  }
+ ],
+ "cardio-renal protective agent": [
+  {
+   "kind": "class",
+   "iri": "dcg:CardiorenalAgent",
+   "semantic_model_ref": "metric:cardiorenal_agent_rate"
+  }
+ ],
+ "cardiorenal agent": [
+  {
+   "kind": "metric",
+   "name": "cardiorenal_agent_rate",
+   "label": "SGLT2i or GLP-1 RA with CKD or ASCVD"
+  }
+ ],
+ "cardiorenal agent rate": [
+  {
+   "kind": "metric",
+   "name": "cardiorenal_agent_rate",
+   "label": "SGLT2i or GLP-1 RA with CKD or ASCVD"
+  }
+ ],
+ "cardiovascular disease": [
+  {
+   "kind": "class",
+   "iri": "dcg:AtheroscleroticCVD",
+   "semantic_model_ref": "dim:has_ckd_or_ascvd"
+  },
+  {
+   "kind": "metric",
+   "name": "ckd_or_ascvd_rate",
+   "label": "CKD or ASCVD"
+  }
+ ],
+ "care gap": [
+  {
+   "kind": "class",
+   "iri": "dcg:CareGap",
+   "semantic_model_ref": "measure:gap_count_total, metric:any_gap_rate, metric:gaps_per_member"
+  }
+ ],
+ "care gaps": [
+  {
+   "kind": "metric",
+   "name": "any_gap_rate",
+   "label": "Any open care gap"
+  }
+ ],
+ "care plan": [
+  {
+   "kind": "class",
+   "iri": "dcg:CarePlanRecord",
+   "semantic_model_ref": null
+  }
+ ],
+ "case basis": [
+  {
+   "kind": "dimension",
+   "name": "population_member__case_basis"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__case_basis"
+  }
+ ],
+ "case definition": [
+  {
+   "kind": "class",
+   "iri": "dcg:CasePhenotype",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__case_basis"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__case_basis"
+  }
+ ],
+ "case phenotype": [
+  {
+   "kind": "class",
+   "iri": "dcg:CasePhenotype",
+   "semantic_model_ref": null
+  }
+ ],
+ "cholesterol medication": [
+  {
+   "kind": "class",
+   "iri": "dcg:Statin",
+   "semantic_model_ref": "metric:statin_rate_40plus"
+  },
+  {
+   "kind": "metric",
+   "name": "statin_rate_40plus",
+   "label": "Statin use, age >= 40"
+  }
+ ],
+ "cholesterol testing": [
+  {
+   "kind": "metric",
+   "name": "lipid_tested_rate",
+   "label": "LDL-C tested in window"
+  }
+ ],
+ "chronic kidney disease": [
+  {
+   "kind": "class",
+   "iri": "dcg:ChronicKidneyDisease",
+   "semantic_model_ref": "dim:has_ckd_or_ascvd"
+  }
+ ],
+ "ckd": [
+  {
+   "kind": "class",
+   "iri": "dcg:ChronicKidneyDisease",
+   "semantic_model_ref": "dim:has_ckd_or_ascvd"
+  },
+  {
+   "kind": "metric",
+   "name": "ckd_or_ascvd_rate",
+   "label": "CKD or ASCVD"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__has_ckd_or_ascvd"
+  }
+ ],
+ "ckd or ascvd": [
+  {
+   "kind": "metric",
+   "name": "ckd_or_ascvd_rate",
+   "label": "CKD or ASCVD"
+  }
+ ],
+ "ckd or ascvd rate": [
+  {
+   "kind": "metric",
+   "name": "ckd_or_ascvd_rate",
+   "label": "CKD or ASCVD"
+  }
+ ],
+ "ckd or ascvd without sglt2i or glp-1 ra": [
+  {
+   "kind": "metric",
+   "name": "gap_cardiorenal_rate",
+   "label": "Gap: CKD or ASCVD without SGLT2i or GLP-1 RA"
+  }
+ ],
+ "client": [
+  {
+   "kind": "class",
+   "iri": "dcg:Person",
+   "semantic_model_ref": null
+  }
+ ],
+ "clinical record": [
+  {
+   "kind": "class",
+   "iri": "dcg:ClinicalRecord",
+   "semantic_model_ref": null
+  }
+ ],
+ "coding drift": [
+  {
+   "kind": "class",
+   "iri": "dcg:UnmappedCode",
+   "semantic_model_ref": null
+  }
+ ],
+ "cohort membership": [
+  {
+   "kind": "class",
+   "iri": "dcg:CohortMembership",
+   "semantic_model_ref": "dim:case_basis, measure:cohort_members"
+  }
+ ],
+ "cohort size": [
+  {
+   "kind": "metric",
+   "name": "cohort_size",
+   "label": "People with diabetes (cohort)"
+  }
+ ],
+ "combination antihyperglycemic": [
+  {
+   "kind": "class",
+   "iri": "dcg:CombinationAntihyperglycemic",
+   "semantic_model_ref": null
+  }
+ ],
+ "comorbidity": [
+  {
+   "kind": "class",
+   "iri": "dcg:Comorbidity",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "metric",
+   "name": "ckd_or_ascvd_rate",
+   "label": "CKD or ASCVD"
+  }
+ ],
+ "complete annual screening": [
+  {
+   "kind": "metric",
+   "name": "all_four_tests_rate",
+   "label": "All four annual tests"
+  }
+ ],
+ "complication rate": [
+  {
+   "kind": "metric",
+   "name": "complication_rate",
+   "label": "Any diabetes complication"
+  }
+ ],
+ "complications": [
+  {
+   "kind": "metric",
+   "name": "complication_rate",
+   "label": "Any diabetes complication"
+  }
+ ],
+ "condition record": [
+  {
+   "kind": "class",
+   "iri": "dcg:ConditionRecord",
+   "semantic_model_ref": null
+  }
+ ],
+ "conflicting diabetes type": [
+  {
+   "kind": "metric",
+   "name": "dq_dm_type_conflict_rate",
+   "label": "DQ: Conflicting diabetes type"
+  }
+ ],
+ "control gap": [
+  {
+   "kind": "class",
+   "iri": "dcg:OutcomeGap",
+   "semantic_model_ref": null
+  }
+ ],
+ "controlled diabetes": [
+  {
+   "kind": "metric",
+   "name": "a1c_at_target_rate",
+   "label": "Latest A1C at target (among tested)"
+  }
+ ],
+ "cvd": [
+  {
+   "kind": "class",
+   "iri": "dcg:AtheroscleroticCVD",
+   "semantic_model_ref": "dim:has_ckd_or_ascvd"
+  }
+ ],
+ "data quality": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_no_value_rate",
+   "label": "DQ: A1C tests without value"
+  },
+  {
+   "kind": "metric",
+   "name": "dq_a1c_unit_rate",
+   "label": "DQ: A1C unit non-conformance"
+  },
+  {
+   "kind": "metric",
+   "name": "dq_a1c_implausible_rate",
+   "label": "DQ: Implausible A1C"
+  },
+  {
+   "kind": "metric",
+   "name": "dq_missing_onset_rate",
+   "label": "DQ: Missing diagnosis onset"
+  },
+  {
+   "kind": "metric",
+   "name": "dq_dm_type_conflict_rate",
+   "label": "DQ: Conflicting diabetes type"
+  },
+  {
+   "kind": "metric",
+   "name": "dq_dm_duplicate_rate",
+   "label": "DQ: Duplicate diabetes diagnosis"
+  }
+ ],
+ "data quality issue": [
+  {
+   "kind": "class",
+   "iri": "dcg:DataQualityIssue",
+   "semantic_model_ref": "metric:dq_*"
+  }
+ ],
+ "data source": [
+  {
+   "kind": "class",
+   "iri": "dcg:DataSource",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__data_source"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__data_source"
+  }
+ ],
+ "denominator": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesCohort",
+   "semantic_model_ref": "measure:cohort_members"
+  },
+  {
+   "kind": "metric",
+   "name": "cohort_size",
+   "label": "People with diabetes (cohort)"
+  }
+ ],
+ "dfu": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticFootUlcer",
+   "semantic_model_ref": null
+  }
+ ],
+ "diabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesMellitus",
+   "semantic_model_ref": "dim:diabetes_type"
+  }
+ ],
+ "diabetes care-gap cohort": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesCohort",
+   "semantic_model_ref": "measure:cohort_members"
+  }
+ ],
+ "diabetes complication": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesComplication",
+   "semantic_model_ref": "dim:has_any_complication, metric:complication_rate"
+  }
+ ],
+ "diabetes duration band": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__diabetes_duration_band"
+  }
+ ],
+ "diabetes medication": [
+  {
+   "kind": "class",
+   "iri": "dcg:AntihyperglycemicTherapy",
+   "semantic_model_ref": "metric:antihyperglycemic_rate, dim:therapy_profile"
+  }
+ ],
+ "diabetes mellitus": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesMellitus",
+   "semantic_model_ref": "dim:diabetes_type"
+  }
+ ],
+ "diabetes prevalence (crude, adults)": [
+  {
+   "kind": "metric",
+   "name": "diabetes_prevalence_crude",
+   "label": "Diabetes prevalence (crude, adults)"
+  }
+ ],
+ "diabetes prevalence crude": [
+  {
+   "kind": "metric",
+   "name": "diabetes_prevalence_crude",
+   "label": "Diabetes prevalence (crude, adults)"
+  }
+ ],
+ "diabetes self-management plan": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesSelfManagementPlan",
+   "semantic_model_ref": null
+  }
+ ],
+ "diabetes type": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__diabetes_type"
+  }
+ ],
+ "diabetic": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesMellitus",
+   "semantic_model_ref": "dim:diabetes_type"
+  }
+ ],
+ "diabetic complication": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesComplication",
+   "semantic_model_ref": "dim:has_any_complication, metric:complication_rate"
+  }
+ ],
+ "diabetic emergencies": [
+  {
+   "kind": "metric",
+   "name": "acute_dm_admissions_per_1000",
+   "label": "DKA or hypoglycemia admissions per 1,000"
+  }
+ ],
+ "diabetic emergency": [
+  {
+   "kind": "class",
+   "iri": "dcg:AcuteDiabetesEvent",
+   "semantic_model_ref": "metric:acute_dm_admissions_per_1000"
+  }
+ ],
+ "diabetic foot examination": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticFootExam",
+   "semantic_model_ref": null
+  }
+ ],
+ "diabetic foot ulcer": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticFootUlcer",
+   "semantic_model_ref": null
+  }
+ ],
+ "diabetic ketoacidosis": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticKetoacidosis",
+   "semantic_model_ref": null
+  }
+ ],
+ "diabetic kidney disease": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticKidneyDisease",
+   "semantic_model_ref": null
+  }
+ ],
+ "diabetic nephropathy": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticKidneyDisease",
+   "semantic_model_ref": null
+  }
+ ],
+ "diabetic neuropathy": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticNeuropathy",
+   "semantic_model_ref": null
+  }
+ ],
+ "diabetic population": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesCohort",
+   "semantic_model_ref": "measure:cohort_members"
+  }
+ ],
+ "diabetic retinopathy": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticRetinopathy",
+   "semantic_model_ref": null
+  }
+ ],
+ "diagnosis": [
+  {
+   "kind": "class",
+   "iri": "dcg:ConditionRecord",
+   "semantic_model_ref": null
+  }
+ ],
+ "dilated eye exam": [
+  {
+   "kind": "class",
+   "iri": "dcg:RetinopathyScreening",
+   "semantic_model_ref": null
+  }
+ ],
+ "dka": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticKetoacidosis",
+   "semantic_model_ref": null
+  }
+ ],
+ "dka admissions": [
+  {
+   "kind": "metric",
+   "name": "acute_dm_admissions_per_1000",
+   "label": "DKA or hypoglycemia admissions per 1,000"
+  }
+ ],
+ "dka or hypoglycemia admissions per 1,000": [
+  {
+   "kind": "metric",
+   "name": "acute_dm_admissions_per_1000",
+   "label": "DKA or hypoglycemia admissions per 1,000"
+  }
+ ],
+ "dkd": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticKidneyDisease",
+   "semantic_model_ref": null
+  }
+ ],
+ "dm": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesMellitus",
+   "semantic_model_ref": "dim:diabetes_type"
+  }
+ ],
+ "dpp-4 inhibitor": [
+  {
+   "kind": "class",
+   "iri": "dcg:DPP4Inhibitor",
+   "semantic_model_ref": "metric:dpp4i_rate"
+  }
+ ],
+ "dpp-4 inhibitor use": [
+  {
+   "kind": "metric",
+   "name": "dpp4i_rate",
+   "label": "DPP-4 inhibitor use"
+  }
+ ],
+ "dpp4i rate": [
+  {
+   "kind": "metric",
+   "name": "dpp4i_rate",
+   "label": "DPP-4 inhibitor use"
+  }
+ ],
+ "dq a1c implausible rate": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_implausible_rate",
+   "label": "DQ: Implausible A1C"
+  }
+ ],
+ "dq a1c no value rate": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_no_value_rate",
+   "label": "DQ: A1C tests without value"
+  }
+ ],
+ "dq a1c unit rate": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_unit_rate",
+   "label": "DQ: A1C unit non-conformance"
+  }
+ ],
+ "dq dm duplicate rate": [
+  {
+   "kind": "metric",
+   "name": "dq_dm_duplicate_rate",
+   "label": "DQ: Duplicate diabetes diagnosis"
+  }
+ ],
+ "dq dm type conflict rate": [
+  {
+   "kind": "metric",
+   "name": "dq_dm_type_conflict_rate",
+   "label": "DQ: Conflicting diabetes type"
+  }
+ ],
+ "dq missing onset rate": [
+  {
+   "kind": "metric",
+   "name": "dq_missing_onset_rate",
+   "label": "DQ: Missing diagnosis onset"
+  }
+ ],
+ "dq: a1c tests without value": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_no_value_rate",
+   "label": "DQ: A1C tests without value"
+  }
+ ],
+ "dq: a1c unit non-conformance": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_unit_rate",
+   "label": "DQ: A1C unit non-conformance"
+  }
+ ],
+ "dq: conflicting diabetes type": [
+  {
+   "kind": "metric",
+   "name": "dq_dm_type_conflict_rate",
+   "label": "DQ: Conflicting diabetes type"
+  }
+ ],
+ "dq: duplicate diabetes diagnosis": [
+  {
+   "kind": "metric",
+   "name": "dq_dm_duplicate_rate",
+   "label": "DQ: Duplicate diabetes diagnosis"
+  }
+ ],
+ "dq: implausible a1c": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_implausible_rate",
+   "label": "DQ: Implausible A1C"
+  }
+ ],
+ "dq: missing diagnosis onset": [
+  {
+   "kind": "metric",
+   "name": "dq_missing_onset_rate",
+   "label": "DQ: Missing diagnosis onset"
+  }
+ ],
+ "drug": [
+  {
+   "kind": "class",
+   "iri": "dcg:MedicationExposure",
+   "semantic_model_ref": null
+  }
+ ],
+ "drug classes": [
+  {
+   "kind": "metric",
+   "name": "metformin_rate",
+   "label": "Metformin use"
+  },
+  {
+   "kind": "metric",
+   "name": "insulin_rate",
+   "label": "Insulin use"
+  },
+  {
+   "kind": "metric",
+   "name": "sglt2i_rate",
+   "label": "SGLT2 inhibitor use"
+  },
+  {
+   "kind": "metric",
+   "name": "glp1ra_rate",
+   "label": "GLP-1 receptor agonist use"
+  },
+  {
+   "kind": "metric",
+   "name": "dpp4i_rate",
+   "label": "DPP-4 inhibitor use"
+  },
+  {
+   "kind": "metric",
+   "name": "sulfonylurea_rate",
+   "label": "Sulfonylurea use"
+  },
+  {
+   "kind": "metric",
+   "name": "tzd_rate",
+   "label": "Thiazolidinedione use"
+  },
+  {
+   "kind": "metric",
+   "name": "acei_arb_rate",
+   "label": "ACE inhibitor or ARB use"
+  },
+  {
+   "kind": "metric",
+   "name": "antihyperglycemic_rate",
+   "label": "Any antihyperglycemic use"
+  }
+ ],
+ "dsme": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesSelfManagementPlan",
+   "semantic_model_ref": null
+  }
+ ],
+ "duplicate diabetes diagnosis": [
+  {
+   "kind": "metric",
+   "name": "dq_dm_duplicate_rate",
+   "label": "DQ: Duplicate diabetes diagnosis"
+  }
+ ],
+ "duplicate diagnosis": [
+  {
+   "kind": "class",
+   "iri": "dcg:DuplicateRecord",
+   "semantic_model_ref": "metric:dq_dm_duplicate_rate"
+  }
+ ],
+ "duplicate record": [
+  {
+   "kind": "class",
+   "iri": "dcg:DuplicateRecord",
+   "semantic_model_ref": "metric:dq_dm_duplicate_rate"
+  }
+ ],
+ "duration": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__diabetes_duration_band"
+  }
+ ],
+ "dysglycemia": [
+  {
+   "kind": "class",
+   "iri": "dcg:Dysglycemia",
+   "semantic_model_ref": null
+  }
+ ],
+ "egfr": [
+  {
+   "kind": "class",
+   "iri": "dcg:EGFRResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "egfr result": [
+  {
+   "kind": "class",
+   "iri": "dcg:EGFRResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "encounter": [
+  {
+   "kind": "class",
+   "iri": "dcg:Encounter",
+   "semantic_model_ref": null
+  }
+ ],
+ "end-organ damage": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesComplication",
+   "semantic_model_ref": "dim:has_any_complication, metric:complication_rate"
+  },
+  {
+   "kind": "metric",
+   "name": "complication_rate",
+   "label": "Any diabetes complication"
+  }
+ ],
+ "english": [
+  {
+   "kind": "dimension",
+   "name": "population_member__service_language"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__service_language"
+  }
+ ],
+ "equity stratifier": [
+  {
+   "kind": "class",
+   "iri": "dcg:EquityStratifier",
+   "semantic_model_ref": null
+  }
+ ],
+ "estimated gfr": [
+  {
+   "kind": "class",
+   "iri": "dcg:EGFRResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "evidence": [
+  {
+   "kind": "dimension",
+   "name": "population_member__case_basis"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__case_basis"
+  }
+ ],
+ "eye disease": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticRetinopathy",
+   "semantic_model_ref": null
+  }
+ ],
+ "eye exam": [
+  {
+   "kind": "class",
+   "iri": "dcg:RetinopathyScreening",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "metric",
+   "name": "eye_exam_rate",
+   "label": "Retinopathy screening in window"
+  }
+ ],
+ "eye exam rate": [
+  {
+   "kind": "metric",
+   "name": "eye_exam_rate",
+   "label": "Retinopathy screening in window"
+  }
+ ],
+ "foot check": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticFootExam",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "metric",
+   "name": "foot_exam_rate",
+   "label": "Foot exam in 12 months"
+  }
+ ],
+ "foot exam": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticFootExam",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "metric",
+   "name": "foot_exam_rate",
+   "label": "Foot exam in 12 months"
+  }
+ ],
+ "foot exam in 12 months": [
+  {
+   "kind": "metric",
+   "name": "foot_exam_rate",
+   "label": "Foot exam in 12 months"
+  }
+ ],
+ "foot exam rate": [
+  {
+   "kind": "metric",
+   "name": "foot_exam_rate",
+   "label": "Foot exam in 12 months"
+  }
+ ],
+ "foot ulcer": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticFootUlcer",
+   "semantic_model_ref": null
+  }
+ ],
+ "forward sortation area": [
+  {
+   "kind": "class",
+   "iri": "dcg:ForwardSortationArea",
+   "semantic_model_ref": "dim:fsa"
+  }
+ ],
+ "four tests": [
+  {
+   "kind": "metric",
+   "name": "all_four_tests_rate",
+   "label": "All four annual tests"
+  }
+ ],
+ "fpg": [
+  {
+   "kind": "class",
+   "iri": "dcg:GlucoseResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "french": [
+  {
+   "kind": "dimension",
+   "name": "population_member__service_language"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__service_language"
+  }
+ ],
+ "fsa": [
+  {
+   "kind": "class",
+   "iri": "dcg:ForwardSortationArea",
+   "semantic_model_ref": "dim:fsa"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__fsa"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__fsa"
+  }
+ ],
+ "future date": [
+  {
+   "kind": "class",
+   "iri": "dcg:TemporalInconsistency",
+   "semantic_model_ref": null
+  }
+ ],
+ "gap a1c control rate": [
+  {
+   "kind": "metric",
+   "name": "gap_a1c_control_rate",
+   "label": "Gap: A1C above target"
+  }
+ ],
+ "gap a1c test rate": [
+  {
+   "kind": "metric",
+   "name": "gap_a1c_test_rate",
+   "label": "Gap: No recent A1C"
+  }
+ ],
+ "gap bp control rate": [
+  {
+   "kind": "metric",
+   "name": "gap_bp_control_rate",
+   "label": "Gap: BP not at target"
+  }
+ ],
+ "gap burden": [
+  {
+   "kind": "metric",
+   "name": "gaps_per_member",
+   "label": "Open gaps per member"
+  }
+ ],
+ "gap cardiorenal rate": [
+  {
+   "kind": "metric",
+   "name": "gap_cardiorenal_rate",
+   "label": "Gap: CKD or ASCVD without SGLT2i or GLP-1 RA"
+  }
+ ],
+ "gap eye exam rate": [
+  {
+   "kind": "metric",
+   "name": "gap_eye_exam_rate",
+   "label": "Gap: No eye exam in window"
+  }
+ ],
+ "gap foot exam rate": [
+  {
+   "kind": "metric",
+   "name": "gap_foot_exam_rate",
+   "label": "Gap: No foot exam"
+  }
+ ],
+ "gap in care": [
+  {
+   "kind": "class",
+   "iri": "dcg:CareGap",
+   "semantic_model_ref": "measure:gap_count_total, metric:any_gap_rate, metric:gaps_per_member"
+  },
+  {
+   "kind": "metric",
+   "name": "any_gap_rate",
+   "label": "Any open care gap"
+  }
+ ],
+ "gap kidney screen rate": [
+  {
+   "kind": "metric",
+   "name": "gap_kidney_screen_rate",
+   "label": "Gap: No kidney screening"
+  }
+ ],
+ "gap lipid test rate": [
+  {
+   "kind": "metric",
+   "name": "gap_lipid_test_rate",
+   "label": "Gap: No LDL-C in window"
+  }
+ ],
+ "gap statin rate": [
+  {
+   "kind": "metric",
+   "name": "gap_statin_rate",
+   "label": "Gap: Age 40+ without statin"
+  }
+ ],
+ "gap: a1c above target": [
+  {
+   "kind": "metric",
+   "name": "gap_a1c_control_rate",
+   "label": "Gap: A1C above target"
+  }
+ ],
+ "gap: age 40+ without statin": [
+  {
+   "kind": "metric",
+   "name": "gap_statin_rate",
+   "label": "Gap: Age 40+ without statin"
+  }
+ ],
+ "gap: bp not at target": [
+  {
+   "kind": "metric",
+   "name": "gap_bp_control_rate",
+   "label": "Gap: BP not at target"
+  }
+ ],
+ "gap: ckd or ascvd without sglt2i or glp-1 ra": [
+  {
+   "kind": "metric",
+   "name": "gap_cardiorenal_rate",
+   "label": "Gap: CKD or ASCVD without SGLT2i or GLP-1 RA"
+  }
+ ],
+ "gap: no eye exam in window": [
+  {
+   "kind": "metric",
+   "name": "gap_eye_exam_rate",
+   "label": "Gap: No eye exam in window"
+  }
+ ],
+ "gap: no foot exam": [
+  {
+   "kind": "metric",
+   "name": "gap_foot_exam_rate",
+   "label": "Gap: No foot exam"
+  }
+ ],
+ "gap: no kidney screening": [
+  {
+   "kind": "metric",
+   "name": "gap_kidney_screen_rate",
+   "label": "Gap: No kidney screening"
+  }
+ ],
+ "gap: no ldl-c in window": [
+  {
+   "kind": "metric",
+   "name": "gap_lipid_test_rate",
+   "label": "Gap: No LDL-C in window"
+  }
+ ],
+ "gap: no recent a1c": [
+  {
+   "kind": "metric",
+   "name": "gap_a1c_test_rate",
+   "label": "Gap: No recent A1C"
+  }
+ ],
+ "gaps per member": [
+  {
+   "kind": "metric",
+   "name": "gaps_per_member",
+   "label": "Open gaps per member"
+  }
+ ],
+ "gdm": [
+  {
+   "kind": "class",
+   "iri": "dcg:GestationalDiabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "gender": [
+  {
+   "kind": "class",
+   "iri": "dcg:Sex",
+   "semantic_model_ref": "dim:sex"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__sex"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__sex"
+  }
+ ],
+ "geography": [
+  {
+   "kind": "class",
+   "iri": "dcg:Geography",
+   "semantic_model_ref": null
+  }
+ ],
+ "gestational diabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:GestationalDiabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "gliflozin": [
+  {
+   "kind": "class",
+   "iri": "dcg:SGLT2Inhibitor",
+   "semantic_model_ref": "metric:sglt2i_rate"
+  }
+ ],
+ "gliptin": [
+  {
+   "kind": "class",
+   "iri": "dcg:DPP4Inhibitor",
+   "semantic_model_ref": "metric:dpp4i_rate"
+  }
+ ],
+ "glitazone": [
+  {
+   "kind": "class",
+   "iri": "dcg:Thiazolidinedione",
+   "semantic_model_ref": "metric:tzd_rate"
+  }
+ ],
+ "glp-1 ra": [
+  {
+   "kind": "class",
+   "iri": "dcg:GLP1ReceptorAgonist",
+   "semantic_model_ref": "metric:glp1ra_rate"
+  }
+ ],
+ "glp-1 receptor agonist": [
+  {
+   "kind": "class",
+   "iri": "dcg:GLP1ReceptorAgonist",
+   "semantic_model_ref": "metric:glp1ra_rate"
+  }
+ ],
+ "glp-1 receptor agonist use": [
+  {
+   "kind": "metric",
+   "name": "glp1ra_rate",
+   "label": "GLP-1 receptor agonist use"
+  }
+ ],
+ "glp1ra rate": [
+  {
+   "kind": "metric",
+   "name": "glp1ra_rate",
+   "label": "GLP-1 receptor agonist use"
+  }
+ ],
+ "glucose": [
+  {
+   "kind": "class",
+   "iri": "dcg:GlucoseResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "glucose-lowering drug": [
+  {
+   "kind": "class",
+   "iri": "dcg:AntihyperglycemicTherapy",
+   "semantic_model_ref": "metric:antihyperglycemic_rate, dim:therapy_profile"
+  }
+ ],
+ "glycated hemoglobin": [
+  {
+   "kind": "class",
+   "iri": "dcg:HbA1cResult",
+   "semantic_model_ref": "metric:a1c_tested_12m_rate, metric:a1c_tested_recent_rate, metric:a1c_at_target_rate"
+  }
+ ],
+ "glycemic control": [
+  {
+   "kind": "metric",
+   "name": "a1c_at_target_rate",
+   "label": "Latest A1C at target (among tested)"
+  }
+ ],
+ "glycosylated haemoglobin": [
+  {
+   "kind": "class",
+   "iri": "dcg:HbA1cResult",
+   "semantic_model_ref": "metric:a1c_tested_12m_rate, metric:a1c_tested_recent_rate, metric:a1c_at_target_rate"
+  }
+ ],
+ "had a1c test this year": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_12m_rate",
+   "label": "A1C tested in past 12 months"
+  }
+ ],
+ "has any complication": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__has_any_complication"
+  }
+ ],
+ "has any gap": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__has_any_gap"
+  }
+ ],
+ "has ckd or ascvd": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__has_ckd_or_ascvd"
+  }
+ ],
+ "hba1c result": [
+  {
+   "kind": "class",
+   "iri": "dcg:HbA1cResult",
+   "semantic_model_ref": "metric:a1c_tested_12m_rate, metric:a1c_tested_recent_rate, metric:a1c_at_target_rate"
+  }
+ ],
+ "hba1c screening": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_12m_rate",
+   "label": "A1C tested in past 12 months"
+  }
+ ],
+ "hba1c test": [
+  {
+   "kind": "class",
+   "iri": "dcg:HbA1cResult",
+   "semantic_model_ref": "metric:a1c_tested_12m_rate, metric:a1c_tested_recent_rate, metric:a1c_at_target_rate"
+  }
+ ],
+ "heart and kidney protection": [
+  {
+   "kind": "metric",
+   "name": "cardiorenal_agent_rate",
+   "label": "SGLT2i or GLP-1 RA with CKD or ASCVD"
+  }
+ ],
+ "heart disease": [
+  {
+   "kind": "class",
+   "iri": "dcg:AtheroscleroticCVD",
+   "semantic_model_ref": "dim:has_ckd_or_ascvd"
+  }
+ ],
+ "heart or kidney disease": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__has_ckd_or_ascvd"
+  }
+ ],
+ "hemoglobin a1c": [
+  {
+   "kind": "class",
+   "iri": "dcg:HbA1cResult",
+   "semantic_model_ref": "metric:a1c_tested_12m_rate, metric:a1c_tested_recent_rate, metric:a1c_at_target_rate"
+  }
+ ],
+ "high blood pressure": [
+  {
+   "kind": "class",
+   "iri": "dcg:Hypertension",
+   "semantic_model_ref": null
+  }
+ ],
+ "how common is diabetes": [
+  {
+   "kind": "metric",
+   "name": "diabetes_prevalence_crude",
+   "label": "Diabetes prevalence (crude, adults)"
+  }
+ ],
+ "how identified": [
+  {
+   "kind": "dimension",
+   "name": "population_member__case_basis"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__case_basis"
+  }
+ ],
+ "how many people have diabetes": [
+  {
+   "kind": "metric",
+   "name": "cohort_size",
+   "label": "People with diabetes (cohort)"
+  }
+ ],
+ "htn": [
+  {
+   "kind": "class",
+   "iri": "dcg:Hypertension",
+   "semantic_model_ref": null
+  }
+ ],
+ "hypertension": [
+  {
+   "kind": "class",
+   "iri": "dcg:Hypertension",
+   "semantic_model_ref": null
+  }
+ ],
+ "hypertension control": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_rate",
+   "label": "Latest BP < 130/80"
+  }
+ ],
+ "hypo": [
+  {
+   "kind": "class",
+   "iri": "dcg:HypoglycemiaEvent",
+   "semantic_model_ref": null
+  }
+ ],
+ "hypoglycemia": [
+  {
+   "kind": "class",
+   "iri": "dcg:HypoglycemiaEvent",
+   "semantic_model_ref": null
+  }
+ ],
+ "hypoglycemia admissions": [
+  {
+   "kind": "metric",
+   "name": "acute_dm_admissions_per_1000",
+   "label": "DKA or hypoglycemia admissions per 1,000"
+  }
+ ],
+ "ifg": [
+  {
+   "kind": "class",
+   "iri": "dcg:Prediabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "igt": [
+  {
+   "kind": "class",
+   "iri": "dcg:Prediabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "impaired fasting glucose": [
+  {
+   "kind": "class",
+   "iri": "dcg:Prediabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "implausible a1c": [
+  {
+   "kind": "metric",
+   "name": "dq_a1c_implausible_rate",
+   "label": "DQ: Implausible A1C"
+  }
+ ],
+ "implausible value": [
+  {
+   "kind": "class",
+   "iri": "dcg:ImplausibleValue",
+   "semantic_model_ref": null
+  }
+ ],
+ "indicator": [
+  {
+   "kind": "class",
+   "iri": "dcg:Indicator",
+   "semantic_model_ref": null
+  }
+ ],
+ "indigenous identity": [
+  {
+   "kind": "class",
+   "iri": "dcg:IndigenousIdentity",
+   "semantic_model_ref": "dim:indigenous_identity"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__indigenous_identity"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__indigenous_identity"
+  }
+ ],
+ "individual": [
+  {
+   "kind": "class",
+   "iri": "dcg:Person",
+   "semantic_model_ref": null
+  }
+ ],
+ "insulin": [
+  {
+   "kind": "class",
+   "iri": "dcg:Insulin",
+   "semantic_model_ref": "metric:insulin_rate"
+  }
+ ],
+ "insulin rate": [
+  {
+   "kind": "metric",
+   "name": "insulin_rate",
+   "label": "Insulin use"
+  }
+ ],
+ "insulin use": [
+  {
+   "kind": "metric",
+   "name": "insulin_rate",
+   "label": "Insulin use"
+  }
+ ],
+ "intermediate clinical outcome": [
+  {
+   "kind": "class",
+   "iri": "dcg:CareOutcome",
+   "semantic_model_ref": null
+  }
+ ],
+ "jurisdiction": [
+  {
+   "kind": "class",
+   "iri": "dcg:Province",
+   "semantic_model_ref": "dim:province"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__province"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__province"
+  }
+ ],
+ "kidney disease": [
+  {
+   "kind": "class",
+   "iri": "dcg:ChronicKidneyDisease",
+   "semantic_model_ref": "dim:has_ckd_or_ascvd"
+  }
+ ],
+ "kidney function": [
+  {
+   "kind": "class",
+   "iri": "dcg:EGFRResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "kidney screened rate": [
+  {
+   "kind": "metric",
+   "name": "kidney_screened_rate",
+   "label": "Kidney screening (eGFR + ACR) in 12 months"
+  }
+ ],
+ "kidney screening": [
+  {
+   "kind": "metric",
+   "name": "kidney_screened_rate",
+   "label": "Kidney screening (eGFR + ACR) in 12 months"
+  }
+ ],
+ "kidney screening (egfr + acr) in 12 months": [
+  {
+   "kind": "metric",
+   "name": "kidney_screened_rate",
+   "label": "Kidney screening (eGFR + ACR) in 12 months"
+  }
+ ],
+ "kpi": [
+  {
+   "kind": "class",
+   "iri": "dcg:Indicator",
+   "semantic_model_ref": null
+  }
+ ],
+ "lab": [
+  {
+   "kind": "class",
+   "iri": "dcg:LabResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "lab test": [
+  {
+   "kind": "class",
+   "iri": "dcg:LabResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "laboratory result": [
+  {
+   "kind": "class",
+   "iri": "dcg:LabResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "language": [
+  {
+   "kind": "class",
+   "iri": "dcg:ServiceLanguage",
+   "semantic_model_ref": "dim:service_language"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__service_language"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__service_language"
+  }
+ ],
+ "latest a1c > 9% (among tested)": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_tested_rate",
+   "label": "Latest A1C > 9% (among tested)"
+  }
+ ],
+ "latest a1c at target (among tested)": [
+  {
+   "kind": "metric",
+   "name": "a1c_at_target_rate",
+   "label": "Latest A1C at target (among tested)"
+  }
+ ],
+ "latest bp < 130/80": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_rate",
+   "label": "Latest BP < 130/80"
+  }
+ ],
+ "latest bp < 130/80 (among measured)": [
+  {
+   "kind": "metric",
+   "name": "bp_at_target_measured_rate",
+   "label": "Latest BP < 130/80 (among measured)"
+  }
+ ],
+ "ldl": [
+  {
+   "kind": "class",
+   "iri": "dcg:LDLResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "ldl cholesterol result": [
+  {
+   "kind": "class",
+   "iri": "dcg:LDLResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "ldl test": [
+  {
+   "kind": "metric",
+   "name": "lipid_tested_rate",
+   "label": "LDL-C tested in window"
+  }
+ ],
+ "ldl-c": [
+  {
+   "kind": "class",
+   "iri": "dcg:LDLResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "ldl-c tested in window": [
+  {
+   "kind": "metric",
+   "name": "lipid_tested_rate",
+   "label": "LDL-C tested in window"
+  }
+ ],
+ "lipid screening": [
+  {
+   "kind": "metric",
+   "name": "lipid_tested_rate",
+   "label": "LDL-C tested in window"
+  }
+ ],
+ "lipid tested rate": [
+  {
+   "kind": "metric",
+   "name": "lipid_tested_rate",
+   "label": "LDL-C tested in window"
+  }
+ ],
+ "lipids": [
+  {
+   "kind": "class",
+   "iri": "dcg:LDLResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "low blood sugar": [
+  {
+   "kind": "class",
+   "iri": "dcg:HypoglycemiaEvent",
+   "semantic_model_ref": null
+  }
+ ],
+ "male/female": [
+  {
+   "kind": "dimension",
+   "name": "population_member__sex"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__sex"
+  }
+ ],
+ "mean bmi": [
+  {
+   "kind": "metric",
+   "name": "bmi_latest_mean_kg_m2",
+   "label": "Mean latest BMI (kg/m2)"
+  }
+ ],
+ "mean diastolic": [
+  {
+   "kind": "metric",
+   "name": "bp_diastolic_mean_mmhg",
+   "label": "Mean latest diastolic BP (mmHg)"
+  }
+ ],
+ "mean hba1c": [
+  {
+   "kind": "metric",
+   "name": "a1c_latest_mean_pct",
+   "label": "Mean latest A1C (%)"
+  }
+ ],
+ "mean latest a1c (%)": [
+  {
+   "kind": "metric",
+   "name": "a1c_latest_mean_pct",
+   "label": "Mean latest A1C (%)"
+  }
+ ],
+ "mean latest bmi (kg/m2)": [
+  {
+   "kind": "metric",
+   "name": "bmi_latest_mean_kg_m2",
+   "label": "Mean latest BMI (kg/m2)"
+  }
+ ],
+ "mean latest diastolic bp (mmhg)": [
+  {
+   "kind": "metric",
+   "name": "bp_diastolic_mean_mmhg",
+   "label": "Mean latest diastolic BP (mmHg)"
+  }
+ ],
+ "mean latest systolic bp (mmhg)": [
+  {
+   "kind": "metric",
+   "name": "bp_systolic_mean_mmhg",
+   "label": "Mean latest systolic BP (mmHg)"
+  }
+ ],
+ "mean systolic": [
+  {
+   "kind": "metric",
+   "name": "bp_systolic_mean_mmhg",
+   "label": "Mean latest systolic BP (mmHg)"
+  }
+ ],
+ "measure": [
+  {
+   "kind": "class",
+   "iri": "dcg:Indicator",
+   "semantic_model_ref": null
+  }
+ ],
+ "measurement": [
+  {
+   "kind": "class",
+   "iri": "dcg:ObservationResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "measurement period": [
+  {
+   "kind": "class",
+   "iri": "dcg:MeasurementPeriod",
+   "semantic_model_ref": "dim:period_end"
+  }
+ ],
+ "median a1c": [
+  {
+   "kind": "metric",
+   "name": "a1c_latest_median_pct",
+   "label": "Median latest A1C (%)"
+  }
+ ],
+ "median bmi": [
+  {
+   "kind": "metric",
+   "name": "bmi_latest_median_kg_m2",
+   "label": "Median latest BMI (kg/m2)"
+  }
+ ],
+ "median diastolic": [
+  {
+   "kind": "metric",
+   "name": "bp_diastolic_median_mmhg",
+   "label": "Median latest diastolic BP (mmHg)"
+  }
+ ],
+ "median latest a1c (%)": [
+  {
+   "kind": "metric",
+   "name": "a1c_latest_median_pct",
+   "label": "Median latest A1C (%)"
+  }
+ ],
+ "median latest bmi (kg/m2)": [
+  {
+   "kind": "metric",
+   "name": "bmi_latest_median_kg_m2",
+   "label": "Median latest BMI (kg/m2)"
+  }
+ ],
+ "median latest diastolic bp (mmhg)": [
+  {
+   "kind": "metric",
+   "name": "bp_diastolic_median_mmhg",
+   "label": "Median latest diastolic BP (mmHg)"
+  }
+ ],
+ "median latest systolic bp (mmhg)": [
+  {
+   "kind": "metric",
+   "name": "bp_systolic_median_mmhg",
+   "label": "Median latest systolic BP (mmHg)"
+  }
+ ],
+ "median systolic": [
+  {
+   "kind": "metric",
+   "name": "bp_systolic_median_mmhg",
+   "label": "Median latest systolic BP (mmHg)"
+  }
+ ],
+ "medication": [
+  {
+   "kind": "class",
+   "iri": "dcg:MedicationExposure",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__therapy_profile"
+  }
+ ],
+ "medication exposure": [
+  {
+   "kind": "class",
+   "iri": "dcg:MedicationExposure",
+   "semantic_model_ref": null
+  }
+ ],
+ "medication without diagnosis": [
+  {
+   "kind": "metric",
+   "name": "possible_case_rate",
+   "label": "Possible undiagnosed cases (medication only)"
+  }
+ ],
+ "medications": [
+  {
+   "kind": "metric",
+   "name": "metformin_rate",
+   "label": "Metformin use"
+  },
+  {
+   "kind": "metric",
+   "name": "insulin_rate",
+   "label": "Insulin use"
+  },
+  {
+   "kind": "metric",
+   "name": "sglt2i_rate",
+   "label": "SGLT2 inhibitor use"
+  },
+  {
+   "kind": "metric",
+   "name": "glp1ra_rate",
+   "label": "GLP-1 receptor agonist use"
+  },
+  {
+   "kind": "metric",
+   "name": "dpp4i_rate",
+   "label": "DPP-4 inhibitor use"
+  },
+  {
+   "kind": "metric",
+   "name": "sulfonylurea_rate",
+   "label": "Sulfonylurea use"
+  },
+  {
+   "kind": "metric",
+   "name": "tzd_rate",
+   "label": "Thiazolidinedione use"
+  },
+  {
+   "kind": "metric",
+   "name": "acei_arb_rate",
+   "label": "ACE inhibitor or ARB use"
+  },
+  {
+   "kind": "metric",
+   "name": "antihyperglycemic_rate",
+   "label": "Any antihyperglycemic use"
+  }
+ ],
+ "metformin": [
+  {
+   "kind": "class",
+   "iri": "dcg:Metformin",
+   "semantic_model_ref": "metric:metformin_rate"
+  }
+ ],
+ "metformin rate": [
+  {
+   "kind": "metric",
+   "name": "metformin_rate",
+   "label": "Metformin use"
+  }
+ ],
+ "metformin use": [
+  {
+   "kind": "metric",
+   "name": "metformin_rate",
+   "label": "Metformin use"
+  }
+ ],
+ "metric": [
+  {
+   "kind": "class",
+   "iri": "dcg:Indicator",
+   "semantic_model_ref": null
+  }
+ ],
+ "microalbumin": [
+  {
+   "kind": "class",
+   "iri": "dcg:UACRResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "missed care": [
+  {
+   "kind": "class",
+   "iri": "dcg:CareGap",
+   "semantic_model_ref": "measure:gap_count_total, metric:any_gap_rate, metric:gaps_per_member"
+  },
+  {
+   "kind": "metric",
+   "name": "any_gap_rate",
+   "label": "Any open care gap"
+  }
+ ],
+ "missing diagnosis": [
+  {
+   "kind": "metric",
+   "name": "possible_case_rate",
+   "label": "Possible undiagnosed cases (medication only)"
+  }
+ ],
+ "missing diagnosis onset": [
+  {
+   "kind": "metric",
+   "name": "dq_missing_onset_rate",
+   "label": "DQ: Missing diagnosis onset"
+  }
+ ],
+ "missing value": [
+  {
+   "kind": "class",
+   "iri": "dcg:MissingValue",
+   "semantic_model_ref": null
+  }
+ ],
+ "monofilament": [
+  {
+   "kind": "metric",
+   "name": "foot_exam_rate",
+   "label": "Foot exam in 12 months"
+  }
+ ],
+ "monofilament test": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticFootExam",
+   "semantic_model_ref": null
+  }
+ ],
+ "nephropathy screening": [
+  {
+   "kind": "metric",
+   "name": "kidney_screened_rate",
+   "label": "Kidney screening (eGFR + ACR) in 12 months"
+  }
+ ],
+ "nerve damage": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticNeuropathy",
+   "semantic_model_ref": null
+  }
+ ],
+ "no eye exam in window": [
+  {
+   "kind": "metric",
+   "name": "gap_eye_exam_rate",
+   "label": "Gap: No eye exam in window"
+  }
+ ],
+ "no foot exam": [
+  {
+   "kind": "metric",
+   "name": "gap_foot_exam_rate",
+   "label": "Gap: No foot exam"
+  }
+ ],
+ "no kidney screening": [
+  {
+   "kind": "metric",
+   "name": "gap_kidney_screen_rate",
+   "label": "Gap: No kidney screening"
+  }
+ ],
+ "no ldl-c in window": [
+  {
+   "kind": "metric",
+   "name": "gap_lipid_test_rate",
+   "label": "Gap: No LDL-C in window"
+  }
+ ],
+ "no recent a1c": [
+  {
+   "kind": "metric",
+   "name": "gap_a1c_test_rate",
+   "label": "Gap: No recent A1C"
+  }
+ ],
+ "not at target": [
+  {
+   "kind": "class",
+   "iri": "dcg:CareGap",
+   "semantic_model_ref": "measure:gap_count_total, metric:any_gap_rate, metric:gaps_per_member"
+  }
+ ],
+ "number of diabetics": [
+  {
+   "kind": "metric",
+   "name": "cohort_size",
+   "label": "People with diabetes (cohort)"
+  }
+ ],
+ "obesity": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__bmi_category"
+  }
+ ],
+ "observation result": [
+  {
+   "kind": "class",
+   "iri": "dcg:ObservationResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "on ace inhibitor or arb": [
+  {
+   "kind": "metric",
+   "name": "acei_arb_rate",
+   "label": "ACE inhibitor or ARB use"
+  }
+ ],
+ "on any antihyperglycemic": [
+  {
+   "kind": "metric",
+   "name": "antihyperglycemic_rate",
+   "label": "Any antihyperglycemic use"
+  }
+ ],
+ "on dpp-4 inhibitor": [
+  {
+   "kind": "metric",
+   "name": "dpp4i_rate",
+   "label": "DPP-4 inhibitor use"
+  }
+ ],
+ "on glp-1 receptor agonist": [
+  {
+   "kind": "metric",
+   "name": "glp1ra_rate",
+   "label": "GLP-1 receptor agonist use"
+  }
+ ],
+ "on insulin": [
+  {
+   "kind": "metric",
+   "name": "insulin_rate",
+   "label": "Insulin use"
+  }
+ ],
+ "on metformin": [
+  {
+   "kind": "metric",
+   "name": "metformin_rate",
+   "label": "Metformin use"
+  }
+ ],
+ "on sglt2 inhibitor": [
+  {
+   "kind": "metric",
+   "name": "sglt2i_rate",
+   "label": "SGLT2 inhibitor use"
+  }
+ ],
+ "on sulfonylurea": [
+  {
+   "kind": "metric",
+   "name": "sulfonylurea_rate",
+   "label": "Sulfonylurea use"
+  }
+ ],
+ "on thiazolidinedione": [
+  {
+   "kind": "metric",
+   "name": "tzd_rate",
+   "label": "Thiazolidinedione use"
+  }
+ ],
+ "open gaps per member": [
+  {
+   "kind": "metric",
+   "name": "gaps_per_member",
+   "label": "Open gaps per member"
+  }
+ ],
+ "other antihyperglycemic": [
+  {
+   "kind": "class",
+   "iri": "dcg:OtherAntihyperglycemic",
+   "semantic_model_ref": null
+  }
+ ],
+ "other diabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:OtherSpecifiedDiabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "other specified (secondary) diabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:OtherSpecifiedDiabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "outcome gap": [
+  {
+   "kind": "class",
+   "iri": "dcg:OutcomeGap",
+   "semantic_model_ref": null
+  }
+ ],
+ "overdue": [
+  {
+   "kind": "class",
+   "iri": "dcg:CareGap",
+   "semantic_model_ref": "measure:gap_count_total, metric:any_gap_rate, metric:gaps_per_member"
+  }
+ ],
+ "overdue a1c": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_recent_rate",
+   "label": "A1C tested in recency window"
+  }
+ ],
+ "parameter": [
+  {
+   "kind": "class",
+   "iri": "dcg:Parameter",
+   "semantic_model_ref": null
+  }
+ ],
+ "patient": [
+  {
+   "kind": "class",
+   "iri": "dcg:Person",
+   "semantic_model_ref": null
+  }
+ ],
+ "patients with gaps": [
+  {
+   "kind": "metric",
+   "name": "any_gap_rate",
+   "label": "Any open care gap"
+  }
+ ],
+ "people with diabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesCohort",
+   "semantic_model_ref": "measure:cohort_members"
+  }
+ ],
+ "people with diabetes (cohort)": [
+  {
+   "kind": "metric",
+   "name": "cohort_size",
+   "label": "People with diabetes (cohort)"
+  }
+ ],
+ "percent with diabetes": [
+  {
+   "kind": "metric",
+   "name": "diabetes_prevalence_crude",
+   "label": "Diabetes prevalence (crude, adults)"
+  }
+ ],
+ "period end": [
+  {
+   "kind": "dimension",
+   "name": "population_member__period_end"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__period_end"
+  }
+ ],
+ "peripheral neuropathy": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticNeuropathy",
+   "semantic_model_ref": null
+  }
+ ],
+ "person": [
+  {
+   "kind": "class",
+   "iri": "dcg:Person",
+   "semantic_model_ref": null
+  }
+ ],
+ "phenotype": [
+  {
+   "kind": "class",
+   "iri": "dcg:CasePhenotype",
+   "semantic_model_ref": null
+  }
+ ],
+ "phenotype version": [
+  {
+   "kind": "dimension",
+   "name": "population_member__phenotype_version"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__phenotype_version"
+  }
+ ],
+ "plasma glucose result": [
+  {
+   "kind": "class",
+   "iri": "dcg:GlucoseResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "poor control": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_rate",
+   "label": "A1C > 9% or untested"
+  }
+ ],
+ "poor control among tested": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_tested_rate",
+   "label": "Latest A1C > 9% (among tested)"
+  }
+ ],
+ "population criteria": [
+  {
+   "kind": "class",
+   "iri": "dcg:PopulationCriteria",
+   "semantic_model_ref": null
+  }
+ ],
+ "possible case rate": [
+  {
+   "kind": "metric",
+   "name": "possible_case_rate",
+   "label": "Possible undiagnosed cases (medication only)"
+  }
+ ],
+ "possible cases": [
+  {
+   "kind": "metric",
+   "name": "possible_case_rate",
+   "label": "Possible undiagnosed cases (medication only)"
+  }
+ ],
+ "possible undiagnosed cases (medication only)": [
+  {
+   "kind": "metric",
+   "name": "possible_case_rate",
+   "label": "Possible undiagnosed cases (medication only)"
+  }
+ ],
+ "postal prefix": [
+  {
+   "kind": "class",
+   "iri": "dcg:ForwardSortationArea",
+   "semantic_model_ref": "dim:fsa"
+  }
+ ],
+ "prediabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:Prediabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "preferred language": [
+  {
+   "kind": "class",
+   "iri": "dcg:ServiceLanguage",
+   "semantic_model_ref": "dim:service_language"
+  }
+ ],
+ "prescription": [
+  {
+   "kind": "class",
+   "iri": "dcg:MedicationExposure",
+   "semantic_model_ref": null
+  }
+ ],
+ "prevalence": [
+  {
+   "kind": "metric",
+   "name": "diabetes_prevalence_crude",
+   "label": "Diabetes prevalence (crude, adults)"
+  }
+ ],
+ "problem": [
+  {
+   "kind": "class",
+   "iri": "dcg:ConditionRecord",
+   "semantic_model_ref": null
+  }
+ ],
+ "procedure record": [
+  {
+   "kind": "class",
+   "iri": "dcg:ProcedureRecord",
+   "semantic_model_ref": null
+  }
+ ],
+ "process gap": [
+  {
+   "kind": "class",
+   "iri": "dcg:ProcessGap",
+   "semantic_model_ref": null
+  }
+ ],
+ "province": [
+  {
+   "kind": "dimension",
+   "name": "population_member__province"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__province"
+  }
+ ],
+ "province or territory": [
+  {
+   "kind": "class",
+   "iri": "dcg:Province",
+   "semantic_model_ref": "dim:province"
+  }
+ ],
+ "pt": [
+  {
+   "kind": "class",
+   "iri": "dcg:Province",
+   "semantic_model_ref": "dim:province"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__province"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__province"
+  }
+ ],
+ "published benchmark": [
+  {
+   "kind": "class",
+   "iri": "dcg:Benchmark",
+   "semantic_model_ref": null
+  }
+ ],
+ "published indicator": [
+  {
+   "kind": "class",
+   "iri": "dcg:Benchmark",
+   "semantic_model_ref": null
+  }
+ ],
+ "quarter": [
+  {
+   "kind": "dimension",
+   "name": "population_member__period_end"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__period_end"
+  }
+ ],
+ "raas blocker": [
+  {
+   "kind": "class",
+   "iri": "dcg:ACEInhibitorOrARB",
+   "semantic_model_ref": "metric:acei_arb_rate"
+  }
+ ],
+ "racialized group": [
+  {
+   "kind": "class",
+   "iri": "dcg:RacializedGroup",
+   "semantic_model_ref": "dim:racialized_group"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__racialized_group"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__racialized_group"
+  }
+ ],
+ "rate": [
+  {
+   "kind": "class",
+   "iri": "dcg:Indicator",
+   "semantic_model_ref": null
+  }
+ ],
+ "real-world source": [
+  {
+   "kind": "class",
+   "iri": "dcg:RealWorldSource",
+   "semantic_model_ref": null
+  }
+ ],
+ "recent a1c": [
+  {
+   "kind": "metric",
+   "name": "a1c_tested_recent_rate",
+   "label": "A1C tested in recency window"
+  }
+ ],
+ "recommended care process": [
+  {
+   "kind": "class",
+   "iri": "dcg:CareProcess",
+   "semantic_model_ref": null
+  }
+ ],
+ "reference value": [
+  {
+   "kind": "class",
+   "iri": "dcg:Benchmark",
+   "semantic_model_ref": null
+  }
+ ],
+ "region": [
+  {
+   "kind": "class",
+   "iri": "dcg:Province",
+   "semantic_model_ref": "dim:province"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__province"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__province"
+  }
+ ],
+ "reporting period": [
+  {
+   "kind": "class",
+   "iri": "dcg:MeasurementPeriod",
+   "semantic_model_ref": "dim:period_end"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__period_end"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__period_end"
+  }
+ ],
+ "result": [
+  {
+   "kind": "class",
+   "iri": "dcg:ObservationResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "retinal screening": [
+  {
+   "kind": "class",
+   "iri": "dcg:RetinopathyScreening",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "metric",
+   "name": "eye_exam_rate",
+   "label": "Retinopathy screening in window"
+  }
+ ],
+ "retinopathy": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabeticRetinopathy",
+   "semantic_model_ref": null
+  }
+ ],
+ "retinopathy screening": [
+  {
+   "kind": "class",
+   "iri": "dcg:RetinopathyScreening",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "metric",
+   "name": "eye_exam_rate",
+   "label": "Retinopathy screening in window"
+  }
+ ],
+ "retinopathy screening in window": [
+  {
+   "kind": "metric",
+   "name": "eye_exam_rate",
+   "label": "Retinopathy screening in window"
+  }
+ ],
+ "rx": [
+  {
+   "kind": "class",
+   "iri": "dcg:MedicationExposure",
+   "semantic_model_ref": null
+  }
+ ],
+ "screening gap": [
+  {
+   "kind": "class",
+   "iri": "dcg:ProcessGap",
+   "semantic_model_ref": null
+  }
+ ],
+ "secondary diabetes": [
+  {
+   "kind": "class",
+   "iri": "dcg:OtherSpecifiedDiabetes",
+   "semantic_model_ref": null
+  }
+ ],
+ "self-management education": [
+  {
+   "kind": "class",
+   "iri": "dcg:DiabetesSelfManagementPlan",
+   "semantic_model_ref": null
+  }
+ ],
+ "semaglutide-class": [
+  {
+   "kind": "class",
+   "iri": "dcg:GLP1ReceptorAgonist",
+   "semantic_model_ref": "metric:glp1ra_rate"
+  }
+ ],
+ "service language": [
+  {
+   "kind": "class",
+   "iri": "dcg:ServiceLanguage",
+   "semantic_model_ref": "dim:service_language"
+  },
+  {
+   "kind": "dimension",
+   "name": "population_member__service_language"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__service_language"
+  }
+ ],
+ "sex": [
+  {
+   "kind": "dimension",
+   "name": "population_member__sex"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__sex"
+  }
+ ],
+ "sglt2 inhibitor": [
+  {
+   "kind": "class",
+   "iri": "dcg:SGLT2Inhibitor",
+   "semantic_model_ref": "metric:sglt2i_rate"
+  }
+ ],
+ "sglt2 inhibitor use": [
+  {
+   "kind": "metric",
+   "name": "sglt2i_rate",
+   "label": "SGLT2 inhibitor use"
+  }
+ ],
+ "sglt2 or glp-1 for ckd": [
+  {
+   "kind": "metric",
+   "name": "cardiorenal_agent_rate",
+   "label": "SGLT2i or GLP-1 RA with CKD or ASCVD"
+  }
+ ],
+ "sglt2i or glp-1 ra with ckd or ascvd": [
+  {
+   "kind": "metric",
+   "name": "cardiorenal_agent_rate",
+   "label": "SGLT2i or GLP-1 RA with CKD or ASCVD"
+  }
+ ],
+ "sglt2i rate": [
+  {
+   "kind": "metric",
+   "name": "sglt2i_rate",
+   "label": "SGLT2 inhibitor use"
+  }
+ ],
+ "statin": [
+  {
+   "kind": "class",
+   "iri": "dcg:Statin",
+   "semantic_model_ref": "metric:statin_rate_40plus"
+  },
+  {
+   "kind": "metric",
+   "name": "statin_rate_40plus",
+   "label": "Statin use, age >= 40"
+  }
+ ],
+ "statin rate 40plus": [
+  {
+   "kind": "metric",
+   "name": "statin_rate_40plus",
+   "label": "Statin use, age >= 40"
+  }
+ ],
+ "statin use, age >= 40": [
+  {
+   "kind": "metric",
+   "name": "statin_rate_40plus",
+   "label": "Statin use, age >= 40"
+  }
+ ],
+ "sulfonylurea": [
+  {
+   "kind": "class",
+   "iri": "dcg:Sulfonylurea",
+   "semantic_model_ref": "metric:sulfonylurea_rate"
+  }
+ ],
+ "sulfonylurea rate": [
+  {
+   "kind": "metric",
+   "name": "sulfonylurea_rate",
+   "label": "Sulfonylurea use"
+  }
+ ],
+ "sulfonylurea use": [
+  {
+   "kind": "metric",
+   "name": "sulfonylurea_rate",
+   "label": "Sulfonylurea use"
+  }
+ ],
+ "synthea data": [
+  {
+   "kind": "class",
+   "iri": "dcg:SyntheticCohort",
+   "semantic_model_ref": null
+  }
+ ],
+ "synthetic cohort": [
+  {
+   "kind": "class",
+   "iri": "dcg:SyntheticCohort",
+   "semantic_model_ref": null
+  }
+ ],
+ "t1/t2": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__diabetes_type"
+  }
+ ],
+ "t1d": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type1DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "t1dm": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type1DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "t2d": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type2DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "t2dm": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type2DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "temporal inconsistency": [
+  {
+   "kind": "class",
+   "iri": "dcg:TemporalInconsistency",
+   "semantic_model_ref": null
+  }
+ ],
+ "terminology stewardship queue": [
+  {
+   "kind": "class",
+   "iri": "dcg:StewardshipQueue",
+   "semantic_model_ref": null
+  }
+ ],
+ "testing gap": [
+  {
+   "kind": "class",
+   "iri": "dcg:ProcessGap",
+   "semantic_model_ref": null
+  }
+ ],
+ "therapy class": [
+  {
+   "kind": "class",
+   "iri": "dcg:TherapyClass",
+   "semantic_model_ref": "dim:therapy_profile"
+  }
+ ],
+ "therapy gap": [
+  {
+   "kind": "class",
+   "iri": "dcg:TherapyGap",
+   "semantic_model_ref": null
+  }
+ ],
+ "therapy profile": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__therapy_profile"
+  }
+ ],
+ "thiazolidinedione": [
+  {
+   "kind": "class",
+   "iri": "dcg:Thiazolidinedione",
+   "semantic_model_ref": "metric:tzd_rate"
+  }
+ ],
+ "thiazolidinedione use": [
+  {
+   "kind": "metric",
+   "name": "tzd_rate",
+   "label": "Thiazolidinedione use"
+  }
+ ],
+ "treatment": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__therapy_profile"
+  }
+ ],
+ "treatment gap": [
+  {
+   "kind": "class",
+   "iri": "dcg:TherapyGap",
+   "semantic_model_ref": null
+  }
+ ],
+ "type": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__diabetes_type"
+  }
+ ],
+ "type 1": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type1DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "type 1 diabetes mellitus": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type1DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "type 2": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type2DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "type 2 diabetes mellitus": [
+  {
+   "kind": "class",
+   "iri": "dcg:Type2DiabetesMellitus",
+   "semantic_model_ref": null
+  }
+ ],
+ "tzd": [
+  {
+   "kind": "class",
+   "iri": "dcg:Thiazolidinedione",
+   "semantic_model_ref": "metric:tzd_rate"
+  }
+ ],
+ "tzd rate": [
+  {
+   "kind": "metric",
+   "name": "tzd_rate",
+   "label": "Thiazolidinedione use"
+  }
+ ],
+ "uacr": [
+  {
+   "kind": "class",
+   "iri": "dcg:UACRResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "uncontrolled diabetes": [
+  {
+   "kind": "metric",
+   "name": "a1c_poor_control_rate",
+   "label": "A1C > 9% or untested"
+  }
+ ],
+ "unit conversion": [
+  {
+   "kind": "class",
+   "iri": "dcg:UnitConversion",
+   "semantic_model_ref": null
+  }
+ ],
+ "unit non-conformance": [
+  {
+   "kind": "class",
+   "iri": "dcg:UnitNonConformance",
+   "semantic_model_ref": null
+  }
+ ],
+ "unmapped code": [
+  {
+   "kind": "class",
+   "iri": "dcg:UnmappedCode",
+   "semantic_model_ref": null
+  }
+ ],
+ "urine albumin-to-creatinine ratio result": [
+  {
+   "kind": "class",
+   "iri": "dcg:UACRResult",
+   "semantic_model_ref": null
+  }
+ ],
+ "urine protein test": [
+  {
+   "kind": "class",
+   "iri": "dcg:UACRResult",
+   "semantic_model_ref": null
+  },
+  {
+   "kind": "metric",
+   "name": "kidney_screened_rate",
+   "label": "Kidney screening (eGFR + ACR) in 12 months"
+  }
+ ],
+ "vascular protection": [
+  {
+   "kind": "metric",
+   "name": "statin_rate_40plus",
+   "label": "Statin use, age >= 40"
+  }
+ ],
+ "vascular protection therapy": [
+  {
+   "kind": "class",
+   "iri": "dcg:VascularProtectionTherapy",
+   "semantic_model_ref": null
+  }
+ ],
+ "visit": [
+  {
+   "kind": "class",
+   "iri": "dcg:Encounter",
+   "semantic_model_ref": null
+  }
+ ],
+ "vital sign": [
+  {
+   "kind": "class",
+   "iri": "dcg:VitalSign",
+   "semantic_model_ref": null
+  }
+ ],
+ "weight category": [
+  {
+   "kind": "class",
+   "iri": "dcg:BMIResult",
+   "semantic_model_ref": "metric:bmi_recorded_rate, metric:bmi_latest_median_kg_m2, dim:bmi_category"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__bmi_category"
+  }
+ ],
+ "weight measured": [
+  {
+   "kind": "metric",
+   "name": "bmi_recorded_rate",
+   "label": "BMI recorded in 12 months"
+  }
+ ],
+ "why in cohort": [
+  {
+   "kind": "dimension",
+   "name": "population_member__case_basis"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__case_basis"
+  }
+ ],
+ "year": [
+  {
+   "kind": "dimension",
+   "name": "population_member__period_end"
+  },
+  {
+   "kind": "dimension",
+   "name": "patient_period__period_end"
+  }
+ ],
+ "years with diabetes": [
+  {
+   "kind": "dimension",
+   "name": "patient_period__diabetes_duration_band"
+  }
+ ]
+}

@@ -1,0 +1,75 @@
+{
+  "resourceType": "ViewDefinition",
+  "url": "https://ontology.hac-poc.example/views/dcg_medication_dispense",
+  "name": "dcg_medication_dispense",
+  "title": "Pharmacy dispenses (base R4 MedicationDispense)",
+  "status": "draft",
+  "resource": "MedicationDispense",
+  "select": [
+    {
+      "column": [
+        {
+          "path": "getResourceKey()",
+          "name": "medication_dispense_id",
+          "type": "string"
+        },
+        {
+          "path": "subject.getReferenceKey(Patient)",
+          "name": "patient_id",
+          "type": "string"
+        },
+        {
+          "path": "status",
+          "name": "status",
+          "type": "code"
+        },
+        {
+          "path": "whenHandedOver",
+          "name": "when_handed_over",
+          "type": "dateTime"
+        },
+        {
+          "path": "daysSupply.value",
+          "name": "days_supply",
+          "type": "decimal"
+        },
+        {
+          "path": "medication.ofType(CodeableConcept).text",
+          "name": "med_text",
+          "type": "string"
+        },
+        {
+          "path": "medication.ofType(CodeableConcept).coding.where(system='http://www.whocc.no/atc').code.first()",
+          "name": "atc_code",
+          "type": "code"
+        }
+      ]
+    },
+    {
+      "forEachOrNull": "medication.ofType(CodeableConcept).coding.first()",
+      "column": [
+        {
+          "path": "system",
+          "name": "med_code_system",
+          "type": "uri",
+          "description": "DIN / CCDD (Canadian pharmacy) or RxNorm (Synthea)"
+        },
+        {
+          "path": "code",
+          "name": "med_code",
+          "type": "code"
+        },
+        {
+          "path": "display",
+          "name": "med_display",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "where": [
+    {
+      "path": "status = 'completed'"
+    }
+  ]
+}

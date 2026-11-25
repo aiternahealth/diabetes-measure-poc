@@ -1,0 +1,9 @@
+# dbt connection profile for the local pipeline. The Makefile sets DCG_DUCKDB to data/dcg.duckdb.
+dcg:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DCG_DUCKDB') }}"
+      schema: main
+      threads: 4

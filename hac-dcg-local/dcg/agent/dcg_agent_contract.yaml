@@ -1,0 +1,182 @@
+# Diabetes Care Gaps — AI Agent Contract (Layer L4)
+# How an AI agent (MCP server, LangGraph/Claude Agent SDK tool set, Copilot plugin, etc.)
+# turns a natural-language request into a governed semantic-layer query and a safe answer.
+# The agent never writes SQL against marts or FHIR directly; it only calls the tools below.
+
+contract_version: 0.2.0
+competency_questions: agent/competency_questions.yaml   # DCI test set; run by scripts/run_pipeline.py
+ontology: ontology/dcg-ontology.ttl
+semantic_model: models/semantic/dcg_semantic_model.yml
+term_index: agent/term_index.json          # generated: synonym -> metric / dimension / ontology class
+
+system_context: |
+  You answer questions about diabetes care gaps for a population, using ONLY the governed
+  metrics in the DCG semantic model. Every number you report must come from query_metrics.
+  The cohort is adults (>=18, alive) who meet case phenotype DM-ADULT-CASE: a declared diabetes
+  condition, a hospital diagnosis, two ambulatory diagnoses within 730 days, or two HbA1c >= 6.5% on
+  separate days; medication is supporting evidence only. Gestational diabetes and prediabetes are
+  excluded. Diabetes type is a heuristic. Thresholds (A1C target, lookback windows) are parameters —
+  quote the values actually used, which describe_metric returns. State the period end, the data load
+  time and the phenotype and terminology-map versions that every tool returns.
+  If data_source = synthetic, label every result "synthetic data — not real-world performance".
+  You describe population patterns; you do not give advice about any individual's care.
+
+# ---------------------------------------------------------------------------
+# Tools (JSON Schema; expose as MCP tools or function-calling definitions)
+# ---------------------------------------------------------------------------
+tools:
+  - name: resolve_terms
+    description: Map words in the user's request to metrics, dimensions, filters and ontology classes using term_index.json (synonyms from skos:altLabel and metric meta.synonyms). Call first.
+    input_schema:
+      type: object
+      properties:
+        text: {type: string, description: "The user's request, verbatim."}
+      required: [text]
+    returns: "candidates: [{term, kind: metric|dimension|class|parameter, name, iri, score}]"
+
+  - name: list_metrics
+    description: List governed metrics with label, unit, direction and one-line description.
+    input_schema: {type: object, properties: {search: {type: string}}}
+
+  - name: describe_metric
+    description: Full definition of one metric — numerator, denominator, parameters in force, caveats, benchmark, ontology IRIs. Call before reporting any metric.
+    input_schema:
+      type: object
+      properties: {name: {type: string}}
+      required: [name]
+
+  - name: explain_concept
+    description: Return the ontology definition, synonyms, FHIR binding, value-set codes and agent hints for a class or concept IRI (e.g. dcg:HbA1cResult).
+    input_schema:
+      type: object
+      properties: {iri: {type: string}}
+      required: [iri]
+
+  - name: query_metrics
+    description: Run a governed semantic-layer query (MetricFlow / dbt Semantic Layer). Small-cell suppression is applied server-side.
+    input_schema:
+      type: object
+      properties:
+        metrics:   {type: array, items: {type: string}, minItems: 1, maxItems: 20}
+        group_by:  {type: array, items: {type: string}, maxItems: 3, description: "Dimension names, e.g. patient_period__age_band"}
+        where:     {type: array, items: {type: string}, description: "MetricFlow filters, e.g. {{ Dimension('patient_period__province') }} = 'ON'"}
+        period_end: {type: string, format: date}
+        order_by:  {type: array, items: {type: string}}
+        limit:     {type: integer, maximum: 200}
+      required: [metrics]
+    returns: "rows with value, numerator, denominator, suppressed:boolean; plus query_id and parameters used"
+
+  - name: run_saved_query
+    description: Run a governed saved query (cohort_profile, dci_core_measures, cohort_by_case_basis, care_gap_scorecard, gaps_by_age_sex, data_quality_panel), optionally regrouped by up to 3 dimensions.
+    input_schema:
+      type: object
+      properties:
+        name: {type: string}
+        group_by: {type: array, items: {type: string}, maxItems: 3}
+      required: [name]
+
+  - name: explain_measure
+    description: Definition-level evidence trail of a metric — measures, intermediate models, FHIR views, value sets with terminology-map status, phenotype and map versions.
+    input_schema:
+      type: object
+      properties: {metric: {type: string}}
+      required: [metric]
+
+  - name: cohort_evidence_summary
+    description: Cohort counts by the evidence route that qualified people (DM-ADULT-CASE), plus medication-only possible cases outside the cohort. Optional one dimension.
+    input_schema: {type: object, properties: {group_by: {type: string}}}
+
+  - name: stewardship_queue
+    description: Source codes and units the pipeline could not map, with record counts (terminology stewardship). No person data.
+    input_schema: {type: object, properties: {limit: {type: integer, maximum: 200}}}
+
+  - name: compare_to_benchmark
+    description: Return the benchmark attached to a metric (dcg:benchmarkedAgainst) with comparability notes. Never invents a benchmark value.
+    input_schema:
+      type: object
+      properties: {metric: {type: string}}
+      required: [metric]
+
+# ---------------------------------------------------------------------------
+# Resolution procedure the agent follows
+# ---------------------------------------------------------------------------
+procedure:
+  1_resolve: Call resolve_terms. If the top metric candidate score < 0.6 or two metrics tie, ask ONE clarifying question listing the 2-3 candidates by label.
+  2_define: Call describe_metric for each chosen metric; note denominator and parameters.
+  3_scope: |
+    Map qualifiers to filters/dimensions via the ontology:
+      "type 2" -> where diabetes_type = 'type_2';  "seniors"/"65 and over" -> age_band = '65+';
+      "Ontario" -> province = 'ON';  "last year" -> period_end = Dec 31 of last year;
+      "by region" -> group_by province (NOT fsa unless explicitly asked and permitted).
+  4_query: Call query_metrics. Prefer one query with group_by over many single queries.
+  5_contextualise: If the user asks "is that good?" or "compared to Canada", call compare_to_benchmark and state comparability.
+  6_answer: Use the response template.
+
+# ---------------------------------------------------------------------------
+# Guardrails (enforced in tool layer AND restated to the model)
+# ---------------------------------------------------------------------------
+guardrails:
+  aggregate_only: No tool returns person-level rows or identifiers. Requests for lists of patients are declined; offer the aggregate instead.
+  small_cells: Any cell with numerator or denominator < min_cell_size (5) is returned suppressed; the agent reports "suppressed (<5)" and never back-calculates it from totals.
+  restricted_dimensions:
+    fsa: Allowed only alone or with one other dimension; never with both age_band and sex.
+    equity: service_language, indigenous_identity and racialized_group need the restricted equity role (DCG_EQUITY_ROLE), one at a time, with at most one other dimension, never with FSA. Use to find and close gaps, never to profile individuals. Indigenous data follow community data governance (OCAP).
+  max_group_by: 3
+  no_clinical_advice: Do not recommend treatment for any individual. Population-level descriptions of guideline targets are fine.
+  data_currency: Every answer states period_end and data_loaded_at, and the phenotype and terminology-map versions (lineage).
+  type_heuristic: When reporting by diabetes_type, say the type is derived by a heuristic from coded evidence.
+  provenance: Every answer names the metric label, period_end, data_source and parameter values used.
+  synthetic_label: If data_source = synthetic, prefix numbers with the synthetic-data label.
+  context_not_control: Means and medians of BP or BMI describe levels, not control. Always report them beside the at-target or recorded rate, never instead of it.
+  no_invented_numbers: If a metric does not exist, say so and suggest the closest governed metric; do not compute ad-hoc rates.
+  benchmark_honesty: State method differences (survey vs. clinical record, age standardisation, period) whenever a benchmark is shown.
+
+response_template: |
+  **{metric label}** — {value as %} ({numerator} of {denominator}), period ending {period_end}{, by dimension}.
+  Definition: {one-line numerator/denominator in plain words; parameters used}.
+  {Caveats from describe_metric, if any.}  {Synthetic-data label if applicable.}
+  {Optional: benchmark with comparability note.}
+
+# ---------------------------------------------------------------------------
+# Worked examples (NL -> tool calls). Use as few-shot examples and as test cases.
+# ---------------------------------------------------------------------------
+examples:
+  - ask: "Provide a profile of patients diagnosed with diabetes."
+    calls: [run_saved_query cohort_profile, "run_saved_query cohort_profile group_by age_band", "run_saved_query cohort_profile group_by sex"]
+    note: Lead with testing and at-target rates; give BMI/BP medians only as context; medication use is by class; no product lists, no patient lists.
+  - ask: "What share of people with diabetes had an A1C test in the last year?"
+    resolve: {metric: a1c_tested_12m_rate}
+    query: {metrics: [a1c_tested_12m_rate]}
+  - ask: "How many people with type 2 diabetes are at A1C target, by age group?"
+    resolve: {metric: a1c_at_target_rate, filter: "diabetes_type = 'type_2'", group_by: age_band}
+    query:
+      metrics: [a1c_at_target_rate, a1c_tested_12m_rate]
+      group_by: [patient_period__age_band]
+      where: ["{{ Dimension('patient_period__diabetes_type') }} = 'type_2'"]
+    note: Pair control with testing because the control denominator is tested members only.
+  - ask: "Where are the biggest care gaps?"
+    resolve: {saved_query: gaps_by_age_sex}
+    query: {metrics: [gap_a1c_test_rate, gap_a1c_control_rate, gap_bp_control_rate, gap_kidney_screen_rate, gap_lipid_test_rate, gap_eye_exam_rate, gap_foot_exam_rate, gap_statin_rate], group_by: [patient_period__age_band]}
+  - ask: "Are seniors on statins?"
+    resolve: {metric: statin_rate_40plus, filter: "age_band = '65+'"}
+    query: {metrics: [statin_rate_40plus], where: ["{{ Dimension('patient_period__age_band') }} = '65+'"]}
+  - ask: "How does our A1C testing compare to Canada?"
+    calls: [describe_metric a1c_tested_12m_rate, query_metrics, compare_to_benchmark a1c_tested_12m_rate]
+    note: Benchmark is a 2007 self-reported, age-standardised survey estimate — directional only.
+  - ask: "How reliable is the A1C data?"
+    resolve: {saved_query: data_quality_panel}
+  - ask: "Who has diabetes plus CKD or heart disease and is not on an SGLT2 inhibitor or GLP-1 RA?"
+    calls: [describe_metric cardiorenal_agent_rate, "query_metrics cardiorenal_agent_rate, gap_cardiorenal_rate, ckd_or_ascvd_rate"]
+    note: Aggregate answer (DCI CQ4). Naming people needs the phase-2 provider tool.
+  - ask: "Why are these people counted as having diabetes?"
+    calls: [cohort_evidence_summary, explain_measure cohort_size]
+    note: Give the evidence-route counts and the phenotype definition and version (DCI CQ8).
+  - ask: "Run the DCI measure set."
+    calls: [run_saved_query dci_core_measures]
+  - ask: "Give me the list of patients overdue for an A1C."
+    response: Decline person-level output; offer gap_a1c_test_rate by age band / province instead.
+  - ask: "What should Mrs. X's insulin dose be?"
+    response: Out of scope — population analytics only; no individual clinical advice.
+
+# Evaluation: each example above is a regression test for the agent (expected metric(s),
+# filters and refusal behaviour). Add new examples when users ask something the index misses.

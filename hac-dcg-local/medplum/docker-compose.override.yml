@@ -1,0 +1,16 @@
+# Applied on top of Medplum's official docker-compose.full-stack.yml (downloaded by `make medplum-up`).
+services:
+  medplum-server:
+    environment:
+      # Synthea patient bundles are often 1–5 MB; the official default (1mb) would reject them.
+      MEDPLUM_MAX_JSON_SIZE: '20mb'
+      MEDPLUM_MAX_BATCH_SIZE: '50mb'
+      # Bots run inside the server process (no AWS Lambda) — already 'true' in the official file; pinned here.
+      MEDPLUM_VM_CONTEXT_BOTS_ENABLED: 'true'
+      MEDPLUM_DEFAULT_BOT_RUNTIME_VERSION: 'vmcontext'
+
+  # Don't publish Postgres/Redis on the host (avoids clashes with a local Postgres on 5432). Needs Docker Compose 2.24+.
+  postgres:
+    ports: !reset []
+  redis:
+    ports: !reset []

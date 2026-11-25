@@ -1,0 +1,73 @@
+{
+  "resourceType": "ViewDefinition",
+  "url": "https://ontology.hac-poc.example/views/dcg_observation",
+  "name": "dcg_observation",
+  "title": "Quantitative lab and vital-sign results (CA Core+ Observation)",
+  "status": "draft",
+  "resource": "Observation",
+  "select": [
+    {
+      "column": [
+        {
+          "path": "getResourceKey()",
+          "name": "observation_id",
+          "type": "string"
+        },
+        {
+          "path": "subject.getReferenceKey(Patient)",
+          "name": "patient_id",
+          "type": "string"
+        },
+        {
+          "path": "status",
+          "name": "status",
+          "type": "code"
+        },
+        {
+          "path": "category.coding.code.first()",
+          "name": "category",
+          "type": "code"
+        },
+        {
+          "path": "effective.ofType(dateTime)",
+          "name": "effective_datetime",
+          "type": "dateTime"
+        },
+        {
+          "path": "value.ofType(Quantity).value",
+          "name": "value_numeric",
+          "type": "decimal"
+        },
+        {
+          "path": "value.ofType(Quantity).code",
+          "name": "ucum_unit",
+          "type": "code"
+        }
+      ]
+    },
+    {
+      "forEach": "code.coding.where(system='http://loinc.org').first()",
+      "column": [
+        {
+          "path": "code",
+          "name": "loinc_code",
+          "type": "code"
+        },
+        {
+          "path": "display",
+          "name": "code_display",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "where": [
+    {
+      "path": "status in ('final' | 'amended' | 'corrected')"
+    },
+    {
+      "path": "code.coding.exists(system='http://loinc.org' and code in ('4548-4' | '17856-6' | '2339-0' | '1558-6' | '33914-3' | '62238-1' | '98979-8' | '9318-7' | '14959-1' | '18262-6' | '13457-7' | '39156-5'))",
+      "description": "Restrict to LOINC codes in the dcg value sets (HbA1c, glucose, eGFR, UACR, LDL, BMI)"
+    }
+  ]
+}

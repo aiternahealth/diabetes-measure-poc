@@ -1,0 +1,44 @@
+{
+  "resourceType": "ViewDefinition",
+  "url": "https://ontology.hac-poc.example/views/dcg_encounter",
+  "name": "dcg_encounter",
+  "title": "Encounters (CA Core+ Encounter)",
+  "status": "draft",
+  "resource": "Encounter",
+  "select": [
+    {
+      "column": [
+        {
+          "path": "getResourceKey()",
+          "name": "encounter_id",
+          "type": "string"
+        },
+        {
+          "path": "subject.getReferenceKey(Patient)",
+          "name": "patient_id",
+          "type": "string"
+        },
+        {
+          "path": "status",
+          "name": "status",
+          "type": "code"
+        },
+        {
+          "path": "class.code",
+          "name": "encounter_class",
+          "type": "code"
+        },
+        {
+          "path": "period.start",
+          "name": "period_start",
+          "type": "dateTime"
+        },
+        {
+          "path": "period.end",
+          "name": "period_end",
+          "type": "dateTime"
+        }
+      ]
+    }
+  ]
+}
